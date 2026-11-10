@@ -13,11 +13,11 @@
    ========================================================================== */
 
 const RESPONSES = [
-  { label: 'Strongly Agree', weight: 1.0, key: '1' },
-  { label: 'Agree', weight: 0.5, key: '2' },
+  { label: 'Strongly Disagree', weight: -1.0, key: '1' },
+  { label: 'Disagree', weight: -0.5, key: '2' },
   { label: 'Neutral / Unsure', weight: 0.0, key: '3' },
-  { label: 'Disagree', weight: -0.5, key: '4' },
-  { label: 'Strongly Disagree', weight: -1.0, key: '5' }
+  { label: 'Agree', weight: 0.5, key: '4' },
+  { label: 'Strongly Agree', weight: 1.0, key: '5' }
 ];
 
 const QUESTIONS = [
