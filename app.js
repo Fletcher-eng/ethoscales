@@ -477,7 +477,7 @@
 
     const traces = [
       {
-        type: 'scatter3d', mode: 'markers', name: 'Other archetypes',
+        type: 'scatter3d', mode: 'markers', name: 'Others',
         x: others.map((i) => i.coords[kx]),
         y: others.map((i) => i.coords[ky]),
         z: others.map((i) => i.coords[kz]),
@@ -486,7 +486,7 @@
         marker: { size: 5, color: THEME.ink, opacity: 0.45, symbol: 'square', line: { width: 0 } }
       },
       {
-        type: 'scatter3d', mode: 'markers', name: 'Your match',
+        type: 'scatter3d', mode: 'markers', name: 'Match',
         x: [top.coords[kx]], y: [top.coords[ky]], z: [top.coords[kz]],
         text: [top.name],
         hovertemplate: hoverTpl,
@@ -507,10 +507,12 @@
       }
     ];
 
+    const narrow = el.plot.clientWidth < 640;
     const axisLayout = (key) => {
       const a = AXIS_BY_KEY[key];
       return {
-        title: { text: `${a.name.toUpperCase()} (${a.low.short} to ${a.high.short})`, font: { size: 11, color: THEME.ink } },
+        // Phones only have room for the axis name.
+        title: { text: narrow ? a.name.toUpperCase() : `${a.name.toUpperCase()} (${a.low.short} to ${a.high.short})`, font: { size: 11, color: THEME.ink } },
         range: [0, 100],
         dtick: 25,
         gridcolor: 'rgba(17,17,17,0.28)',
@@ -537,7 +539,7 @@
         yaxis: axisLayout(ky),
         zaxis: axisLayout(kz),
         aspectmode: 'cube',
-        camera: { eye: { x: 1.9, y: 1.9, z: 1.05 }, center: { x: 0, y: 0, z: -0.12 } },
+        camera: { eye: narrow ? { x: 2.25, y: 2.25, z: 1.2 } : { x: 1.5, y: 1.5, z: 0.85 }, center: { x: 0, y: 0, z: -0.12 } },
         bgcolor: THEME.paper2
       }
     };

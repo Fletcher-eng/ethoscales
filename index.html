@@ -100,19 +100,19 @@
 
     /* Example result card on the hero */
     .sample { justify-self: center; width: min(300px, 100%); background: var(--paper); color: var(--ink); border: var(--rule); box-shadow: 12px 12px 0 var(--ink); transform: rotate(4deg); position: relative; }
-    .sample .s-top { background: #1D3FBB; color: var(--paper); padding: 16px 16px 14px; border-bottom: var(--rule); }
+    .sample .s-top { background: #1D3FBB; color: var(--paper); padding: 30px 16px 14px; border-bottom: var(--rule); }
     .sample .s-top b { display: block; font-family: var(--display); font-weight: 400; font-size: 40px; line-height: 0.92; text-transform: uppercase; margin-top: 6px; }
     .sample .s-body { padding: 14px 16px 16px; display: flex; flex-direction: column; gap: 9px; }
     .sample .s-row { display: flex; height: 14px; border: 3px solid var(--ink); background: var(--ink); }
     .sample .s-tag { position: absolute; top: -16px; left: -18px; background: #F5B700; border: var(--rule); padding: 4px 10px; transform: rotate(-8deg); }
 
-    .axes { padding: 44px 0 72px; }
+    .axes { padding-top: 44px; padding-bottom: 72px; }
     .axes h2 { font-size: clamp(40px, 6vw, 68px); margin-bottom: 20px; }
-    #axis-chips { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; border: var(--rule); box-shadow: var(--shadow); }
-    .axis-tile { background: var(--c); color: var(--k); padding: 18px 18px 20px; position: relative; overflow: hidden; min-height: 150px; border-right: var(--rule); border-bottom: var(--rule); margin: 0 -4px -4px 0; }
+    #axis-chips { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 4px; background: var(--ink); border: var(--rule); box-shadow: var(--shadow); }
+    .axis-tile { background: var(--c); color: var(--k); padding: 18px 18px 20px; position: relative; overflow: hidden; min-height: 150px; }
     .axis-tile h3 { font-family: var(--display); font-weight: 400; font-size: 34px; text-transform: uppercase; line-height: 1; position: relative; z-index: 1; }
     .axis-tile p { font-weight: 700; font-size: 14px; margin-top: 8px; line-height: 1.35; position: relative; z-index: 1; max-width: 22ch; }
-    .axis-tile .shape { position: absolute; right: -22px; bottom: -22px; width: 110px; height: 110px; background: var(--ink); opacity: 0.9; }
+    .axis-tile .shape { position: absolute; right: -22px; bottom: -22px; width: 110px; height: 110px; background: var(--ink); }
 
     /* Shapes, one per axis */
     .shape-circle { border-radius: 50%; }
@@ -192,6 +192,7 @@
     .plot-head { display: flex; justify-content: space-between; gap: 8px 16px; flex-wrap: wrap; padding: 12px 16px; border-bottom: var(--rule); background: #F5B700; font-weight: 900; font-size: 13px; letter-spacing: 0.06em; text-transform: uppercase; }
     #plotly-3d { width: 100%; height: 540px; }
     @media (max-width: 640px) { #plotly-3d { height: 400px; } }
+    #plotly-3d text { letter-spacing: 0 !important; text-transform: none !important; }
     .plot-msg { display: flex; height: 100%; align-items: center; justify-content: center; padding: 32px; text-align: center; font-weight: 900; text-transform: uppercase; letter-spacing: 0.08em; font-size: 13px; }
 
     #compass-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; }
@@ -231,9 +232,10 @@
       .hero .wrap { grid-template-columns: 1fr; padding-top: 40px; padding-bottom: 48px; }
       .sample { display: none; }
       .topbar .label { display: none; }
+      .start-row kbd { display: none; }
+      .hero::before { right: -380px; bottom: -380px; }
       .verdict::after { right: -110px; top: -130px; width: 230px; height: 230px; }
       .hero::after { right: -50px; top: -60px; width: 150px; height: 150px; }
-      .hero::before { right: -330px; bottom: -330px; }
       #axis-chips, #compass-grid { grid-template-columns: 1fr; }
       .two { grid-template-columns: 1fr; }
       .share { grid-template-columns: 1fr; }
