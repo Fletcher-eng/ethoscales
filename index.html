@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AxiomValues // EthosScales : 6 Axis Political Values Matrix</title>
+  <meta name="description" content="A 6 axis political values test. 18 dilemmas, 15 archetypes, a 3D ideology map and a shareable result card. No sign up, no backend, no tracking." />
+  <meta property="og:title" content="AxiomValues // EthosScales" />
+  <meta property="og:description" content="Map your politics across 6 axes in about 3 minutes." />
+  <meta property="og:type" content="website" />
+  <meta name="theme-color" content="#0A0A0A" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230A0A0A'/%3E%3Cpath d='M16 5l9.5 5.5v11L16 27l-9.5-5.5v-11z' fill='none' stroke='%2300E5FF' stroke-width='2'/%3E%3Ccircle cx='16' cy='16' r='3' fill='%2300E5FF'/%3E%3C/svg%3E" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind (CDN build, zero tooling) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            base: '#0A0A0A',
+            surface: '#121212',
+            line: '#262626',
+            ink: '#FAFAFA',
+            mute: '#A3A3A3',
+            neon: '#00E5FF'
+          },
+          fontFamily: {
+            sans: ['Inter', 'Geist', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'sans-serif'],
+            mono: ['JetBrains Mono', 'Fira Code', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'monospace']
+          }
+        }
+      }
+    };
+  </script>
+
+  <!-- Plotly (3D chart) + QR generator (result card) -->
+  <script src="https://cdn.plot.ly/plotly-2.35.2.min.js" charset="utf-8" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js" defer></script>
+
+  <style>
+    :root {
+      --base: #0A0A0A;
+      --surface: #121212;
+      --line: #262626;
+      --ink: #FAFAFA;
+      --mute: #A3A3A3;
+      --neon: #00E5FF;
+    }
+    html { background: var(--base); color-scheme: dark; }
+    body {
+      background: var(--base);
+      color: var(--ink);
+      font-family: Inter, Geist, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+    }
+    .mono { font-family: 'JetBrains Mono', 'Fira Code', ui-monospace, Menlo, monospace; }
+
+    /* Ambient background grid */
+    .bg-grid {
+      position: fixed; inset: 0; pointer-events: none; z-index: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.028) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.028) 1px, transparent 1px);
+      background-size: 48px 48px;
+      -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 30%, transparent 100%);
+              mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 30%, transparent 100%);
+    }
+
+    .card { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; }
+
+    /* View + question transitions */
+    .view { transition: opacity 260ms ease, transform 260ms ease; }
+    .view.is-hidden { display: none; }
+    .view.is-fading { opacity: 0; transform: translateY(8px); }
+    #question-card { transition: opacity 180ms ease, transform 180ms ease; }
+    #question-card.is-fading { opacity: 0; transform: translateY(6px); }
+
+    /* Progress bar */
+    #progress-track { position: fixed; top: 0; left: 0; right: 0; height: 3px; background: #161616; z-index: 50; }
+    #progress-bar {
+      height: 100%; width: 0%;
+      background: linear-gradient(90deg, #00E5FF, #2979FF 40%, #D500F9 75%, #F50057);
+      box-shadow: 0 0 12px rgba(0,229,255,0.6);
+      transition: width 320ms cubic-bezier(.4,0,.2,1);
+    }
+
+    /* Buttons */
+    .btn-primary {
+      background: var(--ink); color: #0A0A0A; font-weight: 600;
+      border-radius: 10px; transition: transform 120ms ease, box-shadow 200ms ease, background 150ms ease;
+      box-shadow: 0 0 0 1px rgba(255,255,255,0.1), 0 0 32px rgba(0,229,255,0.18);
+    }
+    .btn-primary:hover { background: #fff; box-shadow: 0 0 0 1px rgba(255,255,255,0.2), 0 0 44px rgba(0,229,255,0.38); }
+    .btn-primary:active { transform: scale(0.98); }
+    .btn-ghost {
+      background: transparent; color: var(--ink); border: 1px solid var(--line);
+      border-radius: 10px; transition: border-color 150ms ease, background 150ms ease;
+    }
+    .btn-ghost:hover { border-color: #404040; background: #171717; }
+    .btn-ghost:disabled { opacity: 0.35; cursor: not-allowed; }
+
+    .answer-btn {
+      width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 12px;
+      padding: 14px 16px; text-align: left;
+      background: #0E0E0E; border: 1px solid var(--line); border-radius: 10px;
+      color: var(--ink); font-weight: 500; font-size: 15px;
+      transition: border-color 140ms ease, background 140ms ease, transform 90ms ease;
+    }
+    .answer-btn:hover { border-color: var(--accent, #404040); background: #151515; }
+    .answer-btn:active { transform: scale(0.99); }
+    .answer-btn.is-selected { border-color: var(--accent); background: #161616; box-shadow: inset 3px 0 0 var(--accent); }
+    .answer-btn .dot { width: 8px; height: 8px; border-radius: 99px; background: var(--accent); box-shadow: 0 0 10px var(--accent); flex: none; }
+    kbd {
+      font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 11px; color: var(--mute);
+      border: 1px solid var(--line); border-radius: 5px; padding: 2px 6px; background: #0A0A0A;
+    }
+
+    /* Mode toggle */
+    .mode-btn { border-radius: 8px; padding: 10px 14px; color: var(--mute); transition: all 150ms ease; text-align: left; border: 1px solid transparent; }
+    .mode-btn:hover { color: var(--ink); }
+    .mode-btn.is-active { background: #1A1A1A; color: var(--ink); border-color: #333; }
+
+    /* 2D compasses */
+    .compass {
+      position: relative; width: 100%; aspect-ratio: 1 / 1;
+      border: 1px solid var(--line); border-radius: 8px; overflow: hidden;
+      background-color: #0C0C0C;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.045) 1px, transparent 1px);
+      background-size: 10% 10%;
+    }
+    .compass::before, .compass::after { content: ''; position: absolute; background: #3A3A3A; }
+    .compass::before { left: 50%; top: 0; bottom: 0; width: 1px; }
+    .compass::after { top: 50%; left: 0; right: 0; height: 1px; }
+    .compass .ghost { position: absolute; width: 6px; height: 6px; border-radius: 99px; background: #6B6B6B; opacity: 0.55; transform: translate(-50%, -50%); z-index: 1; }
+    .compass .ghost.is-match { background: #FAFAFA; opacity: 0.95; width: 8px; height: 8px; box-shadow: 0 0 0 3px rgba(250,250,250,0.15); }
+    .compass .user-dot {
+      position: absolute; width: 16px; height: 16px; border-radius: 99px; transform: translate(-50%, -50%); z-index: 3;
+      background: var(--dot); border: 2px solid #0A0A0A;
+      box-shadow: 0 0 0 2px var(--dot), 0 0 22px 4px var(--dot);
+    }
+    .compass .user-dot::after {
+      content: ''; position: absolute; inset: -10px; border-radius: 99px; border: 1px solid var(--dot); opacity: 0.5;
+      animation: ping 2.2s ease-out infinite;
+    }
+    @keyframes ping { 0% { transform: scale(0.5); opacity: 0.7; } 100% { transform: scale(1.7); opacity: 0; } }
+    .compass-edge { font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 10px; letter-spacing: 0.04em; text-transform: uppercase; }
+
+    /* Dual bars */
+    .dual-bar { position: relative; display: flex; height: 10px; border-radius: 99px; overflow: hidden; background: #1A1A1A; }
+    .dual-bar > span { display: block; height: 100%; transition: width 900ms cubic-bezier(.2,.8,.2,1); }
+    .dual-wrap { position: relative; }
+    .dual-wrap::after { content: ''; position: absolute; left: 50%; top: -3px; bottom: -3px; width: 1px; background: rgba(250,250,250,0.55); }
+
+    #plotly-3d { width: 100%; height: 520px; }
+    @media (max-width: 640px) { #plotly-3d { height: 400px; } }
+
+    #toast {
+      position: fixed; left: 50%; bottom: 28px; transform: translate(-50%, 20px); opacity: 0; pointer-events: none;
+      transition: all 220ms ease; z-index: 60;
+    }
+    #toast.is-visible { opacity: 1; transform: translate(-50%, 0); }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; transition-duration: 1ms !important; }
+    }
+  </style>
+</head>
+
+<body class="bg-base text-ink font-sans antialiased">
+  <div class="bg-grid"></div>
+
+  <!-- Fixed top progress bar -->
+  <div id="progress-track" aria-hidden="true"><div id="progress-bar"></div></div>
+
+  <!-- Top nav -->
+  <header class="relative z-10 border-b border-line/70">
+    <div class="mx-auto flex max-w-6xl items-center justify-between px-5 py-4">
+      <a href="./" id="brand-link" class="mono flex items-center gap-2 text-sm font-medium tracking-tight">
+        <svg width="18" height="18" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 4l10.4 6v12L16 28 5.6 22V10z" fill="none" stroke="#00E5FF" stroke-width="2.4"/><circle cx="16" cy="16" r="3.2" fill="#00E5FF"/></svg>
+        <span>AXIOMVALUES</span><span class="text-mute">//</span><span class="text-mute">ETHOSSCALES</span>
+      </a>
+      <div class="mono hidden items-center gap-3 text-xs text-mute sm:flex">
+        <span class="inline-flex items-center gap-1.5"><span class="h-1.5 w-1.5 rounded-full bg-[#76FF03] shadow-[0_0_8px_#76FF03]"></span>client side only</span>
+        <span class="text-line">|</span>
+        <span>v1.0.0</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="relative z-10 mx-auto max-w-6xl px-5 pb-24">
+
+    <!-- ============================ LANDING VIEW ============================ -->
+    <section id="view-landing" class="view is-hidden" aria-label="Landing">
+      <div class="mx-auto max-w-3xl pt-16 text-center sm:pt-24">
+        <div class="mono inline-flex items-center gap-2 rounded-full border border-line bg-surface px-3 py-1.5 text-xs text-mute">
+          <span class="h-1.5 w-1.5 rounded-full bg-neon shadow-[0_0_8px_#00E5FF]"></span>
+          <span>6 AXES</span><span class="text-line">/</span><span>15 ARCHETYPES</span><span class="text-line">/</span><span>3D MAP</span>
+        </div>
+
+        <h1 class="mt-7 text-4xl font-extrabold leading-[1.05] tracking-tight sm:text-6xl">
+          Left vs right is<br class="hidden sm:block" /> a <span class="bg-gradient-to-r from-[#00E5FF] via-[#2979FF] to-[#D500F9] bg-clip-text text-transparent">1D projection</span> of you.
+        </h1>
+        <p class="mx-auto mt-5 max-w-xl text-base leading-relaxed text-mute sm:text-lg">
+          AxiomValues maps your politics across six independent axes, from markets and state power to transhumanism, network states and deep ecology. Answer a set of hard dilemmas and get your coordinates.
+        </p>
+
+        <!-- Axis chips -->
+        <div id="axis-chips" class="mx-auto mt-8 flex max-w-2xl flex-wrap justify-center gap-2"></div>
+
+        <!-- Mode toggle -->
+        <div class="card mx-auto mt-10 max-w-xl p-2 text-left">
+          <div class="grid grid-cols-1 gap-1 sm:grid-cols-2" role="radiogroup" aria-label="Quiz length">
+            <button type="button" class="mode-btn" data-mode="quick" role="radio" aria-checked="false">
+              <div class="flex items-center justify-between">
+                <span class="text-sm font-semibold">Quick Snapshot</span>
+                <span class="mono text-xs text-mute">12 Q</span>
+              </div>
+              <div class="mt-0.5 text-xs text-mute">Fast read on all six axes</div>
+            </button>
+            <button type="button" class="mode-btn is-active" data-mode="full" role="radio" aria-checked="true">
+              <div class="flex items-center justify-between">
+                <span class="text-sm font-semibold">Full Matrix</span>
+                <span class="mono text-xs text-mute">18 Q</span>
+              </div>
+              <div class="mt-0.5 text-xs text-mute">Maximum resolution</div>
+            </button>
+          </div>
+        </div>
+
+        <div class="mt-7 flex flex-col items-center gap-3">
+          <button id="btn-start" type="button" class="btn-primary mono inline-flex items-center gap-3 px-7 py-4 text-sm tracking-wide">
+            INITIALIZE MATRIX
+            <span aria-hidden="true">&rarr;</span>
+          </button>
+          <div class="mono flex items-center gap-3 text-xs text-mute">
+            <span id="duration-estimate">~3 minutes</span>
+            <span class="text-line">|</span>
+            <span>no sign up</span>
+            <span class="text-line">|</span>
+            <span>press <kbd>Enter</kbd></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Feature row -->
+      <div class="mx-auto mt-16 grid max-w-4xl grid-cols-1 gap-3 sm:grid-cols-3">
+        <div class="card p-5">
+          <div class="mono text-xs text-neon">01 / VECTOR SCORING</div>
+          <p class="mt-2 text-sm leading-relaxed text-mute">Every dilemma moves several axes at once, so your answers trade off against each other like real politics.</p>
+        </div>
+        <div class="card p-5">
+          <div class="mono text-xs text-[#D500F9]">02 / 6D MATCHING</div>
+          <p class="mt-2 text-sm leading-relaxed text-mute">Your position is matched to 15 archetypes by Euclidean distance in six dimensional space.</p>
+        </div>
+        <div class="card p-5">
+          <div class="mono text-xs text-[#76FF03]">03 / ZERO BACKEND</div>
+          <p class="mt-2 text-sm leading-relaxed text-mute">Nothing leaves your browser. Results live in the URL, so sharing a link shares the full result.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================== QUIZ VIEW ============================== -->
+    <section id="view-quiz" class="view is-hidden" aria-label="Quiz">
+      <div class="mx-auto max-w-2xl pt-10 sm:pt-16">
+        <div class="mono mb-4 flex items-center justify-between text-xs text-mute">
+          <span id="question-counter" class="text-ink">[01/18]</span>
+          <span id="quiz-mode-label">FULL MATRIX</span>
+        </div>
+
+        <div id="question-card" class="card p-6 sm:p-8">
+          <div class="mono text-xs uppercase tracking-widest text-mute">Dilemma</div>
+          <h2 id="question-text" class="mt-3 min-h-[7.5rem] text-xl font-semibold leading-snug tracking-tight sm:text-2xl" aria-live="polite"></h2>
+          <div id="answer-list" class="mt-6 flex flex-col gap-2"></div>
+        </div>
+
+        <div class="mt-4 flex items-center justify-between">
+          <button id="btn-back" type="button" class="btn-ghost mono px-4 py-2 text-xs">&larr; BACK</button>
+          <div class="mono hidden items-center gap-2 text-xs text-mute sm:flex">
+            <span><kbd>1</kbd> to <kbd>5</kbd> keys answer</span>
+            <span class="text-line">|</span>
+            <span><kbd>&larr;</kbd> back</span>
+          </div>
+          <button id="btn-quit" type="button" class="mono px-2 py-2 text-xs text-mute hover:text-ink">EXIT</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================= RESULTS VIEW ============================ -->
+    <section id="view-results" class="view is-hidden" aria-label="Results">
+      <div class="pt-10">
+        <div class="mono flex flex-wrap items-center justify-between gap-2 text-xs text-mute">
+          <span>RESULT MATRIX <span class="text-line">/</span> <span id="result-vector" class="text-ink"></span></span>
+          <span id="result-source"></span>
+        </div>
+
+        <!-- Row 1: match card + bars -->
+        <div class="mt-4 grid grid-cols-1 gap-4 lg:grid-cols-5">
+          <!-- Ideology breakdown -->
+          <div class="card p-6 lg:col-span-2">
+            <div class="mono text-xs uppercase tracking-widest text-mute">Primary match</div>
+            <h1 id="match-name" class="mt-2 text-3xl font-extrabold leading-tight tracking-tight sm:text-4xl"></h1>
+            <div class="mt-3 flex items-end gap-3">
+              <span id="match-score" class="mono text-4xl font-bold text-neon"></span>
+              <span class="mono pb-1 text-xs text-mute">COMPATIBILITY<br /><span id="match-distance"></span></span>
+            </div>
+            <p id="match-tagline" class="mono mt-4 text-xs leading-relaxed text-mute"></p>
+            <p id="match-desc" class="mt-3 text-sm leading-relaxed text-[#D4D4D4]"></p>
+
+            <div class="mt-6 border-t border-line pt-4">
+              <div class="mono mb-3 text-xs uppercase tracking-widest text-mute">Closest archetypes</div>
+              <ol id="match-list" class="flex flex-col gap-2"></ol>
+              <div class="mono mb-2 mt-5 text-xs uppercase tracking-widest text-mute">Furthest from you</div>
+              <div id="match-opposite" class="mono text-sm"></div>
+            </div>
+          </div>
+
+          <!-- Axis bars -->
+          <div class="card p-6 lg:col-span-3">
+            <div class="mono text-xs uppercase tracking-widest text-mute">Axis readout</div>
+            <div id="axis-bars" class="mt-5 flex flex-col gap-6"></div>
+          </div>
+        </div>
+
+        <!-- Row 2: 3D plot -->
+        <div class="card mt-4 overflow-hidden">
+          <div class="flex flex-wrap items-center justify-between gap-2 border-b border-line px-6 py-4">
+            <div>
+              <div class="mono text-xs uppercase tracking-widest text-mute">3D ideology space</div>
+              <div id="plot-caption" class="mono mt-1 text-xs text-ink"></div>
+            </div>
+            <div class="mono text-xs text-mute">drag to rotate / scroll to zoom</div>
+          </div>
+          <div id="plotly-3d"></div>
+        </div>
+
+        <!-- Row 3: compasses -->
+        <div id="compass-grid" class="mt-4 grid grid-cols-1 gap-4 md:grid-cols-3"></div>
+
+        <!-- Row 4: export -->
+        <div class="card mt-4 p-6">
+          <div class="grid grid-cols-1 items-center gap-6 md:grid-cols-3">
+            <div class="md:col-span-2">
+              <div class="mono text-xs uppercase tracking-widest text-mute">Export &amp; share</div>
+              <p class="mt-2 text-sm leading-relaxed text-mute">Your full result is encoded in the URL. Anyone who opens the link sees this exact dashboard, no quiz needed.</p>
+              <div class="mt-4 flex items-center gap-2 rounded-lg border border-line bg-base px-3 py-2">
+                <span class="mono text-xs text-neon">URL</span>
+                <input id="share-url" readonly class="mono w-full truncate bg-transparent text-xs text-mute outline-none" aria-label="Share link" />
+              </div>
+              <div class="mt-4 flex flex-wrap gap-2">
+                <button id="btn-copy" type="button" class="btn-primary mono px-5 py-3 text-xs tracking-wide">COPY SHARE LINK</button>
+                <button id="btn-download" type="button" class="btn-ghost mono px-5 py-3 text-xs tracking-wide">DOWNLOAD RESULT CARD (.PNG)</button>
+                <button id="btn-retake" type="button" class="btn-ghost mono px-5 py-3 text-xs tracking-wide">RETAKE TEST</button>
+              </div>
+            </div>
+            <div class="flex justify-center md:justify-end">
+              <img id="card-preview" alt="Preview of your result card" class="w-44 rounded-lg border border-line shadow-[0_0_40px_rgba(0,229,255,0.08)]" />
+            </div>
+          </div>
+        </div>
+
+        <p class="mono mt-8 text-center text-xs leading-relaxed text-[#525252]">
+          This is a model, and every model is a simplification. Archetype coordinates are editorial estimates, not science.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <div id="toast" class="mono rounded-lg border border-line bg-surface px-4 py-2.5 text-xs text-ink shadow-xl" role="status" aria-live="polite"></div>
+
+  <!-- App scripts (order matters: data first, engine last) -->
+  <script src="questions.js"></script>
+  <script src="ideologies.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
