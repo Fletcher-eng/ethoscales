@@ -3,52 +3,48 @@
    ideologies.js : axis definitions + the 15 archetype coordinate matrix
    --------------------------------------------------------------------------
    Every axis runs from 0 to 100.
-     0   = the "low" pole  (first label, first color)
-     100 = the "high" pole (second label, second color)
+     0   = the "low" pole  (drawn in the axis color)
+     100 = the "high" pole (drawn in black)
+   Each axis also has a poster color, a text color that reads on it,
+   and a geometric shape used on its questions.
    ========================================================================== */
 
 const AXES = [
   {
-    key: 'econ',
-    param: 'e',
-    name: 'Economic',
-    low: { label: 'Decentralized / Market', short: 'Market', color: '#00E5FF' },
-    high: { label: 'Centralized / Planned', short: 'Planned', color: '#FF1744' }
+    key: 'econ', param: 'e', name: 'Economic',
+    color: '#D42A1C', ink: '#EEE6D3', shape: 'circle',
+    low: { label: 'Decentralized / Market', short: 'Market' },
+    high: { label: 'Centralized / Planned', short: 'Planned' }
   },
   {
-    key: 'gov',
-    param: 'g',
-    name: 'Governance',
-    low: { label: 'Autonomy / Anarchic', short: 'Autonomy', color: '#76FF03' },
-    high: { label: 'Authority / State', short: 'Authority', color: '#D500F9' }
+    key: 'gov', param: 'g', name: 'Governance',
+    color: '#1D3FBB', ink: '#EEE6D3', shape: 'triangle',
+    low: { label: 'Autonomy / Anarchic', short: 'Autonomy' },
+    high: { label: 'Authority / State', short: 'Authority' }
   },
   {
-    key: 'tech',
-    param: 't',
-    name: 'Technological',
-    low: { label: 'Accelerationist / Transhuman', short: 'Accelerationist', color: '#2979FF' },
-    high: { label: 'Precautionary / Bioconservative', short: 'Precautionary', color: '#FFC400' }
+    key: 'tech', param: 't', name: 'Technological',
+    color: '#F5B700', ink: '#111111', shape: 'diamond',
+    low: { label: 'Accelerationist / Transhuman', short: 'Accelerationist' },
+    high: { label: 'Precautionary / Bioconservative', short: 'Precautionary' }
   },
   {
-    key: 'cult',
-    param: 'c',
-    name: 'Cultural',
-    low: { label: 'Cosmopolitan / Progressive', short: 'Cosmopolitan', color: '#F50057' },
-    high: { label: 'Localist / Traditional', short: 'Localist', color: '#00B0FF' }
+    key: 'cult', param: 'c', name: 'Cultural',
+    color: '#E5457D', ink: '#111111', shape: 'arch',
+    low: { label: 'Cosmopolitan / Progressive', short: 'Cosmopolitan' },
+    high: { label: 'Localist / Traditional', short: 'Localist' }
   },
   {
-    key: 'struct',
-    param: 's',
-    name: 'Structural',
-    low: { label: 'Fluid / Network State', short: 'Fluid', color: '#1DE9B6' },
-    high: { label: 'Rigid / Nation State', short: 'Rigid', color: '#FF3D00' }
+    key: 'struct', param: 's', name: 'Structural',
+    color: '#EE6C1B', ink: '#111111', shape: 'cross',
+    low: { label: 'Fluid / Network State', short: 'Fluid' },
+    high: { label: 'Rigid / Nation State', short: 'Rigid' }
   },
   {
-    key: 'eco',
-    param: 'ec',
-    name: 'Ecological',
-    low: { label: 'Anthropocentric / Industrial', short: 'Industrial', color: '#9E9E9E' },
-    high: { label: 'Deep Ecology / Green', short: 'Deep Ecology', color: '#00C853' }
+    key: 'eco', param: 'ec', name: 'Ecological',
+    color: '#14854F', ink: '#EEE6D3', shape: 'leaf',
+    low: { label: 'Anthropocentric / Industrial', short: 'Industrial' },
+    high: { label: 'Deep Ecology / Green', short: 'Deep Ecology' }
   }
 ];
 

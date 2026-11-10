@@ -14,8 +14,8 @@
   /* ------------------------------------------------------------------ */
 
   const CONFIG = {
-    brand: 'AXIOMVALUES // ETHOSSCALES',
-    brandUrl: 'axiomvalues.io',
+    brand: 'ETHOSSCALES',
+    brandUrl: 'fletcher-eng.github.io/ethoscales',
     fadeMs: 180,
     card: { width: 1080, height: 1350 }
   };
@@ -23,14 +23,17 @@
   const AXIS_KEYS = AXES.map((a) => a.key);
   const AXIS_BY_KEY = Object.fromEntries(AXES.map((a) => [a.key, a]));
 
-  // Accent color per response button, top (agree) to bottom (disagree).
-  const RESPONSE_COLORS = ['#00E5FF', '#1DE9B6', '#A3A3A3', '#FFC400', '#FF1744'];
+  // Poster palette, shared by the 3D chart and the result card.
+  const THEME = { paper: '#EEE6D3', paper2: '#F7F1E1', ink: '#111111', red: '#D42A1C' };
+
+  // Size of the marker on each answer button: big at the strong ends, small in the middle.
+  const ANSWER_MARK_SIZES = [22, 16, 10, 16, 22];
 
   // The three issue specific 2D compasses.
   const COMPASSES = [
-    { id: 'classic', title: 'Classic Political Compass', x: 'econ', y: 'gov', dot: '#00E5FF' },
-    { id: 'culture', title: 'Modern Culture & Tech Compass', x: 'tech', y: 'cult', dot: '#F50057' },
-    { id: 'system', title: 'Systemic & Ecological Compass', x: 'struct', y: 'eco', dot: '#00C853' }
+    { id: 'classic', title: 'Classic compass', x: 'econ', y: 'gov' },
+    { id: 'culture', title: 'Culture and tech', x: 'tech', y: 'cult' },
+    { id: 'system', title: 'System and ecology', x: 'struct', y: 'eco' }
   ];
 
   const state = {
@@ -178,13 +181,26 @@
         node.classList.add('is-hidden');
       }
     });
-    if (name === 'landing') setProgress(0);
-    if (name === 'results') setProgress(100);
+    el.progress.classList.toggle('is-off', name !== 'quiz');
     window.scrollTo(0, 0);
   }
 
-  function setProgress(pct) {
-    el.progressBar.style.width = clamp(pct, 0, 100) + '%';
+  /** The axis a question moves the most. It sets that question's color and shape. */
+  function leadAxis(question) {
+    const [key] = Object.entries(question.effects)
+      .sort((a, b) => Math.abs(b[1]) - Math.abs(a[1]))[0];
+    return AXIS_BY_KEY[key];
+  }
+
+  /** Segmented progress: one block per question, filled in that question's color. */
+  function renderProgress(doneCount) {
+    const total = state.questions.length;
+    el.progress.innerHTML = state.questions.map((q, i) => {
+      if (i < doneCount) return `<span style="background:${leadAxis(q).color}"></span>`;
+      if (i === doneCount) return '<span class="is-now"></span>';
+      return '<span></span>';
+    }).join('');
+    el.progress.setAttribute('aria-valuenow', String(Math.round((doneCount / total) * 100)));
   }
 
   /** Decide what to show based on the URL. Runs on load and on back/forward. */
@@ -194,7 +210,7 @@
       state.scores = shared;
       state.matches = matchIdeologies(shared);
       showView('results');
-      renderResults(state.answers.length ? 'COMPUTED FROM YOUR ANSWERS' : 'LOADED FROM SHARE LINK');
+      renderResults(state.answers.length ? 'From your answers' : 'Loaded from a share link');
     } else {
       showView('landing');
     }
@@ -206,11 +222,11 @@
 
   function renderLanding() {
     el.axisChips.innerHTML = AXES.map((a) => `
-      <span class="mono inline-flex items-center gap-2 rounded-md border border-line bg-surface px-2.5 py-1.5 text-[11px] text-mute">
-        <span class="h-2 w-2 rounded-full" style="background:${a.low.color};box-shadow:0 0 8px ${a.low.color}"></span>
-        <span class="text-ink">${a.name.toUpperCase()}</span>
-        <span class="h-2 w-2 rounded-full" style="background:${a.high.color};box-shadow:0 0 8px ${a.high.color}"></span>
-      </span>`).join('');
+      <div class="axis-tile" style="--c:${a.color};--k:${a.ink}">
+        <div class="shape shape-${a.shape}"></div>
+        <h3>${a.name}</h3>
+        <p>${a.low.short} vs ${a.high.short}</p>
+      </div>`).join('');
     setMode(state.mode);
   }
 
@@ -221,7 +237,7 @@
       btn.classList.toggle('is-active', active);
       btn.setAttribute('aria-checked', String(active));
     });
-    el.duration.textContent = mode === 'quick' ? '~2 minutes' : '~3 minutes';
+    el.duration.textContent = mode === 'quick' ? 'About 2 minutes' : 'About 3 minutes';
   }
 
   /* ------------------------------------------------------------------ */
@@ -233,7 +249,7 @@
     state.answers = new Array(state.questions.length).fill(null);
     state.index = 0;
     state.busy = false;
-    el.quizModeLabel.textContent = state.mode === 'quick' ? 'QUICK SNAPSHOT' : 'FULL MATRIX';
+    el.quizModeLabel.textContent = state.mode === 'quick' ? 'Quick test' : 'Full test';
     showView('quiz');
     renderQuestion();
   }
@@ -241,29 +257,35 @@
   function renderQuestion() {
     const total = state.questions.length;
     const q = state.questions[state.index];
+    const axis = leadAxis(q);
     const pad = (n) => String(n).padStart(2, '0');
 
-    el.counter.textContent = `[${pad(state.index + 1)}/${pad(total)}]`;
+    // Each question wears the color and shape of the axis it moves most.
+    el.questionCard.style.setProperty('--qbg', axis.color);
+    el.questionCard.style.setProperty('--qink', axis.ink);
+    el.qShapes.forEach((node, i) => { node.className = `s${i + 1} shape-${axis.shape}`; });
+
+    el.counter.textContent = `${pad(state.index + 1)} / ${pad(total)}`;
+    el.questionAxis.textContent = axis.name;
     el.questionText.textContent = q.text;
     el.btnBack.disabled = state.index === 0;
-    setProgress((state.index / total) * 100);
+    renderProgress(state.index);
 
     const previous = state.answers[state.index];
     el.answerList.innerHTML = '';
     RESPONSES.forEach((r, i) => {
       const btn = document.createElement('button');
       btn.type = 'button';
-      btn.className = 'answer-btn' + (previous === r.weight ? ' is-selected' : '');
-      btn.style.setProperty('--accent', RESPONSE_COLORS[i]);
-      btn.innerHTML = `
-        <span class="flex items-center gap-3"><span class="dot"></span><span>${r.label}</span></span>
-        <kbd>${r.key}</kbd>`;
+      const side = r.weight > 0 ? ' agree' : r.weight < 0 ? ' disagree' : '';
+      btn.className = 'answer-btn' + side + (previous === r.weight ? ' is-selected' : '');
+      btn.style.setProperty('--sz', ANSWER_MARK_SIZES[i] + 'px');
+      btn.innerHTML = `<span class="mark">${r.label}</span><kbd>${r.key}</kbd>`;
       btn.addEventListener('click', () => answer(r.weight, btn));
       el.answerList.appendChild(btn);
     });
   }
 
-  /** Fade the card out, run the change, fade it back in. */
+  /** Slide the card out, run the change, slide it back in. */
   function transitionQuestion(change) {
     state.busy = true;
     el.questionCard.classList.add('is-fading');
@@ -286,7 +308,7 @@
     const isLast = state.index === state.questions.length - 1;
     if (isLast) {
       state.busy = true;
-      setProgress(100);
+      renderProgress(state.questions.length);
       setTimeout(finishQuiz, 320);
     } else {
       transitionQuestion(() => {
@@ -313,18 +335,18 @@
 
     writeScoresToUrl(state.scores);
     showView('results');
-    renderResults('COMPUTED FROM YOUR ANSWERS');
+    renderResults('From your answers');
   }
 
   /* ------------------------------------------------------------------ */
-  /* 6. RESULTS DASHBOARD                                                */
+  /* 6. RESULTS                                                          */
   /* ------------------------------------------------------------------ */
 
   function renderResults(sourceLabel) {
     const scores = state.scores;
     const top = state.matches[0];
 
-    el.resultVector.textContent = '[' + AXIS_KEYS.map((k) => fmt(scores[k])).join(', ') + ']';
+    el.resultVector.textContent = AXES.map((a) => `${a.key} ${fmt(scores[a.key])}`).join(' / ');
     el.resultSource.textContent = sourceLabel || '';
     el.shareUrl.value = window.location.href;
 
@@ -344,24 +366,19 @@
   function renderMatchCard(top) {
     el.matchName.textContent = top.ideology.name;
     el.matchScore.textContent = fmt(top.compatibility) + '%';
-    el.matchDistance.textContent = 'D = ' + top.distance.toFixed(2);
+    el.matchDistance.textContent = 'Distance ' + top.distance.toFixed(2);
     el.matchTagline.textContent = top.ideology.tagline;
     el.matchDesc.textContent = top.ideology.desc;
 
     el.matchList.innerHTML = state.matches.slice(0, 5).map((m, i) => `
-      <li class="flex items-center gap-3">
-        <span class="mono w-5 text-xs text-mute">${String(i + 1).padStart(2, '0')}</span>
-        <span class="flex-1 truncate text-sm ${i === 0 ? 'font-semibold text-ink' : 'text-[#D4D4D4]'}">${m.ideology.name}</span>
-        <span class="hidden h-1 w-20 overflow-hidden rounded-full bg-[#1A1A1A] sm:block">
-          <span class="block h-full rounded-full" style="width:${m.compatibility.toFixed(1)}%;background:${i === 0 ? '#00E5FF' : '#525252'}"></span>
-        </span>
-        <span class="mono w-14 text-right text-xs ${i === 0 ? 'text-neon' : 'text-mute'}">${fmt(m.compatibility)}%</span>
+      <li>
+        <span class="rk">${i + 1}</span>
+        <span class="nm">${m.ideology.name}</span>
+        <span class="pc num">${fmt(m.compatibility)}%</span>
       </li>`).join('');
 
     const far = state.matches[state.matches.length - 1];
-    el.matchOpposite.innerHTML = `
-      <span class="text-[#D4D4D4]">${far.ideology.name}</span>
-      <span class="text-mute"> / ${fmt(far.compatibility)}% / D = ${far.distance.toFixed(2)}</span>`;
+    el.matchOpposite.innerHTML = `${far.ideology.name}<small>${fmt(far.compatibility)}% match / distance ${far.distance.toFixed(2)}</small>`;
   }
 
   function renderAxisBars(scores) {
@@ -370,26 +387,14 @@
       const low = round1(100 - high);
       const lowWins = low >= high;
       return `
-        <div>
-          <div class="mono mb-2 flex items-center justify-between text-[11px] uppercase tracking-widest text-mute">
-            <span>${a.name}</span>
-            <span class="text-ink">${fmt(high)}</span>
+        <div class="axis-row">
+          <div class="label">${a.name}</div>
+          <div class="poles">
+            <div class="pole${lowWins ? ' is-win' : ''}"><b class="num">${fmt(low)}%</b><span>${a.low.label}</span></div>
+            <div class="pole${lowWins ? '' : ' is-win'}"><b class="num">${fmt(high)}%</b><span>${a.high.label}</span></div>
           </div>
-          <div class="mb-2 flex items-end justify-between gap-3">
-            <div class="min-w-0">
-              <div class="mono text-lg font-bold leading-none" style="color:${a.low.color};opacity:${lowWins ? 1 : 0.55}">${fmt(low)}%</div>
-              <div class="mt-1 truncate text-xs ${lowWins ? 'text-ink' : 'text-mute'}">${a.low.label}</div>
-            </div>
-            <div class="min-w-0 text-right">
-              <div class="mono text-lg font-bold leading-none" style="color:${a.high.color};opacity:${lowWins ? 0.55 : 1}">${fmt(high)}%</div>
-              <div class="mt-1 truncate text-xs ${lowWins ? 'text-mute' : 'text-ink'}">${a.high.label}</div>
-            </div>
-          </div>
-          <div class="dual-wrap">
-            <div class="dual-bar" role="img" aria-label="${a.name}: ${fmt(low)}% ${a.low.label}, ${fmt(high)}% ${a.high.label}">
-              <span data-w="${low}" style="width:50%;background:${a.low.color};box-shadow:0 0 12px ${a.low.color}"></span>
-              <span data-w="${high}" style="width:50%;background:${a.high.color}"></span>
-            </div>
+          <div class="dual-bar" role="img" aria-label="${a.name}: ${fmt(low)}% ${a.low.label}, ${fmt(high)}% ${a.high.label}">
+            <span data-w="${low}" style="width:50%;background:${a.color}"></span>
           </div>
         </div>`;
     }).join('');
@@ -411,31 +416,33 @@
       const ux = scores[c.x];
       const uy = scores[c.y];
 
+      // Tint the quadrant the user sits in.
+      const tintStyle = `${ux >= 50 ? 'right:0' : 'left:0'};${uy >= 50 ? 'top:0' : 'bottom:0'}`;
+
       const ghosts = IDEOLOGIES.map((ideo) => {
         const isMatch = ideo.id === matchIdeology.id;
         return `<span class="ghost${isMatch ? ' is-match' : ''}" title="${ideo.name}" style="left:${ideo.coords[c.x]}%;top:${100 - ideo.coords[c.y]}%"></span>`;
       }).join('');
 
       return `
-        <div class="card p-5">
-          <div class="mono text-xs uppercase tracking-widest text-mute">${c.title}</div>
-          <div class="mono mt-1 text-xs text-ink">x: ${fmt(ux)} <span class="text-mute">/</span> y: ${fmt(uy)}</div>
-
-          <div class="compass-edge mt-4 text-center" style="color:${ay.high.color}">&uarr; ${ay.high.short}</div>
-          <div class="mt-1 flex items-center gap-2">
-            <div class="compass-edge" style="color:${ax.low.color};writing-mode:vertical-rl;transform:rotate(180deg)">${ax.low.short}</div>
-            <div class="compass" style="--dot:${c.dot}">
+        <div class="panel compass-card" style="--dot:${ax.color}">
+          <h3>${c.title}</h3>
+          <div class="xy num">${ax.name} ${fmt(ux)} / ${ay.name} ${fmt(uy)}</div>
+          <div class="edge">&uarr; ${ay.high.short}</div>
+          <div class="compass-mid">
+            <div class="edge v l">${ax.low.short}</div>
+            <div class="compass">
+              <span class="tint" style="${tintStyle}"></span>
               ${ghosts}
               <span class="user-dot" title="You" style="left:${ux}%;top:${100 - uy}%"></span>
             </div>
-            <div class="compass-edge" style="color:${ax.high.color};writing-mode:vertical-rl">${ax.high.short}</div>
+            <div class="edge v">${ax.high.short}</div>
           </div>
-          <div class="compass-edge mt-1 text-center" style="color:${ay.low.color}">&darr; ${ay.low.short}</div>
-
-          <div class="mono mt-3 flex items-center justify-center gap-4 text-[10px] text-mute">
-            <span class="inline-flex items-center gap-1.5"><span class="h-2 w-2 rounded-full" style="background:${c.dot};box-shadow:0 0 8px ${c.dot}"></span>YOU</span>
-            <span class="inline-flex items-center gap-1.5"><span class="h-2 w-2 rounded-full bg-ink"></span>MATCH</span>
-            <span class="inline-flex items-center gap-1.5"><span class="h-1.5 w-1.5 rounded-full bg-[#6B6B6B]"></span>OTHERS</span>
+          <div class="edge">&darr; ${ay.low.short}</div>
+          <div class="legend">
+            <span><i style="width:14px;height:14px;border-radius:50%;background:${ax.color};border:3px solid #111"></i>You</span>
+            <span><i style="width:12px;height:12px;border:3px solid #111"></i>Match</span>
+            <span><i style="width:8px;height:8px;background:#111;opacity:.4"></i>Others</span>
           </div>
         </div>`;
     }).join('');
@@ -445,13 +452,13 @@
 
   function renderPlot3D(scores) {
     const [kx, ky, kz] = mostPolarizedAxes(scores, 3);
-    const names = [kx, ky, kz].map((k) => AXIS_BY_KEY[k].name.toUpperCase());
-    el.plotCaption.textContent = `Your 3 most polarized axes: X = ${names[0]}, Y = ${names[1]}, Z = ${names[2]}`;
+    const names = [kx, ky, kz].map((k) => AXIS_BY_KEY[k].name);
+    el.plotCaption.textContent = `Your 3 strongest axes: ${names.join(', ')}`;
 
     if (typeof window.Plotly === 'undefined') {
       // Plotly loads with "defer", so on a share link it may still be downloading.
       if (document.readyState !== 'complete') {
-        el.plot.innerHTML = '<div class="mono flex h-full items-center justify-center p-8 text-xs text-mute">Loading 3D engine...</div>';
+        el.plot.innerHTML = '<div class="plot-msg">Loading 3D chart...</div>';
         window.addEventListener('load', () => {
           if (state.view === 'results' && state.scores) {
             el.plot.innerHTML = '';
@@ -460,85 +467,78 @@
         }, { once: true });
         return;
       }
-      el.plot.innerHTML = '<div class="mono flex h-full items-center justify-center p-8 text-center text-xs text-mute">3D chart library could not load. Check your connection and refresh.</div>';
+      el.plot.innerHTML = '<div class="plot-msg">The 3D chart could not load. Check your connection and refresh.</div>';
       return;
     }
 
     const top = state.matches[0].ideology;
     const others = IDEOLOGIES.filter((i) => i.id !== top.id);
-    const hover = (kxLabel, kyLabel, kzLabel) =>
-      `<b>%{text}</b><br>${kxLabel}: %{x:.1f}<br>${kyLabel}: %{y:.1f}<br>${kzLabel}: %{z:.1f}<extra></extra>`;
-    const hoverTpl = hover(AXIS_BY_KEY[kx].name, AXIS_BY_KEY[ky].name, AXIS_BY_KEY[kz].name);
+    const hoverTpl = `<b>%{text}</b><br>${AXIS_BY_KEY[kx].name}: %{x:.1f}<br>${AXIS_BY_KEY[ky].name}: %{y:.1f}<br>${AXIS_BY_KEY[kz].name}: %{z:.1f}<extra></extra>`;
 
     const traces = [
       {
-        type: 'scatter3d', mode: 'markers', name: 'Archetypes',
+        type: 'scatter3d', mode: 'markers', name: 'Other archetypes',
         x: others.map((i) => i.coords[kx]),
         y: others.map((i) => i.coords[ky]),
         z: others.map((i) => i.coords[kz]),
         text: others.map((i) => i.name),
         hovertemplate: hoverTpl,
-        marker: { size: 5, color: '#A3A3A3', opacity: 0.55, line: { width: 0 } }
+        marker: { size: 5, color: THEME.ink, opacity: 0.45, symbol: 'square', line: { width: 0 } }
       },
       {
-        type: 'scatter3d', mode: 'markers', name: 'Match: ' + top.name,
+        type: 'scatter3d', mode: 'markers', name: 'Your match',
         x: [top.coords[kx]], y: [top.coords[ky]], z: [top.coords[kz]],
         text: [top.name],
         hovertemplate: hoverTpl,
-        marker: { size: 7, color: '#FAFAFA', opacity: 0.95, line: { width: 0 } }
+        marker: { size: 8, color: THEME.paper, opacity: 1, symbol: 'square', line: { color: THEME.ink, width: 4 } }
       },
       {
-        // Dashed tether between you and your closest archetype.
+        // Tether between you and your closest archetype.
         type: 'scatter3d', mode: 'lines', hoverinfo: 'skip', showlegend: false,
         x: [scores[kx], top.coords[kx]], y: [scores[ky], top.coords[ky]], z: [scores[kz], top.coords[kz]],
-        line: { color: 'rgba(0,229,255,0.55)', width: 3, dash: 'dash' }
-      },
-      {
-        // Soft halo behind the user marker for the neon glow effect.
-        type: 'scatter3d', mode: 'markers', hoverinfo: 'skip', showlegend: false,
-        x: [scores[kx]], y: [scores[ky]], z: [scores[kz]],
-        marker: { size: 26, color: '#00E5FF', opacity: 0.16, line: { width: 0 } }
+        line: { color: THEME.ink, width: 5, dash: 'dash' }
       },
       {
         type: 'scatter3d', mode: 'markers', name: 'You',
         x: [scores[kx]], y: [scores[ky]], z: [scores[kz]],
-        text: ['YOU'],
+        text: ['You'],
         hovertemplate: hoverTpl,
-        marker: { size: 12, color: '#00E5FF', opacity: 1, line: { color: '#E0FCFF', width: 2 } }
+        marker: { size: 12, color: THEME.red, opacity: 1, line: { color: THEME.ink, width: 4 } }
       }
     ];
 
     const axisLayout = (key) => {
       const a = AXIS_BY_KEY[key];
       return {
-        title: { text: `${a.name.toUpperCase()} (${a.low.short} to ${a.high.short})`, font: { size: 10, color: '#A3A3A3' } },
+        title: { text: `${a.name.toUpperCase()} (${a.low.short} to ${a.high.short})`, font: { size: 11, color: THEME.ink } },
         range: [0, 100],
         dtick: 25,
-        gridcolor: '#262626',
-        zerolinecolor: '#262626',
-        linecolor: '#262626',
+        gridcolor: 'rgba(17,17,17,0.28)',
+        zerolinecolor: THEME.ink,
+        linecolor: THEME.ink,
+        linewidth: 3,
         showbackground: true,
-        backgroundcolor: '#0A0A0A',
-        tickfont: { size: 9, color: '#737373' },
+        backgroundcolor: THEME.paper,
+        tickfont: { size: 10, color: THEME.ink },
         showspikes: false
       };
     };
 
     const layout = {
-      paper_bgcolor: '#0A0A0A',
-      plot_bgcolor: '#0A0A0A',
-      font: { family: 'JetBrains Mono, Fira Code, monospace', color: '#A3A3A3', size: 11 },
+      paper_bgcolor: THEME.paper2,
+      plot_bgcolor: THEME.paper2,
+      font: { family: 'Archivo, Helvetica Neue, Arial, sans-serif', color: THEME.ink, size: 12 },
       margin: { l: 0, r: 0, t: 0, b: 0 },
       showlegend: true,
-      legend: { x: 0.01, y: 0.99, bgcolor: 'rgba(18,18,18,0.85)', bordercolor: '#262626', borderwidth: 1, font: { size: 10, color: '#A3A3A3' } },
-      hoverlabel: { bgcolor: '#121212', bordercolor: '#262626', font: { family: 'JetBrains Mono, monospace', size: 11, color: '#FAFAFA' } },
+      legend: { x: 0.01, y: 0.99, bgcolor: THEME.paper, bordercolor: THEME.ink, borderwidth: 3, font: { size: 11, color: THEME.ink } },
+      hoverlabel: { bgcolor: THEME.ink, bordercolor: THEME.ink, font: { family: 'Archivo, Arial, sans-serif', size: 12, color: THEME.paper } },
       scene: {
         xaxis: axisLayout(kx),
         yaxis: axisLayout(ky),
         zaxis: axisLayout(kz),
         aspectmode: 'cube',
         camera: { eye: { x: 1.9, y: 1.9, z: 1.05 }, center: { x: 0, y: 0, z: -0.12 } },
-        bgcolor: '#0A0A0A'
+        bgcolor: THEME.paper2
       }
     };
 
@@ -557,13 +557,13 @@
       } else {
         legacyCopy(url);
       }
-      toast('Share link copied to clipboard');
+      toast('Share link copied');
     } catch (err) {
       try {
         legacyCopy(url);
-        toast('Share link copied to clipboard');
+        toast('Share link copied');
       } catch (err2) {
-        toast('Copy failed. Select the URL and copy it manually.');
+        toast('Copy failed. Select the link and copy it by hand.');
       }
     }
   }
@@ -590,39 +590,28 @@
   }
 
   /* ------------------------------------------------------------------ */
-  /* 8. TRADING CARD EXPORT (1080 x 1350 PNG)                            */
+  /* 8. RESULT CARD EXPORT (1080 x 1350 PNG poster)                      */
   /* ------------------------------------------------------------------ */
 
-  const FONT_SANS = 'Inter, Geist, -apple-system, "Segoe UI", sans-serif';
-  const FONT_MONO = '"JetBrains Mono", "Fira Code", ui-monospace, Menlo, monospace';
+  const FONT_DISPLAY = 'Anton, Impact, "Arial Narrow Bold", sans-serif';
+  const FONT_BODY = 'Archivo, "Helvetica Neue", Arial, sans-serif';
 
   async function ensureFonts() {
     if (!document.fonts || !document.fonts.load) return;
     try {
       await Promise.all([
-        document.fonts.load('800 80px Inter'),
-        document.fonts.load('500 24px "JetBrains Mono"'),
-        document.fonts.load('700 24px "JetBrains Mono"')
+        document.fonts.load('120px Anton'),
+        document.fonts.load('900 24px Archivo'),
+        document.fonts.load('700 24px Archivo')
       ]);
     } catch (err) { /* fall back to system fonts */ }
-  }
-
-  function roundRectPath(ctx, x, y, w, h, r) {
-    const rr = Math.min(r, w / 2, h / 2);
-    ctx.beginPath();
-    ctx.moveTo(x + rr, y);
-    ctx.arcTo(x + w, y, x + w, y + h, rr);
-    ctx.arcTo(x + w, y + h, x, y + h, rr);
-    ctx.arcTo(x, y + h, x, y, rr);
-    ctx.arcTo(x, y, x + w, y, rr);
-    ctx.closePath();
   }
 
   /** Pick the largest font size that lets the title fit in at most two lines. */
   function fitTitle(ctx, text, maxWidth) {
     const words = text.split(/\s+/);
-    for (let size = 96; size >= 44; size -= 4) {
-      ctx.font = `800 ${size}px ${FONT_SANS}`;
+    for (let size = 190; size >= 70; size -= 6) {
+      ctx.font = `${size}px ${FONT_DISPLAY}`;
       const lines = [];
       let line = '';
       for (const word of words) {
@@ -636,10 +625,12 @@
       }
       if (line) lines.push(line);
       const widest = Math.max(...lines.map((l) => ctx.measureText(l).width));
-      if (lines.length <= 2 && widest <= maxWidth) return { size, lines };
+      // Keep the whole title block short enough to leave room for the bars.
+      const fitsHeight = lines.length * size * 0.98 <= 300;
+      if (lines.length <= 2 && widest <= maxWidth && fitsHeight) return { size, lines };
     }
-    ctx.font = `800 44px ${FONT_SANS}`;
-    return { size: 44, lines: [text] };
+    ctx.font = `70px ${FONT_DISPLAY}`;
+    return { size: 70, lines: [text] };
   }
 
   async function buildResultCard() {
@@ -647,222 +638,169 @@
 
     const W = CONFIG.card.width;
     const H = CONFIG.card.height;
-    const PAD = 64;
+    const PAD = 60;
     const scores = state.scores;
     const top = state.matches[0];
+    const T = THEME;
 
     const canvas = document.createElement('canvas'); // off screen, never attached
     canvas.width = W;
     canvas.height = H;
     const ctx = canvas.getContext('2d');
-
-    /* Background + subtle grid */
-    ctx.fillStyle = '#0A0A0A';
-    ctx.fillRect(0, 0, W, H);
-
-    ctx.strokeStyle = 'rgba(255,255,255,0.04)';
-    ctx.lineWidth = 1;
-    for (let x = 0; x <= W; x += 54) {
-      ctx.beginPath(); ctx.moveTo(x + 0.5, 0); ctx.lineTo(x + 0.5, H); ctx.stroke();
-    }
-    for (let y = 0; y <= H; y += 54) {
-      ctx.beginPath(); ctx.moveTo(0, y + 0.5); ctx.lineTo(W, y + 0.5); ctx.stroke();
-    }
-
-    // Soft neon wash in the top corner.
-    const glow = ctx.createRadialGradient(W * 0.85, 0, 0, W * 0.85, 0, 760);
-    glow.addColorStop(0, 'rgba(0,229,255,0.16)');
-    glow.addColorStop(0.5, 'rgba(213,0,249,0.05)');
-    glow.addColorStop(1, 'rgba(10,10,10,0)');
-    ctx.fillStyle = glow;
-    ctx.fillRect(0, 0, W, H);
-
-    // Frame
-    ctx.strokeStyle = '#262626';
-    ctx.lineWidth = 2;
-    roundRectPath(ctx, 24, 24, W - 48, H - 48, 28);
-    ctx.stroke();
-
-    /* Header */
     ctx.textBaseline = 'alphabetic';
-    ctx.textAlign = 'left';
-    ctx.fillStyle = '#A3A3A3';
-    ctx.font = `500 24px ${FONT_MONO}`;
-    ctx.fillText(CONFIG.brand, PAD, 104);
-    ctx.textAlign = 'right';
-    ctx.fillText('6 AXIS MATRIX', W - PAD, 104);
 
-    ctx.strokeStyle = '#262626';
-    ctx.lineWidth = 1;
-    ctx.beginPath(); ctx.moveTo(PAD, 132); ctx.lineTo(W - PAD, 132); ctx.stroke();
+    /* Paper */
+    ctx.fillStyle = T.paper;
+    ctx.fillRect(0, 0, W, H);
 
-    /* Primary match */
-    ctx.textAlign = 'left';
-    ctx.fillStyle = '#00E5FF';
-    ctx.font = `500 22px ${FONT_MONO}`;
-    ctx.fillText('PRIMARY MATCH', PAD, 196);
-
+    /* Red header block with the match name */
     const title = fitTitle(ctx, top.ideology.name.toUpperCase(), W - PAD * 2);
-    ctx.fillStyle = '#FAFAFA';
-    ctx.font = `800 ${title.size}px ${FONT_SANS}`;
-    let ty = 196 + 28 + title.size * 0.86;
+    const titleTop = 196;
+    const titleH = title.lines.length * title.size * 0.98;
+    const headH = Math.round(titleTop + titleH + 118);
+
+    ctx.fillStyle = T.red;
+    ctx.fillRect(0, 0, W, headH);
+
+    // Black corner wedge and a yellow disc, clipped to the header.
+    ctx.save();
+    ctx.beginPath(); ctx.rect(0, 0, W, headH); ctx.clip();
+    ctx.fillStyle = T.ink;
+    ctx.beginPath(); ctx.moveTo(W, headH - 250); ctx.lineTo(W, headH); ctx.lineTo(W - 250, headH); ctx.closePath(); ctx.fill();
+    ctx.fillStyle = '#F5B700';
+    ctx.beginPath(); ctx.arc(W - 150, 20, 120, 0, Math.PI * 2); ctx.fill();
+    ctx.lineWidth = 8; ctx.strokeStyle = T.ink; ctx.stroke();
+    ctx.restore();
+
+    ctx.fillStyle = T.paper;
+    ctx.textAlign = 'left';
+    ctx.font = `60px ${FONT_DISPLAY}`;
+    ctx.fillText(CONFIG.brand, PAD, 104);
+    ctx.font = `900 24px ${FONT_BODY}`;
+    ctx.fillText(spaced('MY CLOSEST MATCH'), PAD, 162);
+
+    ctx.font = `${title.size}px ${FONT_DISPLAY}`;
+    let ty = titleTop + title.size * 0.86;
     title.lines.forEach((line) => {
       ctx.fillText(line, PAD, ty);
-      ty += title.size * 1.04;
+      ty += title.size * 0.98;
     });
 
-    const metaY = Math.max(ty - title.size * 1.04 + 62, 388);
-    ctx.font = `700 34px ${FONT_MONO}`;
-    ctx.fillStyle = '#00E5FF';
-    const compatText = fmt(top.compatibility) + '%';
-    ctx.fillText(compatText, PAD, metaY);
-    const compatWidth = ctx.measureText(compatText).width;
-    ctx.font = `500 22px ${FONT_MONO}`;
-    ctx.fillStyle = '#A3A3A3';
-    ctx.fillText('COMPATIBILITY  /  D = ' + top.distance.toFixed(2), PAD + compatWidth + 20, metaY - 3);
+    // Score plate
+    const scoreText = fmt(top.compatibility) + '%';
+    ctx.font = `76px ${FONT_DISPLAY}`;
+    const sw = ctx.measureText(scoreText).width;
+    const sy = headH - 104;
+    ctx.fillStyle = T.ink;
+    ctx.fillRect(PAD, sy, sw + 44, 82);
+    ctx.fillStyle = T.paper;
+    ctx.fillText(scoreText, PAD + 22, sy + 68);
+    ctx.fillStyle = T.paper;
+    ctx.font = `900 24px ${FONT_BODY}`;
+    ctx.fillText(spaced('MATCH'), PAD + sw + 66, sy + 52);
+
+    ctx.fillStyle = T.ink;
+    ctx.fillRect(0, headH, W, 8);
 
     /* Six axis bars */
-    const barsTop = Math.max(metaY + 62, 470);
-    const barsBottom = 1010;
+    const footH = 276;
+    const barsTop = headH + 34;
+    const barsBottom = H - footH - 14;
     const rowH = (barsBottom - barsTop) / AXES.length;
     const barW = W - PAD * 2;
-    const barH = 16;
+    const barH = Math.max(18, Math.min(30, rowH - 46));
 
     AXES.forEach((a, i) => {
       const y = barsTop + i * rowH;
       const high = scores[a.key];
       const low = round1(100 - high);
 
-      // Pole labels with their percentages on one line
-      ctx.font = `700 21px ${FONT_MONO}`;
+      ctx.font = `900 21px ${FONT_BODY}`;
+      ctx.fillStyle = T.ink;
       ctx.textAlign = 'left';
-      ctx.fillStyle = '#FAFAFA';
-      const lowPct = fmt(low) + '%';
-      ctx.fillText(lowPct, PAD, y + 22);
-      const lowPctW = ctx.measureText(lowPct).width;
+      ctx.fillText(`${fmt(low)}%  ${a.low.short.toUpperCase()}`, PAD, y + 24);
       ctx.textAlign = 'right';
-      const highPct = fmt(high) + '%';
-      ctx.fillText(highPct, W - PAD, y + 22);
-      const highPctW = ctx.measureText(highPct).width;
+      ctx.fillText(`${a.high.short.toUpperCase()}  ${fmt(high)}%`, W - PAD, y + 24);
 
-      ctx.font = `500 18px ${FONT_MONO}`;
-      ctx.textAlign = 'left';
-      ctx.fillStyle = a.low.color;
-      ctx.fillText(a.low.label.toUpperCase(), PAD + lowPctW + 14, y + 21);
-      ctx.textAlign = 'right';
-      ctx.fillStyle = a.high.color;
-      ctx.fillText(a.high.label.toUpperCase(), W - PAD - highPctW - 14, y + 21);
-
-      // Bar
       const by = y + 36;
-      const split = PAD + (barW * low) / 100;
-      ctx.save();
-      roundRectPath(ctx, PAD, by, barW, barH, barH / 2);
-      ctx.clip();
-      ctx.fillStyle = '#1A1A1A';
+      const split = (barW * low) / 100;
+      ctx.fillStyle = T.ink;
       ctx.fillRect(PAD, by, barW, barH);
-      ctx.fillStyle = a.low.color;
-      ctx.fillRect(PAD, by, split - PAD, barH);
-      ctx.fillStyle = a.high.color;
-      ctx.fillRect(split, by, PAD + barW - split, barH);
-      ctx.restore();
-
-      // Midpoint tick
-      ctx.fillStyle = 'rgba(250,250,250,0.7)';
-      ctx.fillRect(W / 2 - 1, by - 4, 2, barH + 8);
+      ctx.fillStyle = a.color;
+      ctx.fillRect(PAD + 5, by + 5, Math.max(0, split - 5), barH - 10);
+      // Midpoint notch
+      ctx.fillStyle = T.paper;
+      ctx.fillRect(W / 2 - 2, by - 6, 4, 6);
+      ctx.fillRect(W / 2 - 2, by + barH, 4, 6);
     });
 
-    /* Footer divider */
-    ctx.strokeStyle = '#262626';
-    ctx.lineWidth = 1;
-    ctx.beginPath(); ctx.moveTo(PAD, 1040); ctx.lineTo(W - PAD, 1040); ctx.stroke();
+    /* Black footer: compass, call to action, QR */
+    const fy = H - footH;
+    ctx.fillStyle = T.ink;
+    ctx.fillRect(0, fy, W, footH);
 
-    /* Compact Econ vs Gov compass */
-    const cs = 216;
+    const cs = 196;
     const cx = PAD;
-    const cy = 1072;
+    const cy = fy + 40;
     const econ = AXIS_BY_KEY.econ;
     const gov = AXIS_BY_KEY.gov;
 
-    ctx.fillStyle = '#0E0E0E';
+    ctx.fillStyle = T.paper;
     ctx.fillRect(cx, cy, cs, cs);
-    ctx.strokeStyle = 'rgba(255,255,255,0.06)';
-    for (let i = 1; i < 10; i++) {
-      const o = (cs / 10) * i;
-      ctx.beginPath(); ctx.moveTo(cx + o, cy); ctx.lineTo(cx + o, cy + cs); ctx.stroke();
-      ctx.beginPath(); ctx.moveTo(cx, cy + o); ctx.lineTo(cx + cs, cy + o); ctx.stroke();
-    }
-    ctx.strokeStyle = '#4A4A4A';
-    ctx.lineWidth = 2;
-    ctx.beginPath(); ctx.moveTo(cx + cs / 2, cy); ctx.lineTo(cx + cs / 2, cy + cs); ctx.stroke();
-    ctx.beginPath(); ctx.moveTo(cx, cy + cs / 2); ctx.lineTo(cx + cs, cy + cs / 2); ctx.stroke();
-    ctx.strokeStyle = '#333333';
-    ctx.strokeRect(cx, cy, cs, cs);
+    // Tint the quadrant the user sits in.
+    ctx.globalAlpha = 0.3;
+    ctx.fillStyle = T.red;
+    ctx.fillRect(scores.econ >= 50 ? cx + cs / 2 : cx, scores.gov >= 50 ? cy : cy + cs / 2, cs / 2, cs / 2);
+    ctx.globalAlpha = 1;
+    ctx.fillStyle = T.ink;
+    ctx.fillRect(cx + cs / 2 - 3, cy, 6, cs);
+    ctx.fillRect(cx, cy + cs / 2 - 3, cs, 6);
 
-    // Match marker (white) and user marker (neon)
+    // Match marker (hollow square) and user marker (red disc)
     const mx = cx + (top.ideology.coords.econ / 100) * cs;
     const my = cy + (1 - top.ideology.coords.gov / 100) * cs;
-    ctx.fillStyle = 'rgba(250,250,250,0.85)';
-    ctx.beginPath(); ctx.arc(mx, my, 6, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = T.paper;
+    ctx.fillRect(mx - 9, my - 9, 18, 18);
+    ctx.lineWidth = 5; ctx.strokeStyle = T.ink;
+    ctx.strokeRect(mx - 9, my - 9, 18, 18);
 
-    const ux = cx + (scores.econ / 100) * cs;
-    const uy = cy + (1 - scores.gov / 100) * cs;
-    ctx.save();
-    ctx.shadowColor = '#00E5FF';
-    ctx.shadowBlur = 28;
-    ctx.fillStyle = '#00E5FF';
-    ctx.beginPath(); ctx.arc(ux, uy, 11, 0, Math.PI * 2); ctx.fill();
-    ctx.restore();
-    ctx.strokeStyle = '#0A0A0A';
-    ctx.lineWidth = 3;
-    ctx.beginPath(); ctx.arc(ux, uy, 11, 0, Math.PI * 2); ctx.stroke();
+    const ux = clamp(cx + (scores.econ / 100) * cs, cx + 14, cx + cs - 14);
+    const uy = clamp(cy + (1 - scores.gov / 100) * cs, cy + 14, cy + cs - 14);
+    ctx.fillStyle = T.red;
+    ctx.beginPath(); ctx.arc(ux, uy, 14, 0, Math.PI * 2); ctx.fill();
+    ctx.lineWidth = 6; ctx.strokeStyle = T.ink; ctx.stroke();
 
-    /* Compass legend + footer text */
-    const tx = cx + cs + 36;
+    const tx = cx + cs + 34;
     ctx.textAlign = 'left';
-    ctx.font = `500 20px ${FONT_MONO}`;
-    ctx.fillStyle = '#A3A3A3';
-    ctx.fillText('ECON x GOV COMPASS', tx, cy + 22);
-
-    ctx.font = `500 19px ${FONT_MONO}`;
-    ctx.fillStyle = gov.high.color;
-    ctx.fillText('UP    ' + gov.high.short.toUpperCase(), tx, cy + 60);
-    ctx.fillStyle = gov.low.color;
-    ctx.fillText('DOWN  ' + gov.low.short.toUpperCase(), tx, cy + 88);
-    ctx.fillStyle = econ.low.color;
-    ctx.fillText('LEFT  ' + econ.low.short.toUpperCase(), tx, cy + 116);
-    ctx.fillStyle = econ.high.color;
-    ctx.fillText('RIGHT ' + econ.high.short.toUpperCase(), tx, cy + 144);
-
-    ctx.font = `700 26px ${FONT_MONO}`;
-    ctx.fillStyle = '#FAFAFA';
-    ctx.fillText(CONFIG.brandUrl, tx, cy + 190);
-    ctx.font = `500 17px ${FONT_MONO}`;
-    ctx.fillStyle = '#737373';
-    ctx.fillText(timestamp(), tx, cy + 216);
+    ctx.fillStyle = T.paper;
+    ctx.font = `900 18px ${FONT_BODY}`;
+    ctx.fillText(spaced(`${econ.low.short} / ${econ.high.short}`.toUpperCase()) + '   ' + spaced('LEFT TO RIGHT'), tx, cy + 18);
+    ctx.fillText(spaced(`${gov.low.short} / ${gov.high.short}`.toUpperCase()) + '   ' + spaced('BOTTOM TO TOP'), tx, cy + 46);
+    ctx.font = `64px ${FONT_DISPLAY}`;
+    ctx.fillStyle = T.red;
+    ctx.fillText('WHERE DO YOU STAND?', tx, cy + 124);
+    ctx.fillStyle = T.paper;
+    ctx.font = `900 22px ${FONT_BODY}`;
+    ctx.fillText(CONFIG.brandUrl, tx, cy + 162);
+    ctx.font = `700 17px ${FONT_BODY}`;
+    ctx.fillStyle = '#a69f8f';
+    ctx.fillText(timestamp(), tx, cy + 190);
 
     /* QR code that points at the live share link */
-    const qrSize = 190;
+    const qrSize = 150;
     const qx = W - PAD - qrSize;
-    const qy = cy + 13;
-    const drewQr = drawQr(ctx, window.location.href, qx, qy, qrSize);
-    if (!drewQr) {
-      // Fallback if the QR library is unavailable: a framed URL badge.
-      ctx.strokeStyle = '#262626';
-      ctx.lineWidth = 2;
-      roundRectPath(ctx, qx, qy, qrSize, qrSize, 12);
-      ctx.stroke();
-      ctx.textAlign = 'center';
-      ctx.font = `700 20px ${FONT_MONO}`;
-      ctx.fillStyle = '#00E5FF';
-      ctx.fillText('TAKE THE', qx + qrSize / 2, qy + 80);
-      ctx.fillText('TEST AT', qx + qrSize / 2, qy + 108);
-      ctx.font = `500 16px ${FONT_MONO}`;
-      ctx.fillStyle = '#A3A3A3';
-      ctx.fillText(CONFIG.brandUrl, qx + qrSize / 2, qy + 140);
-    }
+    const qy = cy + 46;
+    // Only draw the QR if the text column leaves room for it.
+    ctx.font = `64px ${FONT_DISPLAY}`;
+    const ctaRight = tx + ctx.measureText('WHERE DO YOU STAND?').width;
+    if (ctaRight < qx - 20) drawQr(ctx, window.location.href, qx, qy, qrSize);
 
     return canvas;
+  }
+
+  /** Letter spaces a short uppercase label, since canvas has no tracking control everywhere. */
+  function spaced(text) {
+    return text.split('').join(' ');
   }
 
   /** Draws a QR code using the qrcode-generator library. Returns false if unavailable. */
@@ -873,13 +811,12 @@
       qr.addData(text);
       qr.make();
       const count = qr.getModuleCount();
-      const quiet = 10;
+      const quiet = 8;
       const cell = (size - quiet * 2) / count;
 
-      ctx.fillStyle = '#FAFAFA';
-      roundRectPath(ctx, x, y, size, size, 10);
-      ctx.fill();
-      ctx.fillStyle = '#0A0A0A';
+      ctx.fillStyle = THEME.paper;
+      ctx.fillRect(x, y, size, size);
+      ctx.fillStyle = THEME.ink;
       for (let r = 0; r < count; r++) {
         for (let c = 0; c < count; c++) {
           if (qr.isDark(r, c)) {
@@ -897,7 +834,7 @@
   function timestamp() {
     const d = new Date();
     const p = (n) => String(n).padStart(2, '0');
-    return `${d.getUTCFullYear()}.${p(d.getUTCMonth() + 1)}.${p(d.getUTCDate())} ${p(d.getUTCHours())}:${p(d.getUTCMinutes())} UTC`;
+    return `${d.getUTCFullYear()}.${p(d.getUTCMonth() + 1)}.${p(d.getUTCDate())}`;
   }
 
   async function downloadResultCard() {
@@ -907,14 +844,14 @@
       const slug = state.matches[0].ideology.id;
       const link = document.createElement('a');
       link.href = dataUrl;
-      link.download = `axiomvalues-${slug}.png`;
+      link.download = `ethoscales-${slug}.png`;
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
       toast('Result card downloaded');
     } catch (err) {
       console.error(err);
-      toast('Could not generate the card. Try again.');
+      toast('Could not make the card. Try again.');
     }
   }
 
@@ -962,12 +899,14 @@
       quiz: $('#view-quiz'),
       results: $('#view-results')
     };
-    el.progressBar = $('#progress-bar');
+    el.progress = $('#progress-track');
     el.axisChips = $('#axis-chips');
     el.duration = $('#duration-estimate');
     el.counter = $('#question-counter');
     el.quizModeLabel = $('#quiz-mode-label');
     el.questionCard = $('#question-card');
+    el.questionAxis = $('#question-axis');
+    el.qShapes = [$('#q-shape-1'), $('#q-shape-2'), $('#q-shape-3')];
     el.questionText = $('#question-text');
     el.answerList = $('#answer-list');
     el.btnBack = $('#btn-back');
