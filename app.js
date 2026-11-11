@@ -16,6 +16,7 @@
   const CONFIG = {
     brand: 'ETHOSSCALES',
     brandUrl: 'fletcher-eng.github.io/ethoscales',
+    plotlyUrl: 'https://cdn.plot.ly/plotly-2.35.2.min.js',
     fadeMs: 180,
     card: { width: 1080, height: 1350 }
   };
@@ -64,6 +65,7 @@
     // Small screens open on the flat map, which is much easier to read at that size.
     plotMode: window.innerWidth < 700 ? 'flat' : 'map',
     friend: null,        // { scores, matches } for a pasted friend link
+    storyFile: null,     // the story sized share image, built ahead of the tap
     busy: false          // true while a question transition is animating
   };
 
@@ -367,6 +369,7 @@
     el.questionText.textContent = q.text;
     el.btnBack.disabled = state.index === 0;
     renderProgress(state.index);
+    if (state.index >= total - 6) preloadPlotly();
 
     const previous = state.answers[state.index];
     el.answerList.innerHTML = '';
@@ -450,6 +453,7 @@
     el.shareUrl.value = window.location.href;
 
     renderMatchCard(top);
+    renderHighlights(scores);
     revealVerdict();
     renderFullRanking();
     renderCompare();
@@ -465,6 +469,7 @@
     buildResultCard().then((canvas) => {
       el.cardPreview.src = canvas.toDataURL('image/png');
     }).catch((err) => console.warn('Card preview failed:', err));
+    if (navigator.share) prepareStoryFile();
   }
 
   const REDUCED_MOTION = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -530,6 +535,26 @@
 
     const far = state.matches[state.matches.length - 1];
     el.matchOpposite.innerHTML = `${far.ideology.name}<small>${fmt(far.compatibility)}% match / distance ${far.distance.toFixed(2)}</small>`;
+  }
+
+  /** The three axes where this person sits furthest from the middle. */
+  function renderHighlights(scores) {
+    const ranked = AXES.map((a) => ({ a, v: scores[a.key], spread: Math.abs(scores[a.key] - 50) })).sort((p, q) => q.spread - p.spread);
+    if (ranked[0].spread < 8) {
+      el.highlights.innerHTML = '<div class="hl-flat"><b>Dead centre</b><span>You sit close to the middle on all twelve axes. No strong positions to report.</span></div>';
+      return;
+    }
+    el.highlights.innerHTML = ranked.slice(0, 3).map(({ a, v }) => {
+      const high = v >= 50;
+      const pole = high ? a.high : a.low;
+      return `
+        <div class="hl" style="--c:${a.color};--k:${a.ink}">
+          <div class="shape shape-${a.shape}" aria-hidden="true"></div>
+          <span class="label">${a.name}</span>
+          <b class="num">${Math.round(high ? v : 100 - v)}%</b>
+          <strong>${pole.label}</strong>
+        </div>`;
+    }).join('');
   }
 
   /** Every ideology in order of closeness, tucked inside a fold out. */
@@ -747,6 +772,39 @@
     });
   }
 
+  /**
+   * Download the chart library ahead of time WITHOUT running it. Running a file that
+   * size freezes the page for a moment, which during the test could swallow a key press.
+   * So the last few statements only warm the cache, and it runs once results are showing.
+   */
+  let plotlyPreloaded = false;
+  function preloadPlotly() {
+    if (plotlyPreloaded || window.Plotly) return;
+    plotlyPreloaded = true;
+    const link = document.createElement('link');
+    link.rel = 'preload';
+    link.as = 'script';
+    link.href = CONFIG.plotlyUrl;
+    document.head.appendChild(link);
+  }
+
+  /** Fetch the chart library once, on demand. Returns the same promise to every caller. */
+  let plotlyPromise = null;
+  function loadPlotly() {
+    if (window.Plotly) return Promise.resolve();
+    if (!plotlyPromise) {
+      plotlyPromise = new Promise((resolve, reject) => {
+        const tag = document.createElement('script');
+        tag.src = CONFIG.plotlyUrl;
+        tag.async = true;
+        tag.onload = resolve;
+        tag.onerror = () => { plotlyPromise = null; reject(new Error('chart library failed to load')); };
+        document.head.appendChild(tag);
+      });
+    }
+    return plotlyPromise;
+  }
+
   /* The 3D chart turns slowly until you touch it. Movement is what lets the eye read depth. */
   const spin = { on: false, timer: null, angle: 0, stopped: false };
   function stopSpin(forGood) {
@@ -866,18 +924,16 @@
       : 'Every square is an ideology, colored by family. The red dot is you. This view shows 3 axes at a time, so two squares that look close here can be far apart on the others. The faint lines cross at 50 on each axis. Drag to spin, scroll to zoom.';
 
     if (typeof window.Plotly === 'undefined') {
-      // Plotly loads with "defer", so on a share link it may still be downloading.
-      if (document.readyState !== 'complete') {
-        el.plot.innerHTML = '<div class="plot-msg">Loading 3D chart...</div>';
-        window.addEventListener('load', () => {
-          if (state.view === 'results' && state.scores) {
-            el.plot.innerHTML = '';
-            renderPlot3D(state.scores);
-          }
-        }, { once: true });
-        return;
-      }
-      el.plot.innerHTML = '<div class="plot-msg">The 3D chart could not load. Check your connection and refresh.</div>';
+      // The chart library is large, so it is only fetched once someone is near their results.
+      el.plot.innerHTML = '<div class="plot-msg">Loading chart...</div>';
+      loadPlotly().then(() => {
+        if (state.view === 'results' && state.scores) {
+          el.plot.innerHTML = '';
+          renderPlot3D(state.scores);
+        }
+      }).catch(() => {
+        el.plot.innerHTML = '<div class="plot-msg">The chart could not load. Check your connection and refresh.</div>';
+      });
       return;
     }
 
@@ -1048,15 +1104,58 @@
     }
   }
 
-  /** Phones: open the system share sheet with the result card attached, ready for a story. */
+  /** A 1080 x 1920 story image: the result card framed by a headline above and the address below. */
+  async function buildStoryCard() {
+    const card = await buildResultCard();
+    const W = 1080, H = 1920, T = THEME;
+    const canvas = document.createElement('canvas');
+    canvas.width = W; canvas.height = H;
+    const ctx = canvas.getContext('2d');
+    ctx.fillStyle = T.ink;
+    ctx.fillRect(0, 0, W, H);
+
+    const top = Math.round((H - card.height) / 2); // 285
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'alphabetic';
+    ctx.fillStyle = T.paper;
+    ctx.font = `900 30px ${FONT_BODY}`;
+    ctx.fillText(spaced('I TOOK THE 12 AXIS POLITICS TEST'), W / 2, 112);
+    ctx.fillStyle = T.red;
+    ctx.font = `120px ${FONT_DISPLAY}`;
+    ctx.fillText('AND I GOT', W / 2, 232);
+
+    ctx.drawImage(card, 0, top);
+
+    ctx.fillStyle = '#F5B700';
+    ctx.font = `104px ${FONT_DISPLAY}`;
+    ctx.fillText('YOUR TURN', W / 2, top + card.height + 132);
+    ctx.fillStyle = T.paper;
+    ctx.font = `900 34px ${FONT_BODY}`;
+    ctx.fillText(CONFIG.brandUrl, W / 2, top + card.height + 196);
+    return canvas;
+  }
+
+  /** Build the story image as soon as results show, so sharing needs no wait after the tap. */
+  function prepareStoryFile() {
+    state.storyFile = null;
+    const id = state.matches[0].ideology.id;
+    buildStoryCard()
+      .then((canvas) => new Promise((resolve) => canvas.toBlob(resolve, 'image/png')))
+      .then((blob) => {
+        if (blob && state.matches.length && state.matches[0].ideology.id === id) {
+          state.storyFile = new File([blob], `ethoscales-${id}-story.png`, { type: 'image/png' });
+        }
+      })
+      .catch(() => {});
+  }
+
+  /** Phones: open the system share sheet with the story image attached. */
   async function shareResult() {
     const url = window.location.href;
     const name = state.matches[0].ideology.name;
     const text = `I got ${name} on EthosScales. Where do you stand?`;
     try {
-      const canvas = await buildResultCard();
-      const blob = await new Promise((resolve) => canvas.toBlob(resolve, 'image/png'));
-      const file = blob ? new File([blob], `ethoscales-${state.matches[0].ideology.id}.png`, { type: 'image/png' }) : null;
+      const file = state.storyFile;
       if (file && navigator.canShare && navigator.canShare({ files: [file] })) {
         await navigator.share({ files: [file], title: 'EthosScales', text: text + ' ' + url });
       } else {
@@ -1456,6 +1555,7 @@
     el.resultSource = $('#result-source');
     el.matchName = $('#match-name');
     el.matchFamily = $('#match-family');
+    el.highlights = $('#highlights');
     el.matchSymbol = $('#match-symbol');
     el.matchSource = $('#match-source');
     el.figure = $('#figure');
@@ -1520,6 +1620,7 @@
       if (state.view !== 'results' || !state.matches.length) return;
       renderFigure(state.matches[0].ideology);
       buildResultCard().then((canvas) => { el.cardPreview.src = canvas.toDataURL('image/png'); }).catch(() => {});
+      if (navigator.share) prepareStoryFile();
     });
   }
 
@@ -1536,6 +1637,7 @@
     computeRawScores,
     normalizeScores,
     matchIdeologies,
-    mostPolarizedAxes
+    mostPolarizedAxes,
+    buildStoryCard
   };
 })();
