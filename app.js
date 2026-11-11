@@ -26,6 +26,14 @@
   // Poster palette, shared by the 3D chart and the result card.
   const THEME = { paper: '#EEE6D3', paper2: '#F7F1E1', ink: '#111111', red: '#C42318' };
 
+  // One color per ideology family, used to tell clusters apart on the 3D chart.
+  const FAMILY_COLORS = {
+    'Third Position': '#6B3A1E', 'Communist': '#C42318', 'Anarchist': '#111111', 'Autonomist': '#B0307A',
+    'Socialist': '#E5457D', 'Liberal': '#F5B700', 'Conservative': '#1D3FBB', 'Nationalist': '#EE6C1B',
+    'Religious': '#6FB7E8', 'Neoreactionary': '#6F45D0', 'Green': '#10743F', 'Technological': '#0B6C75',
+    'Classical': '#9A9A8E', 'Meme': '#C2A46B'
+  };
+
   // Size of the marker on each answer button: big at the strong ends, small in the middle.
   const ANSWER_MARK_SIZES = [22, 16, 10, 16, 22];
 
@@ -166,14 +174,18 @@
       for (let a = 0; a < n; a++) for (let b = 0; b < n; b++) work[a][b] -= value * v[a] * v[b];
     }
     const project = (coords) => dims.map((dim) => AXIS_KEYS.reduce((s, k, j) => s + (coords[k] - mean[j]) * dim.vector[j], 0));
-    // Name each dimension by the two axes that drive it most.
-    const labels = dims.map((dim) => dim.vector
-      .map((x, j) => ({ j, x }))
-      .sort((p, q) => Math.abs(q.x) - Math.abs(p.x))
-      .slice(0, 2)
-      .map((p) => AXES[p.j].name)
-      .join(' + '));
-    return { project, labels, captured: Math.round(dims.reduce((s, d) => s + d.share, 0) * 100) };
+    // Describe each dimension by the two axes that drive it most, and say which
+    // pole of each lies at the low end and which at the high end.
+    const ends = dims.map((dim) => {
+      const top = dim.vector.map((x, j) => ({ j, x })).sort((p, q) => Math.abs(q.x) - Math.abs(p.x)).slice(0, 2);
+      return {
+        low: top.map((p) => (p.x > 0 ? AXES[p.j].low.short : AXES[p.j].high.short)).join(', '),
+        high: top.map((p) => (p.x > 0 ? AXES[p.j].high.short : AXES[p.j].low.short)).join(', ')
+      };
+    });
+    const centre = {};
+    AXIS_KEYS.forEach((k) => { centre[k] = 50; });
+    return { project, ends, centre: project(centre), captured: Math.round(dims.reduce((s, d) => s + d.share, 0) * 100) };
   })();
 
   function clamp(n, lo, hi) { return Math.min(hi, Math.max(lo, n)); }
@@ -736,8 +748,8 @@
       ? `All ${AXES.length} axes in one map`
       : `Showing 3 of ${AXES.length} axes`;
     el.plotNote.textContent = mapMode
-      ? `This map squeezes all ${AXES.length} axes into 3 dimensions, keeping ${MAP.captured}% of the differences between ideologies. Dots that sit close together really are close overall. Drag to spin, scroll to zoom.`
-      : 'This shows 3 axes at a time, so two dots that look close here can be far apart on the other axes. Your match is worked out across all twelve. Drag to spin, scroll to zoom.';
+      ? `Every square is an ideology, colored by family. The red dot is you. This map squeezes all ${AXES.length} axes into 3 dimensions, keeping ${MAP.captured}% of the differences, so squares that sit close together really are close overall. The faint lines cross at the exact centre. Drag to spin, scroll to zoom.`
+      : 'Every square is an ideology, colored by family. The red dot is you. This view shows 3 axes at a time, so two squares that look close here can be far apart on the others. The faint lines cross at 50 on each axis. Drag to spin, scroll to zoom.';
 
     if (typeof window.Plotly === 'undefined') {
       // Plotly loads with "defer", so on a share link it may still be downloading.
@@ -757,38 +769,67 @@
 
     // One function turns any set of 12 scores into the 3 numbers this view plots.
     const point = mapMode ? (c) => MAP.project(c) : (c) => picked.map((k) => c[k]);
-    const axisNames = mapMode ? MAP.labels : picked.map((k) => AXIS_BY_KEY[k].name);
+    const axisNames = mapMode ? ['Dimension 1', 'Dimension 2', 'Dimension 3'] : picked.map((k) => AXIS_BY_KEY[k].name);
+    const narrow = el.plot.clientWidth < 640;
 
-    // Label the five closest by name. Everything else is a dot with a hover label.
     const near = state.matches.slice(0, 5).map((m) => m.ideology);
     const nearIds = new Set(near.map((i) => i.id));
-    const others = IDEOLOGIES.filter((i) => !nearIds.has(i.id));
-    const pOthers = others.map((i) => point(i.coords));
-    const pNear = near.map((i) => point(i.coords));
+    const pAll = IDEOLOGIES.map((i) => point(i.coords));
     const [ux, uy, uz] = point(scores);
-    const all = [...pOthers, ...pNear, [ux, uy, uz]];
-    const floor = mapMode ? Math.min(...all.map((p) => p[2])) - 8 : 0;
+    const everything = [...pAll, [ux, uy, uz]];
+    const lo = [0, 1, 2].map((d) => (mapMode ? Math.min(...everything.map((p) => p[d])) - 8 : 0));
+    const hi = [0, 1, 2].map((d) => (mapMode ? Math.max(...everything.map((p) => p[d])) + 8 : 100));
+    const mid = mapMode ? MAP.centre : [50, 50, 50];
+    const floor = lo[2];
     const hoverTpl = mapMode
-      ? '<b>%{text}</b><extra></extra>'
-      : `<b>%{text}</b><br>${axisNames[0]}: %{x:.1f}<br>${axisNames[1]}: %{y:.1f}<br>${axisNames[2]}: %{z:.1f}<extra></extra>`;
+      ? '<b>%{text}</b><br>%{customdata}<extra></extra>'
+      : `<b>%{text}</b><br>%{customdata}<br>${axisNames[0]}: %{x:.1f}<br>${axisNames[1]}: %{y:.1f}<br>${axisNames[2]}: %{z:.1f}<extra></extra>`;
 
-    const traces = [
-      {
-        type: 'scatter3d', mode: 'markers', name: 'Others',
-        x: pOthers.map((p) => p[0]), y: pOthers.map((p) => p[1]), z: pOthers.map((p) => p[2]),
-        text: others.map((i) => i.name),
+    const traces = [];
+
+    // Three faint lines through the middle of the space, so it is clear where the centre is.
+    [0, 1, 2].forEach((d) => {
+      const from = mid.slice(), to = mid.slice();
+      from[d] = lo[d]; to[d] = hi[d];
+      traces.push({
+        type: 'scatter3d', mode: 'lines', hoverinfo: 'skip', showlegend: d === 0, name: 'Centre lines',
+        legendgroup: 'centre',
+        x: [from[0], to[0]], y: [from[1], to[1]], z: [from[2], to[2]],
+        line: { color: 'rgba(17,17,17,0.38)', width: 3 }
+      });
+    });
+
+    // One trace per family, so each family gets its own color and legend entry.
+    Object.keys(FAMILY_COLORS).forEach((family) => {
+      const members = IDEOLOGIES.map((ideo, n) => ({ ideo, p: pAll[n] })).filter((m) => m.ideo.family === family);
+      if (!members.length) return;
+      traces.push({
+        type: 'scatter3d', mode: 'markers', name: family,
+        x: members.map((m) => m.p[0]), y: members.map((m) => m.p[1]), z: members.map((m) => m.p[2]),
+        text: members.map((m) => m.ideo.name),
+        customdata: members.map((m) => m.ideo.family),
         hovertemplate: hoverTpl,
-        marker: { size: 4, color: THEME.ink, opacity: 0.4, symbol: 'square', line: { width: 0 } }
-      },
-      {
-        type: 'scatter3d', mode: 'markers+text', name: 'Your top 5',
-        x: pNear.map((p) => p[0]), y: pNear.map((p) => p[1]), z: pNear.map((p) => p[2]),
-        text: near.map((i) => i.name.replace(/\s*\(.*\)/, '')),
-        textposition: 'top center',
-        textfont: { family: 'Archivo, Arial, sans-serif', size: 11, color: THEME.ink },
-        hovertemplate: hoverTpl,
-        marker: { size: 7, color: THEME.paper, opacity: 1, symbol: 'square', line: { color: THEME.ink, width: 4 } }
-      },
+        marker: {
+          // Your five closest are drawn larger with a heavy outline.
+          size: members.map((m) => (nearIds.has(m.ideo.id) ? 11 : 6)),
+          color: FAMILY_COLORS[family], opacity: 0.95, symbol: 'square',
+          line: { color: THEME.ink, width: 1 }
+        }
+      });
+    });
+
+    // Name only the three closest, so the labels do not pile up.
+    const named = near.slice(0, 3);
+    const pNamed = named.map((i) => point(i.coords));
+    traces.push({
+      type: 'scatter3d', mode: 'text', hoverinfo: 'skip', showlegend: false,
+      x: pNamed.map((p) => p[0]), y: pNamed.map((p) => p[1]), z: pNamed.map((p) => p[2]),
+      text: named.map((i, n) => `${n + 1}. ${i.name.replace(/\s*\(.*\)/, '')}`),
+      textposition: ['top right', 'bottom left', 'top left'],
+      textfont: { family: 'Archivo, Arial, sans-serif', size: 12, color: THEME.ink }
+    });
+
+    traces.push(
       {
         // Drop line and floor shadow, so the height of your point is readable.
         type: 'scatter3d', mode: 'lines+markers', hoverinfo: 'skip', showlegend: false,
@@ -799,36 +840,35 @@
       {
         // Tether between you and your closest match.
         type: 'scatter3d', mode: 'lines', hoverinfo: 'skip', showlegend: false,
-        x: [ux, pNear[0][0]], y: [uy, pNear[0][1]], z: [uz, pNear[0][2]],
+        x: [ux, pNamed[0][0]], y: [uy, pNamed[0][1]], z: [uz, pNamed[0][2]],
         line: { color: THEME.ink, width: 5, dash: 'dash' }
       },
       {
         type: 'scatter3d', mode: 'markers', name: 'You',
         x: [ux], y: [uy], z: [uz],
-        text: ['You'],
+        text: ['You'], customdata: ['This is where you sit'],
         hovertemplate: hoverTpl,
-        marker: { size: 12, color: THEME.red, opacity: 1, line: { color: THEME.ink, width: 4 } }
+        marker: { size: 15, color: THEME.red, opacity: 1, symbol: 'circle', line: { color: THEME.ink, width: 5 } }
       }
-    ];
+    );
 
     if (state.friend) {
       const [fx, fy, fz] = point(state.friend.scores);
       traces.push({
         type: 'scatter3d', mode: 'markers', name: 'Friend',
-        x: [fx], y: [fy], z: [fz], text: ['Your friend'], hovertemplate: hoverTpl,
-        marker: { size: 9, color: '#F5B700', opacity: 1, symbol: 'diamond', line: { color: THEME.ink, width: 4 } }
+        x: [fx], y: [fy], z: [fz], text: ['Your friend'], customdata: [''], hovertemplate: hoverTpl,
+        marker: { size: 10, color: '#F5B700', opacity: 1, symbol: 'diamond', line: { color: THEME.ink, width: 4 } }
       });
     }
 
-    const narrow = el.plot.clientWidth < 640;
     const axisLayout = (i) => {
       const a = mapMode ? null : AXIS_BY_KEY[picked[i]];
       const title = mapMode
-        ? (narrow ? `DIMENSION ${i + 1}` : `DIMENSION ${i + 1} (${axisNames[i]})`)
+        ? (narrow ? `DIMENSION ${i + 1}` : `${MAP.ends[i].low.toUpperCase()}  <  >  ${MAP.ends[i].high.toUpperCase()}`)
         : (narrow ? a.name.toUpperCase() : `${a.name.toUpperCase()} (${a.low.short} to ${a.high.short})`);
       return {
         title: { text: title, font: { size: 11, color: THEME.ink } },
-        range: mapMode ? undefined : [0, 100],
+        range: [lo[i], hi[i]],
         dtick: mapMode ? undefined : 25,
         showticklabels: !mapMode,
         gridcolor: 'rgba(17,17,17,0.28)',
@@ -847,8 +887,9 @@
       plot_bgcolor: THEME.paper2,
       font: { family: 'Archivo, Helvetica Neue, Arial, sans-serif', color: THEME.ink, size: 12 },
       margin: { l: 0, r: 0, t: 0, b: 0 },
-      showlegend: true,
-      legend: { x: 0.01, y: 0.99, bgcolor: THEME.paper, bordercolor: THEME.ink, borderwidth: 3, font: { size: 11, color: THEME.ink } },
+      // Phones have no room for a key inside the chart, so it is drawn underneath instead.
+      showlegend: !narrow,
+      legend: { x: 0.01, y: 0.99, bgcolor: THEME.paper, bordercolor: THEME.ink, borderwidth: 3, font: { size: 11, color: THEME.ink }, itemsizing: 'constant' },
       hoverlabel: { bgcolor: THEME.ink, bordercolor: THEME.ink, font: { family: 'Archivo, Arial, sans-serif', size: 12, color: THEME.paper } },
       scene: {
         xaxis: axisLayout(0),
@@ -859,6 +900,13 @@
         bgcolor: THEME.paper2
       }
     };
+
+    el.plotKey.hidden = !narrow;
+    if (narrow) {
+      const used = Object.keys(FAMILY_COLORS).filter((f) => IDEOLOGIES.some((i) => i.family === f));
+      el.plotKey.innerHTML = `<span><i style="background:${THEME.red};border-radius:50%"></i>You</span>` +
+        used.map((f) => `<span><i style="background:${FAMILY_COLORS[f]}"></i>${f}</span>`).join('');
+    }
 
     window.Plotly.react(el.plot, traces, layout, { responsive: true, displaylogo: false, displayModeBar: false });
   }
@@ -1298,6 +1346,7 @@
     el.figureCredit = $('#figure-credit');
     el.plotPickers = $('#plot-pickers');
     el.plotNote = $('#plot-note');
+    el.plotKey = $('#plot-key');
     el.rankAll = $('#rank-all');
     el.rankSummary = $('#rank-summary');
     el.compareOut = $('#compare-out');
