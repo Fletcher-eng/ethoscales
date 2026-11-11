@@ -109,9 +109,10 @@
     .axes { padding-top: 44px; padding-bottom: 72px; }
     .axes h2 { font-size: clamp(40px, 6vw, 68px); margin-bottom: 20px; }
     #axis-chips { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 4px; background: var(--ink); border: var(--rule); box-shadow: var(--shadow); }
-    .axis-tile { background: var(--c); color: var(--k); padding: 18px 18px 20px; position: relative; overflow: hidden; min-height: 132px; }
+    .axis-tile { background: var(--c); color: var(--k); padding: 18px 18px 20px; position: relative; overflow: hidden; min-height: 132px; padding-bottom: 70px; }
     .axis-tile h3 { font-family: var(--display); font-weight: 400; font-size: 30px; text-transform: uppercase; line-height: 1; position: relative; z-index: 1; }
     .axis-tile p { font-weight: 700; font-size: 14px; margin-top: 8px; line-height: 1.35; position: relative; z-index: 1; max-width: 22ch; }
+    .axis-tile p.about { font-weight: 500; font-size: 13px; margin-top: 6px; max-width: 28ch; }
     .axis-tile .shape { position: absolute; right: -20px; bottom: -20px; width: 84px; height: 84px; background: var(--ink); }
 
     /* Shapes, one per axis */
@@ -288,8 +289,10 @@
       .hero::after { right: -50px; top: -60px; width: 150px; height: 150px; }
       #axis-chips { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .axis-tile h3 { font-size: 24px; }
-      .axis-tile { min-height: 118px; padding: 14px; }
+      .axis-tile { min-height: 118px; padding: 14px 14px 50px; }
+      .axis-tile .shape { width: 62px; height: 62px; right: -16px; bottom: -16px; }
       .axis-tile p { font-size: 12px; }
+      .axis-tile p.about { font-size: 11.5px; }
       #compass-grid, #axis-bars { grid-template-columns: 1fr; }
       .correct { margin-top: 8px; font-weight: 700; font-size: 14px; }
     .correct a { color: var(--paper); text-underline-offset: 4px; text-decoration-thickness: 2px; }

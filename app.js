@@ -277,6 +277,7 @@
         <div class="shape shape-${a.shape}"></div>
         <h3>${a.name}</h3>
         <p>${a.low.label} vs ${a.high.label}</p>
+        <p class="about">${a.about}</p>
       </div>`).join('');
     setMode(state.mode);
   }
