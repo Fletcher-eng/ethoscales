@@ -1314,8 +1314,14 @@
     cacheElements();
     bindEvents();
     renderLanding();
-    // Results need to know which portraits exist, so wait for the credits file.
-    loadFigureCredits().finally(route);
+    route();
+    // The portrait list loads in the background. Nothing waits on it, so a fast
+    // key press can never be undone by it. Results just redraw once it arrives.
+    loadFigureCredits().then(() => {
+      if (state.view !== 'results' || !state.matches.length) return;
+      renderFigure(state.matches[0].ideology);
+      buildResultCard().then((canvas) => { el.cardPreview.src = canvas.toDataURL('image/png'); }).catch(() => {});
+    });
   }
 
   if (document.readyState === 'loading') {
