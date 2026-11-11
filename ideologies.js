@@ -403,5 +403,49 @@ const IDEOLOGIES = [
     source: { author: 'Howard Scott and Technocracy Inc.', work: 'Technocracy Study Course', year: 1934 },
     tagline: 'Government by engineers, accounting in energy.',
     desc: 'Argued that politics and the price system could not manage an economy of abundance. Scott proposed replacing both with a continental Technate run by engineers and scientists chosen for competence. Money would be replaced by energy certificates, and production planned as an engineering problem.'
+  },
+
+  /* -------------------------------- MEME -------------------------------- */
+  /* Joke ideologies from political compass meme culture. The first two have
+     no founding text at all, so they carry a note instead of a source. */
+  {
+    id: 'neo-libertarian-falangism', name: 'Neo Libertarian Falangism', family: 'Meme',
+    coords: coords(10, 10, 60, 75, 70, 95, 90, 90, 45, 30, 90, 80),
+    figure: { name: 'Internet Meme', years: 'no founder' },
+    source: { note: 'No founding text. This is an internet joke ideology, built by bolting free market libertarianism onto Falangism.' },
+    tagline: 'Deregulate everything, for the unity of destiny.',
+    desc: 'A deliberate contradiction. Real Falangism wants a national syndicalist economy with nationalised banking, and real libertarianism rejects the authoritarian nation state. This mash up keeps the Falangist nation, church and strongman while swapping the syndicates for free markets and low taxes. If you land here, you scored strongly nationalist, religious and pro market all at once.'
+  },
+  {
+    id: 'monarcho-brezhnevism', name: 'Monarcho Brezhnevism', family: 'Meme',
+    coords: coords(95, 95, 85, 100, 100, 55, 60, 70, 60, 20, 30, 80),
+    figure: { name: 'Internet Meme', years: 'no founder' },
+    source: { note: 'No founding text. This is an internet joke ideology that crowns the Soviet General Secretary.' },
+    tagline: 'A hereditary throne atop a five year plan.',
+    desc: 'Takes the late Soviet system of the Brezhnev years, with its planned economy, ageing leadership and preference for stability over reform, and makes the top job hereditary. The joke is that the two are closer than they look. If you land here, you scored for full state planning under a ruler nobody elects, with little appetite for change.'
+  },
+  {
+    id: 'anarcho-monarchism', name: 'Anarcho Monarchism', family: 'Meme',
+    coords: coords(30, 30, 5, 60, 5, 45, 55, 95, 95, 85, 90, 20),
+    figure: { name: 'J. R. R. Tolkien', years: '1892 to 1973' },
+    source: { author: 'J. R. R. Tolkien', work: 'Letter to Christopher Tolkien, 29 November', year: 1943 },
+    tagline: 'A king who leaves everyone alone.',
+    desc: 'Usually treated as a joke, but it has a real source. Tolkien wrote that his politics leaned toward anarchy, meaning the abolition of control, or else toward unconstitutional monarchy. The idea is a crown that exists as a symbol and a last resort while daily life is left ungoverned, rural and traditional, with deep suspicion of machines and planners.'
+  },
+  {
+    id: 'posadism', name: 'Posadism', family: 'Meme',
+    coords: coords(100, 100, 85, 80, 90, 0, 20, 15, 0, 10, 0, 100),
+    figure: { name: 'J. Posadas', years: '1912 to 1981' },
+    source: { author: 'J. Posadas', work: 'Flying Saucers, the Process of Matter and Energy, Science, the Revolutionary and Working Class Struggle and the Socialist Future of Mankind', year: 1968 },
+    tagline: 'Nuclear war, then socialism, then the aliens.',
+    desc: 'A real Trotskyist current that the internet adopted as a meme. Posadas argued that nuclear war was inevitable and that the workers\' states should not fear it, since socialism would be built on the ruins. He also reasoned that any civilisation able to cross space must already be socialist, so visiting aliens would be allies.'
+  },
+  {
+    id: 'luxury-space-communism', name: 'Fully Automated Luxury Communism', family: 'Meme',
+    coords: coords(90, 100, 10, 10, 50, 0, 5, 0, 0, 35, 0, 15),
+    figure: { name: 'Aaron Bastani', years: 'born 1984' },
+    source: { author: 'Aaron Bastani', work: 'Fully Automated Luxury Communism', year: 2019 },
+    tagline: 'Robots do the work. Everyone gets the good life.',
+    desc: 'Began as a slogan and a meme, often with the words gay and space added, before Bastani wrote it up as a manifesto. It claims that automation, cheap solar energy, asteroid mining and synthetic food can end scarcity. If the machines are owned in common, the result is abundance and leisure for all instead of mass unemployment.'
   }
 ];

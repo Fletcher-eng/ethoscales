@@ -375,7 +375,8 @@
     el.matchName.textContent = top.ideology.name;
     el.matchFamily.textContent = top.ideology.family ? top.ideology.family + ' family' : '';
     const src = top.ideology.source;
-    el.matchSource.textContent = `Defined from: ${src.author}, ${src.work} (${src.year})`;
+    // Meme ideologies have no founding text, so they carry a note instead.
+    el.matchSource.textContent = src.note || `Defined from: ${src.author}, ${src.work} (${src.year})`;
     el.matchScore.textContent = fmt(top.compatibility) + '%';
     el.matchDistance.textContent = 'Distance ' + top.distance.toFixed(2);
     el.matchTagline.textContent = top.ideology.tagline;
