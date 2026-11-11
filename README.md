@@ -83,15 +83,23 @@ The smallest distance wins. The match score is `max(0, 100 - D / (2 * sqrt(axes 
 
 ## Portraits
 
-Portraits come from Wikimedia Commons and are only used if they are public domain or under a Creative Commons BY, BY-SA or CC0 licence. Credits are in [`figures/CREDITS.md`](figures/CREDITS.md), and the credit is printed on every result card.
+79 of the 86 ideologies have a portrait. The rest show a name plate with the thinker's initials: four where no freely licensed image exists, the two meme entries that have no founder, and National Socialism, which is left without one on purpose.
 
-79 of the 86 ideologies have a portrait. The rest show a name plate with the thinker's initials: four where no freely licensed image exists, the two meme entries that have no founder, and National Socialism, which is left without one on purpose. To download missing portraits, run this from the repo root:
+To download missing portraits, run this from the repo root:
 
 ```bash
 python3 tools/fetch_figures.py
 ```
 
 The script looks everyone up in a few batched requests and pauses between downloads, because Wikimedia limits how fast files can be requested.
+
+## Licences
+
+**Code.** No licence has been chosen for the site's code yet. Until one is added, the default applies: all rights reserved, so others may read it but not reuse it.
+
+**Portraits.** These are not covered by the code's licence. Each one comes from Wikimedia Commons and is either public domain or under a Creative Commons BY, BY-SA or CC0 licence. Authors, licences and the changes made are listed in [`figures/CREDITS.md`](figures/CREDITS.md), the credit is shown under every portrait on the site, and it is printed on every result card.
+
+**Libraries and fonts**, loaded from public CDNs and not copied into this repo: Plotly.js (MIT), qrcode-generator (MIT), and the Anton and Archivo typefaces (SIL Open Font License).
 
 ## Run it locally
 

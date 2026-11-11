@@ -60,7 +60,9 @@
     scores: null,        // one value per axis key, each 0..100
     matches: [],         // ideologies sorted by distance, ascending
     plotAxes: null,      // the 3 axis keys shown in the 3D chart (null = auto)
-    plotMode: 'map',     // 'map' = all 12 axes squeezed into 3, 'axes' = pick 3 raw axes
+    // 'map' = all axes squeezed into 3D, 'flat' = the same in 2D, 'axes' = pick 3 raw axes.
+    // Small screens open on the flat map, which is much easier to read at that size.
+    plotMode: window.innerWidth < 700 ? 'flat' : 'map',
     friend: null,        // { scores, matches } for a pasted friend link
     busy: false          // true while a question transition is animating
   };
@@ -185,7 +187,11 @@
     });
     const centre = {};
     AXIS_KEYS.forEach((k) => { centre[k] = 50; });
-    return { project, ends, centre: project(centre), captured: Math.round(dims.reduce((s, d) => s + d.share, 0) * 100) };
+    return {
+      project, ends, centre: project(centre),
+      captured: Math.round(dims.reduce((s, d) => s + d.share, 0) * 100),
+      capturedFlat: Math.round((dims[0].share + dims[1].share) * 100)
+    };
   })();
 
   function clamp(n, lo, hi) { return Math.min(hi, Math.max(lo, n)); }
@@ -708,7 +714,8 @@
     const mode = `
       <label>View
         <select id="plot-mode" aria-label="3D chart view">
-          <option value="map"${state.plotMode === 'map' ? ' selected' : ''}>Map of all ${AXES.length} axes</option>
+          <option value="map"${state.plotMode === 'map' ? ' selected' : ''}>3D map of all ${AXES.length} axes</option>
+          <option value="flat"${state.plotMode === 'flat' ? ' selected' : ''}>Flat map of all ${AXES.length} axes</option>
           <option value="axes"${state.plotMode === 'axes' ? ' selected' : ''}>Pick 3 axes</option>
         </select>
       </label>`;
@@ -740,6 +747,113 @@
     });
   }
 
+  /* The 3D chart turns slowly until you touch it. Movement is what lets the eye read depth. */
+  const spin = { on: false, timer: null, angle: 0, stopped: false };
+  function stopSpin(forGood) {
+    spin.on = false;
+    if (forGood) spin.stopped = true;
+    if (spin.timer) { clearInterval(spin.timer); spin.timer = null; }
+  }
+  function startSpin(eye) {
+    stopSpin(false);
+    if (REDUCED_MOTION || spin.stopped) return;
+    const radius = Math.hypot(eye.x, eye.y);
+    spin.angle = Math.atan2(eye.y, eye.x);
+    spin.on = true;
+    spin.timer = setInterval(() => {
+      // Only turn while the chart is on screen and the page is in front.
+      const box = el.plot.getBoundingClientRect();
+      if (document.hidden || box.bottom < 0 || box.top > window.innerHeight || state.view !== 'results') return;
+      spin.angle += 0.006; // one full turn takes about a minute
+      window.Plotly.relayout(el.plot, { 'scene.camera.eye': { x: radius * Math.cos(spin.angle), y: radius * Math.sin(spin.angle), z: eye.z } });
+    }, 60);
+  }
+
+  /** Says in words what each direction of the map means. Shown under the chart. */
+  function renderDimensionGuide(count) {
+    el.plotDims.hidden = count === 0;
+    el.plotDims.innerHTML = MAP.ends.slice(0, count).map((e, i) =>
+      `<li><b>${count === 2 ? (i === 0 ? 'Left to right' : 'Bottom to top') : 'Dimension ' + (i + 1)}</b><span>${e.low}</span><i aria-hidden="true">to</i><span>${e.high}</span></li>`).join('');
+  }
+
+  /** The same map with the third dimension dropped: nothing to rotate, nothing hidden behind. */
+  function renderFlatMap(scores) {
+    stopSpin(false);
+    el.plotCaption.textContent = `All ${AXES.length} axes, flattened`;
+    el.plotNote.textContent = `Every square is an ideology, colored by family. The red dot is you. This flat map keeps ${MAP.capturedFlat}% of the differences between ideologies, a little less than the 3D one, but nothing is hidden behind anything else. The lines cross at the exact centre.`;
+    renderDimensionGuide(2);
+
+    const near = state.matches.slice(0, 5).map((m) => m.ideology);
+    const nearIds = new Set(near.map((i) => i.id));
+    const narrow = el.plot.clientWidth < 640;
+    const pts = IDEOLOGIES.map((i) => MAP.project(i.coords));
+    const you = MAP.project(scores);
+    const traces = [];
+    Object.keys(FAMILY_COLORS).forEach((family) => {
+      const members = IDEOLOGIES.map((ideo, n) => ({ ideo, p: pts[n] })).filter((m) => m.ideo.family === family);
+      if (!members.length) return;
+      traces.push({
+        type: 'scatter', mode: 'markers', name: family,
+        x: members.map((m) => m.p[0]), y: members.map((m) => m.p[1]),
+        text: members.map((m) => m.ideo.name), customdata: members.map((m) => m.ideo.family),
+        hovertemplate: '<b>%{text}</b><br>%{customdata}<extra></extra>',
+        marker: { size: members.map((m) => (nearIds.has(m.ideo.id) ? 17 : 11)), color: FAMILY_COLORS[family], opacity: 1, symbol: 'square', line: { color: THEME.ink, width: 2 } }
+      });
+    });
+    const named = near.slice(0, 3);
+    traces.push({
+      type: 'scatter', mode: 'text', hoverinfo: 'skip', showlegend: false,
+      x: named.map((i) => MAP.project(i.coords)[0]), y: named.map((i) => MAP.project(i.coords)[1]),
+      text: named.map((i, n) => `${n + 1}. ${i.name.replace(/\s*\(.*\)/, '')}`),
+      textposition: ['top right', 'bottom left', 'top left'],
+      textfont: { family: 'Archivo, Arial, sans-serif', size: 13, color: THEME.ink }
+    });
+    traces.push({
+      type: 'scatter', mode: 'markers', name: 'You', x: [you[0]], y: [you[1]], text: ['You'], customdata: ['This is where you sit'],
+      hovertemplate: '<b>%{text}</b><br>%{customdata}<extra></extra>',
+      marker: { size: 24, color: THEME.red, opacity: 1, symbol: 'circle', line: { color: THEME.ink, width: 4 } }
+    });
+    if (state.friend) {
+      const f = MAP.project(state.friend.scores);
+      traces.push({
+        type: 'scatter', mode: 'markers', name: 'Friend', x: [f[0]], y: [f[1]], text: ['Your friend'], customdata: [''],
+        hovertemplate: '<b>%{text}</b><extra></extra>',
+        marker: { size: 18, color: '#F5B700', symbol: 'diamond', line: { color: THEME.ink, width: 3 } }
+      });
+    }
+    const axis = (i) => ({
+      title: { text: narrow ? '' : `${MAP.ends[i].low.toUpperCase()}  <  >  ${MAP.ends[i].high.toUpperCase()}`, font: { size: 11, color: THEME.ink } },
+      showticklabels: false, zeroline: false, gridcolor: 'rgba(17,17,17,0.14)', linecolor: THEME.ink, linewidth: 3, mirror: true
+    });
+    const centreLine = { type: 'line', line: { color: 'rgba(17,17,17,0.45)', width: 2 }, layer: 'below' };
+    const layout = {
+      paper_bgcolor: THEME.paper2, plot_bgcolor: THEME.paper,
+      font: { family: 'Archivo, Helvetica Neue, Arial, sans-serif', color: THEME.ink, size: 12 },
+      margin: narrow ? { l: 12, r: 12, t: 12, b: 12 } : { l: 56, r: 24, t: 20, b: 56 },
+      showlegend: !narrow,
+      legend: { bgcolor: THEME.paper, bordercolor: THEME.ink, borderwidth: 3, font: { size: 11, color: THEME.ink }, itemsizing: 'constant' },
+      hoverlabel: { bgcolor: THEME.ink, bordercolor: THEME.ink, font: { family: 'Archivo, Arial, sans-serif', size: 12, color: THEME.paper } },
+      xaxis: axis(0), yaxis: axis(1),
+      shapes: [
+        { ...centreLine, xref: 'x', yref: 'paper', x0: MAP.centre[0], x1: MAP.centre[0], y0: 0, y1: 1 },
+        { ...centreLine, xref: 'paper', yref: 'y', x0: 0, x1: 1, y0: MAP.centre[1], y1: MAP.centre[1] }
+      ]
+    };
+    renderPlotKey(narrow);
+    if (el.plot.dataset.kind !== 'flat') window.Plotly.purge(el.plot);
+    el.plot.dataset.kind = 'flat';
+    window.Plotly.react(el.plot, traces, layout, { responsive: true, displaylogo: false, displayModeBar: false });
+  }
+
+  /** Phones have no room for a key inside the chart, so it is drawn underneath instead. */
+  function renderPlotKey(narrow) {
+    el.plotKey.hidden = !narrow;
+    if (!narrow) return;
+    const used = Object.keys(FAMILY_COLORS).filter((f) => IDEOLOGIES.some((i) => i.family === f));
+    el.plotKey.innerHTML = `<span><i style="background:${THEME.red};border-radius:50%"></i>You</span>` +
+      used.map((f) => `<span><i style="background:${FAMILY_COLORS[f]}"></i>${f}</span>`).join('');
+  }
+
   function renderPlot3D(scores) {
     const mapMode = state.plotMode === 'map';
     const picked = state.plotAxes || mostPolarizedAxes(scores, 3);
@@ -748,7 +862,7 @@
       ? `All ${AXES.length} axes in one map`
       : `Showing 3 of ${AXES.length} axes`;
     el.plotNote.textContent = mapMode
-      ? `Every square is an ideology, colored by family. The red dot is you. This map squeezes all ${AXES.length} axes into 3 dimensions, keeping ${MAP.captured}% of the differences, so squares that sit close together really are close overall. The faint lines cross at the exact centre. Drag to spin, scroll to zoom.`
+      ? `Every square is an ideology, colored by family. The red dot is you. This map squeezes all ${AXES.length} axes into 3 dimensions, keeping ${MAP.captured}% of the differences, so squares that sit close together really are close overall. The faint lines cross at the exact centre. It turns slowly so you can read the depth. Touch it to take over, then drag to spin and scroll to zoom.`
       : 'Every square is an ideology, colored by family. The red dot is you. This view shows 3 axes at a time, so two squares that look close here can be far apart on the others. The faint lines cross at 50 on each axis. Drag to spin, scroll to zoom.';
 
     if (typeof window.Plotly === 'undefined') {
@@ -766,6 +880,9 @@
       el.plot.innerHTML = '<div class="plot-msg">The 3D chart could not load. Check your connection and refresh.</div>';
       return;
     }
+
+    if (state.plotMode === 'flat') { renderFlatMap(scores); return; }
+    renderDimensionGuide(mapMode ? 3 : 0);
 
     // One function turns any set of 12 scores into the 3 numbers this view plots.
     const point = mapMode ? (c) => MAP.project(c) : (c) => picked.map((k) => c[k]);
@@ -901,14 +1018,11 @@
       }
     };
 
-    el.plotKey.hidden = !narrow;
-    if (narrow) {
-      const used = Object.keys(FAMILY_COLORS).filter((f) => IDEOLOGIES.some((i) => i.family === f));
-      el.plotKey.innerHTML = `<span><i style="background:${THEME.red};border-radius:50%"></i>You</span>` +
-        used.map((f) => `<span><i style="background:${FAMILY_COLORS[f]}"></i>${f}</span>`).join('');
-    }
-
+    renderPlotKey(narrow);
+    if (el.plot.dataset.kind !== '3d') window.Plotly.purge(el.plot);
+    el.plot.dataset.kind = '3d';
     window.Plotly.react(el.plot, traces, layout, { responsive: true, displaylogo: false, displayModeBar: false });
+    startSpin(layout.scene.camera.eye);
   }
 
   /* ------------------------------------------------------------------ */
@@ -1288,6 +1402,8 @@
     state.matches = [];
     state.plotAxes = null;
     state.friend = null;
+    stopSpin(false);
+    spin.stopped = false;
     clearProgress();
     clearUrl();
     showView('landing');
@@ -1347,6 +1463,7 @@
     el.plotPickers = $('#plot-pickers');
     el.plotNote = $('#plot-note');
     el.plotKey = $('#plot-key');
+    el.plotDims = $('#plot-dims');
     el.rankAll = $('#rank-all');
     el.rankSummary = $('#rank-summary');
     el.compareOut = $('#compare-out');
@@ -1386,6 +1503,8 @@
     $('#brand-link').addEventListener('click', (e) => { e.preventDefault(); retake(); });
     el.shareUrl.addEventListener('focus', () => el.shareUrl.select());
     document.addEventListener('keydown', onKeyDown);
+    // The first touch hands control of the 3D chart to the person and stops the slow turn for good.
+    ['pointerdown', 'wheel', 'touchstart'].forEach((type) => el.plot.addEventListener(type, () => stopSpin(true), { passive: true }));
     window.addEventListener('popstate', route);
     window.addEventListener('resize', () => { if (state.view === 'results') fitMatchName(); });
   }

@@ -1,6 +1,24 @@
 # Portrait credits
 
-All portraits come from Wikimedia Commons. Each was cropped to 4:5 and resized.
+All portraits come from Wikimedia Commons. Follow the file link in each row for the original image and its full licence terms.
+
+## Changes made
+
+Every image was cropped to a 4:5 portrait and resized to 400 by 500 pixels. The site displays them in greyscale with raised contrast. No other changes were made.
+
+## Licence of these files
+
+The files in this folder are separate works from the site's code and are not covered by the code's licence.
+
+- **Public domain and CC0** images carry no conditions.
+- **CC BY** images may be reused if the author is credited as shown below.
+- **CC BY-SA** images may be reused if the author is credited, and any adapted version must be shared under the same licence. The cropped versions in this folder are adaptations, so each one is offered under the same CC BY-SA licence as its original.
+
+Licence texts: [CC BY 3.0](https://creativecommons.org/licenses/by/3.0/), [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/), [CC BY-SA 1.0](https://creativecommons.org/licenses/by-sa/1.0/), [CC BY-SA 2.0](https://creativecommons.org/licenses/by-sa/2.0/), [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/), [CC BY-SA 3.0 NL](https://creativecommons.org/licenses/by-sa/3.0/nl/), [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/), [CC0](https://creativecommons.org/publicdomain/zero/1.0/).
+
+Inclusion of a person here does not imply that they endorse this site.
+
+## Credits
 
 | Figure | File | Author | Licence |
 | --- | --- | --- | --- |
