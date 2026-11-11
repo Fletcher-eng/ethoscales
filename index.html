@@ -4,9 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>EthosScales : Where do you stand?</title>
-  <meta name="description" content="A 6 axis political values test. 18 hard questions, 15 archetypes, a 3D ideology map and a shareable result poster. No sign up, no tracking." />
+  <meta name="description" content="A 12 axis political values test. 60 hard questions and 41 ideologies, each defined from its founding text. No sign up, no tracking." />
   <meta property="og:title" content="EthosScales : Where do you stand?" />
-  <meta property="og:description" content="18 questions. 6 axes. No sitting on the fence." />
+  <meta property="og:description" content="60 questions. 12 axes. No sitting on the fence." />
   <meta property="og:type" content="website" />
   <meta name="theme-color" content="#D42A1C" />
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23D42A1C'/%3E%3Cpath d='M32 10v22H10z' fill='%23111'/%3E%3C/svg%3E" />
@@ -102,17 +102,17 @@
     .sample { justify-self: center; width: min(300px, 100%); background: var(--paper); color: var(--ink); border: var(--rule); box-shadow: 12px 12px 0 var(--ink); transform: rotate(4deg); position: relative; }
     .sample .s-top { background: #1D3FBB; color: var(--paper); padding: 30px 16px 14px; border-bottom: var(--rule); }
     .sample .s-top b { display: block; font-family: var(--display); font-weight: 400; font-size: 40px; line-height: 0.92; text-transform: uppercase; margin-top: 6px; }
-    .sample .s-body { padding: 14px 16px 16px; display: flex; flex-direction: column; gap: 9px; }
-    .sample .s-row { display: flex; height: 14px; border: 3px solid var(--ink); background: var(--ink); }
+    .sample .s-body { padding: 12px 16px 14px; display: flex; flex-direction: column; gap: 5px; }
+    .sample .s-row { display: flex; height: 11px; border: 2px solid var(--ink); background: var(--ink); }
     .sample .s-tag { position: absolute; top: -16px; left: -18px; background: #F5B700; border: var(--rule); padding: 4px 10px; transform: rotate(-8deg); }
 
     .axes { padding-top: 44px; padding-bottom: 72px; }
     .axes h2 { font-size: clamp(40px, 6vw, 68px); margin-bottom: 20px; }
-    #axis-chips { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 4px; background: var(--ink); border: var(--rule); box-shadow: var(--shadow); }
-    .axis-tile { background: var(--c); color: var(--k); padding: 18px 18px 20px; position: relative; overflow: hidden; min-height: 150px; }
-    .axis-tile h3 { font-family: var(--display); font-weight: 400; font-size: 34px; text-transform: uppercase; line-height: 1; position: relative; z-index: 1; }
+    #axis-chips { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 4px; background: var(--ink); border: var(--rule); box-shadow: var(--shadow); }
+    .axis-tile { background: var(--c); color: var(--k); padding: 18px 18px 20px; position: relative; overflow: hidden; min-height: 132px; }
+    .axis-tile h3 { font-family: var(--display); font-weight: 400; font-size: 30px; text-transform: uppercase; line-height: 1; position: relative; z-index: 1; }
     .axis-tile p { font-weight: 700; font-size: 14px; margin-top: 8px; line-height: 1.35; position: relative; z-index: 1; max-width: 22ch; }
-    .axis-tile .shape { position: absolute; right: -22px; bottom: -22px; width: 110px; height: 110px; background: var(--ink); }
+    .axis-tile .shape { position: absolute; right: -20px; bottom: -20px; width: 84px; height: 84px; background: var(--ink); }
 
     /* Shapes, one per axis */
     .shape-circle { border-radius: 50%; }
@@ -121,6 +121,12 @@
     .shape-arch { border-radius: 999px 999px 0 0; }
     .shape-cross { clip-path: polygon(33% 0, 67% 0, 67% 33%, 100% 33%, 100% 67%, 67% 67%, 67% 100%, 33% 100%, 33% 67%, 0 67%, 0 33%, 33% 33%); }
     .shape-leaf { border-radius: 0 100% 0 100%; }
+    .shape-square { }
+    .shape-hexagon { clip-path: polygon(25% 0, 75% 0, 100% 50%, 75% 100%, 25% 100%, 0 50%); }
+    .shape-chevron { clip-path: polygon(0 0, 50% 0, 100% 50%, 50% 100%, 0 100%, 50% 50%); }
+    .shape-steps { clip-path: polygon(0 66%, 33% 66%, 33% 33%, 66% 33%, 66% 0, 100% 0, 100% 100%, 0 100%); }
+    .shape-shield { clip-path: polygon(0 0, 100% 0, 100% 60%, 50% 100%, 0 60%); }
+    .shape-star { clip-path: polygon(50% 0, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%); }
 
     /* ------------------------------ QUIZ ------------------------------ */
     #view-quiz .wrap { padding-top: 32px; padding-bottom: 72px; max-width: 920px; }
@@ -153,12 +159,22 @@
     .verdict { background: var(--ink); color: var(--paper); border-bottom: var(--rule); position: relative; overflow: hidden; }
     .verdict::after { content: ''; position: absolute; right: -120px; top: -120px; width: 340px; height: 340px; border-radius: 50%; background: #F5B700; }
     .verdict .wrap { position: relative; z-index: 1; padding-top: 44px; padding-bottom: 48px; }
-    #match-name { font-size: clamp(60px, 12vw, 150px); color: var(--red); max-width: 12ch; text-wrap: balance; -webkit-text-stroke: 0; }
+    #match-name { font-size: clamp(52px, 9vw, 120px); color: var(--red); max-width: 12ch; text-wrap: balance; -webkit-text-stroke: 0; }
     .verdict.on-red #match-name { color: var(--paper); }
     .score-row { display: flex; align-items: flex-end; gap: 16px; flex-wrap: wrap; margin-top: 18px; }
     #match-score { font-family: var(--display); font-size: 64px; line-height: 0.9; background: var(--paper); color: var(--ink); padding: 8px 14px 4px; }
     #match-tagline { font-weight: 900; font-size: 18px; max-width: 46ch; margin-top: 22px; line-height: 1.3; }
     #match-desc { font-size: 17px; max-width: 62ch; margin-top: 12px; line-height: 1.5; color: #dcd4c2; }
+    #match-family { color: #F5B700; margin-left: 8px; }
+    #match-source { font-weight: 700; font-size: 14px; margin-top: 14px; max-width: 62ch; color: #F5B700; }
+    .verdict-grid { display: grid; grid-template-columns: minmax(0, 1fr) 280px; gap: 40px; align-items: start; }
+    .figure { background: var(--paper); color: var(--ink); border: 4px solid var(--paper); box-shadow: 10px 10px 0 var(--red); transform: rotate(2deg); }
+    .figure img { display: block; width: 100%; aspect-ratio: 4 / 5; object-fit: cover; filter: grayscale(1) contrast(1.15); }
+    .figure .plate { aspect-ratio: 4 / 5; background: #F5B700; display: flex; align-items: center; justify-content: center; font-family: var(--display); font-size: 110px; line-height: 1; }
+    .figure .cap { padding: 12px 14px 14px; border-top: var(--rule); }
+    .figure .cap b { display: block; font-family: var(--display); font-weight: 400; font-size: 28px; line-height: 1; text-transform: uppercase; margin-top: 6px; }
+    .figure .cap span { font-weight: 700; font-size: 13px; }
+    #figure-credit { font-size: 11px; color: #8f897b; margin-top: 18px; line-height: 1.35; overflow-wrap: anywhere; }
     .vec { margin-top: 22px; font-weight: 700; font-size: 12px; letter-spacing: 0.06em; color: #a69f8f; display: flex; gap: 6px 16px; flex-wrap: wrap; }
 
     .board { padding-top: 40px; padding-bottom: 80px; display: flex; flex-direction: column; gap: 40px; }
@@ -166,16 +182,15 @@
     .panel { background: var(--paper-2); border: var(--rule); box-shadow: var(--shadow); }
     .two { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 28px; align-items: start; }
 
-    #axis-bars { display: flex; flex-direction: column; }
-    .axis-row { padding: 16px 18px 18px; border-bottom: var(--rule); }
-    .axis-row:last-child { border-bottom: 0; }
+    #axis-bars { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px; background: var(--ink); }
+    .axis-row { padding: 14px 16px 16px; background: var(--paper-2); }
     .axis-row .poles { display: flex; justify-content: space-between; gap: 12px; align-items: flex-end; margin: 6px 0 8px; }
     .axis-row .pole { min-width: 0; opacity: 0.5; }
     .axis-row .pole.is-win { opacity: 1; }
-    .axis-row .pole b { font-family: var(--display); font-weight: 400; font-size: 34px; line-height: 0.95; display: block; }
+    .axis-row .pole b { font-family: var(--display); font-weight: 400; font-size: 30px; line-height: 0.95; display: block; }
     .axis-row .pole span { font-weight: 700; font-size: 13px; display: block; }
     .axis-row .pole:last-child { text-align: right; }
-    .dual-bar { display: flex; height: 26px; border: var(--rule); background: var(--ink); position: relative; }
+    .dual-bar { display: flex; height: 22px; border: var(--rule); background: var(--ink); position: relative; }
     .dual-bar > span { display: block; height: 100%; transition: width 900ms cubic-bezier(.2,.8,.2,1); }
     .dual-bar > span:first-child { border-right: var(--rule); }
     .dual-bar::after { content: ''; position: absolute; left: 50%; top: 0; bottom: 0; width: 4px; margin-left: -2px; background: var(--paper-2); }
@@ -183,7 +198,8 @@
     #match-list li { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-bottom: var(--rule); font-weight: 900; }
     #match-list li:first-child { background: var(--red); color: var(--paper); }
     #match-list .rk { font-family: var(--display); font-weight: 400; font-size: 26px; width: 30px; line-height: 1; }
-    #match-list .nm { flex: 1; min-width: 0; text-transform: uppercase; font-size: 14px; letter-spacing: 0.04em; }
+    #match-list .nm { flex: 1; min-width: 0; text-transform: uppercase; font-size: 14px; letter-spacing: 0.04em; line-height: 1.2; }
+    #match-list .nm small { display: block; text-transform: none; letter-spacing: 0; font-weight: 700; font-size: 12px; opacity: 0.7; }
     #match-list .pc { font-family: var(--display); font-weight: 400; font-size: 24px; line-height: 1; }
     .opposite { padding: 14px 16px 16px; background: var(--ink); color: var(--paper); }
     #match-opposite { font-family: var(--display); font-size: 28px; text-transform: uppercase; line-height: 1; margin-top: 6px; }
@@ -192,6 +208,10 @@
     .plot-head { display: flex; justify-content: space-between; gap: 8px 16px; flex-wrap: wrap; padding: 12px 16px; border-bottom: var(--rule); background: #F5B700; font-weight: 900; font-size: 13px; letter-spacing: 0.06em; text-transform: uppercase; }
     #plotly-3d { width: 100%; height: 540px; }
     @media (max-width: 640px) { #plotly-3d { height: 400px; } }
+    #plot-pickers { display: flex; gap: 10px; flex-wrap: wrap; }
+    #plot-pickers label { display: flex; align-items: center; gap: 5px; }
+    #plot-pickers select { font: inherit; font-size: 12px; text-transform: none; letter-spacing: 0; background: var(--paper); color: var(--ink); border: 3px solid var(--ink); border-radius: 0; padding: 2px 4px; max-width: 132px; }
+    .plot-note { padding: 12px 16px; border-top: var(--rule); font-weight: 700; font-size: 13px; }
     #plotly-3d text { letter-spacing: 0 !important; text-transform: none !important; }
     .plot-msg { display: flex; height: 100%; align-items: center; justify-content: center; padding: 32px; text-align: center; font-weight: 900; text-transform: uppercase; letter-spacing: 0.08em; font-size: 13px; }
 
@@ -236,7 +256,13 @@
       .hero::before { right: -380px; bottom: -380px; }
       .verdict::after { right: -110px; top: -130px; width: 230px; height: 230px; }
       .hero::after { right: -50px; top: -60px; width: 150px; height: 150px; }
-      #axis-chips, #compass-grid { grid-template-columns: 1fr; }
+      #axis-chips { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .axis-tile h3 { font-size: 24px; }
+      .axis-tile { min-height: 118px; padding: 14px; }
+      .axis-tile p { font-size: 12px; }
+      #compass-grid, #axis-bars { grid-template-columns: 1fr; }
+      .verdict-grid { grid-template-columns: 1fr; }
+      .figure-col { max-width: 240px; }
       .two { grid-template-columns: 1fr; }
       .share { grid-template-columns: 1fr; }
       #card-preview { margin: 0 auto; }
@@ -254,7 +280,7 @@
   <header class="topbar on-dark">
     <div class="wrap">
       <a href="./" id="brand-link"><i></i>EthosScales</a>
-      <span class="label">6 axes / 15 archetypes</span>
+      <span class="label">12 axes / 41 ideologies</span>
     </div>
   </header>
 
@@ -269,36 +295,42 @@
           <div>
             <div class="label">Political values test</div>
             <h1 class="display">Where do <em>you</em> stand?</h1>
-            <p class="lede">Left and right are not enough. Answer hard questions and find your place across six axes.</p>
+            <p class="lede">Left and right are not enough. Answer hard questions and find your place across twelve axes, matched to ideologies as their own founders defined them.</p>
 
             <div class="modes" role="radiogroup" aria-label="Test length">
-              <button type="button" class="mode-btn" data-mode="quick" role="radio" aria-checked="false">Quick 12<small>Fast snapshot</small></button>
-              <button type="button" class="mode-btn is-active" data-mode="full" role="radio" aria-checked="true">Full 18<small>Sharper result</small></button>
+              <button type="button" class="mode-btn" data-mode="quick" role="radio" aria-checked="false">Quick 25<small>Fast snapshot</small></button>
+              <button type="button" class="mode-btn is-active" data-mode="full" role="radio" aria-checked="true">Full 60<small>Sharper result</small></button>
             </div>
 
             <div class="start-row">
               <button id="btn-start" type="button" class="btn is-big" style="--btn-shadow: var(--paper)">Take the test</button>
-              <div class="meta"><span id="duration-estimate">About 3 minutes</span><br />No sign up <kbd>Enter</kbd></div>
+              <div class="meta"><span id="duration-estimate">About 9 minutes</span><br />No sign up <kbd>Enter</kbd></div>
             </div>
           </div>
 
           <div class="sample" aria-hidden="true">
             <div class="s-tag label">Example result</div>
-            <div class="s-top"><span class="label">Your closest match</span><b>Solarpunk Anarchist</b></div>
+            <div class="s-top"><span class="label">Your closest match</span><b>Social Ecology</b></div>
             <div class="s-body">
-              <div class="s-row"><span style="width:82%;background:#D42A1C"></span></div>
-              <div class="s-row"><span style="width:88%;background:#1D3FBB"></span></div>
-              <div class="s-row"><span style="width:64%;background:#F5B700"></span></div>
-              <div class="s-row"><span style="width:86%;background:#E5457D"></span></div>
-              <div class="s-row"><span style="width:79%;background:#EE6C1B"></span></div>
-              <div class="s-row"><span style="width:9%;background:#14854F"></span></div>
+              <div class="s-row"><span style="width:40%;background:#D42A1C"></span></div>
+              <div class="s-row"><span style="width:10%;background:#B0307A"></span></div>
+              <div class="s-row"><span style="width:95%;background:#1D3FBB"></span></div>
+              <div class="s-row"><span style="width:100%;background:#7B52D9"></span></div>
+              <div class="s-row"><span style="width:100%;background:#EE6C1B"></span></div>
+              <div class="s-row"><span style="width:95%;background:#0E7C86"></span></div>
+              <div class="s-row"><span style="width:80%;background:#E5457D"></span></div>
+              <div class="s-row"><span style="width:85%;background:#C2A46B"></span></div>
+              <div class="s-row"><span style="width:65%;background:#F5B700"></span></div>
+              <div class="s-row"><span style="width:10%;background:#14854F"></span></div>
+              <div class="s-row"><span style="width:95%;background:#6FB7E8"></span></div>
+              <div class="s-row"><span style="width:75%;background:#9A9A8E"></span></div>
             </div>
           </div>
         </div>
       </div>
 
       <div class="wrap axes">
-        <h2 class="display">Six axes. No fence sitting.</h2>
+        <h2 class="display">Twelve axes. No fence sitting.</h2>
         <div id="axis-chips"></div>
       </div>
     </section>
@@ -310,7 +342,7 @@
           <div class="q-shapes" aria-hidden="true"><div class="s1" id="q-shape-1"></div><div class="s2" id="q-shape-2"></div><div class="s3" id="q-shape-3"></div></div>
           <div class="q-top">
             <div class="q-meta">
-              <span id="question-counter">01 / 18</span>
+              <span id="question-counter">01 / 60</span>
               <span id="question-axis" class="label">Economic</span>
               <span id="quiz-mode-label" class="label"></span>
             </div>
@@ -330,8 +362,9 @@
     <!-- ============================= RESULTS ============================ -->
     <section id="view-results" class="view is-hidden" aria-label="Results">
       <div class="verdict on-dark">
-        <div class="wrap">
-          <div class="label">Your closest match</div>
+        <div class="wrap verdict-grid">
+          <div>
+          <div class="label">Your closest match <span id="match-family"></span></div>
           <h1 id="match-name" class="display"></h1>
           <div class="score-row">
             <span id="match-score" class="num"></span>
@@ -339,15 +372,30 @@
           </div>
           <p id="match-tagline"></p>
           <p id="match-desc"></p>
+          <p id="match-source"></p>
           <div class="vec"><span id="result-source"></span><span id="result-vector" class="num"></span></div>
+          </div>
+          <div class="figure-col">
+            <div id="figure" class="figure"></div>
+            <div id="figure-credit"></div>
+          </div>
         </div>
       </div>
 
       <div class="wrap board">
+        <div>
+          <h2 class="display">Your twelve scores</h2>
+          <div class="panel" id="axis-bars"></div>
+        </div>
+
         <div class="two">
           <div>
-            <h2 class="display">Your six scores</h2>
-            <div class="panel" id="axis-bars"></div>
+            <h2 class="display">You in 3D</h2>
+            <div class="panel">
+              <div class="plot-head"><span id="plot-caption"></span><span id="plot-pickers"></span></div>
+              <div id="plotly-3d"></div>
+              <p class="plot-note">This shows 3 axes at a time, so two dots that look close here can be far apart on the other axes. Your match is worked out across all twelve. Drag to spin, scroll to zoom.</p>
+            </div>
           </div>
           <div>
             <h2 class="display">Top five</h2>
@@ -359,15 +407,7 @@
         </div>
 
         <div>
-          <h2 class="display">You in 3D</h2>
-          <div class="panel">
-            <div class="plot-head"><span id="plot-caption"></span><span>Drag to spin / scroll to zoom</span></div>
-            <div id="plotly-3d"></div>
-          </div>
-        </div>
-
-        <div>
-          <h2 class="display">Three compasses</h2>
+          <h2 class="display">Six compasses</h2>
           <div id="compass-grid"></div>
         </div>
 
@@ -385,7 +425,7 @@
           <img id="card-preview" alt="Preview of your result card" />
         </div>
 
-        <p class="fine">This is a model, and every model is a simplification. Archetype positions are editorial estimates, not science.</p>
+        <p class="fine">This is a model, and every model is a simplification. Ideology positions are editorial estimates, not science. Listing an ideology describes it and does not endorse it.</p>
       </div>
     </section>
   </main>
