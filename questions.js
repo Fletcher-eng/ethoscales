@@ -28,11 +28,11 @@ const RESPONSES = [
    about the same axis. */
 const QUESTION_BANK = [
   /* ------------------------------ ECONOMY ------------------------------ */
-  { quick: true, text: 'Central state planning has proven fundamentally inefficient compared to decentralized price-signal networks.',
+  { quick: true, text: 'Free markets run an economy better than government planners ever could.',
     effects: { econ: -2.0, struct: -1.0 } },
-  { quick: true, text: 'Critical energy and industrial infrastructure should be nationalized and managed by automated state systems.',
+  { quick: true, text: 'The government should own the power grid and heavy industry, and run them with automated systems.',
     effects: { econ: 2.0, own: 1.5, struct: 1.0, tech: -1.0 } },
-  { text: 'Monetary policy should be governed exclusively by algorithmic code with fixed issuance caps rather than central banks.',
+  { text: 'Money should be run by fixed computer code with a hard limit on supply, like Bitcoin, not by central banks.',
     effects: { econ: -1.5, struct: -1.5, tech: -1.0 } },
   { text: 'During any shortage, the state should set the prices of essentials such as food, rent and energy.',
     effects: { econ: 2.0, own: 0.5 } },
@@ -40,23 +40,23 @@ const QUESTION_BANK = [
     effects: { econ: -1.5, nation: -1.5 } },
 
   /* ----------------------------- OWNERSHIP ----------------------------- */
-  { quick: true, text: 'Labor unions and worker cooperatives should legally hold controlling shares in all commercial enterprises operating over 50 employees.',
+  { quick: true, text: 'By law, the workers should hold the controlling share of any company with more than 50 employees.',
     effects: { own: 2.0, econ: 1.0, rule: -0.5 } },
   { quick: true, text: 'Someone who builds a company from nothing has the moral right to pass all of it to their children untaxed.',
     effects: { own: -2.0, cult: 0.5 } },
-  { text: 'Land and natural resources should be owned collectively by local eco-communes rather than private entities or central governments.',
+  { text: 'Land and natural resources should belong to the local community that lives on them, not to private owners or the national government.',
     effects: { own: 2.0, struct: -1.5, eco: 1.5 } },
   { text: 'Owning something should require actually using or occupying it. Absentee landlords and idle shareholders have no real claim.',
     effects: { own: 1.5, econ: 0.5 } },
-  { text: 'Private corporations should be permitted to establish autonomous sovereign enterprise zones with their own police and judicial systems.',
+  { text: 'Companies should be allowed to run their own self governing zones, with their own police and courts.',
     effects: { own: -2.0, struct: -1.5, rule: 1.0, nation: -1.0 } },
 
   /* ------------------------------- RIGHTS ------------------------------- */
-  { quick: true, text: 'Individual citizens should have the absolute legal right to cryptographically conceal all personal assets and economic transactions from tax authorities.',
+  { quick: true, text: 'People should have the legal right to hide all their money and payments from the tax office using encryption.',
     effects: { rights: -2.0, econ: -1.5, struct: -1.0 } },
   { quick: true, text: 'Police should be able to use facial recognition in every public space if it measurably reduces violent crime.',
     effects: { rights: 2.0, tech: -0.5 } },
-  { text: 'A strong central executive authority is essential to suppress civil disorder and maintain social continuity during existential crises.',
+  { text: 'In a crisis that threatens the country, a strong leader must be able to put down unrest and keep order.',
     effects: { rights: 1.5, rule: 2.0, struct: 1.0 } },
   { text: 'Adults should be free to use any drug, however dangerous, without legal penalty.',
     effects: { rights: -2.0, cult: -1.0 } },
@@ -82,15 +82,15 @@ const QUESTION_BANK = [
     effects: { struct: 2.0 } },
   { text: 'Employers and workers in each industry should be organised into one state recognised body that settles wages without strikes or lockouts.',
     effects: { struct: 1.5, econ: 1.0, rule: 1.0 } },
-  { quick: true, text: 'Physical borders should be replaced by dynamic, opt-in digital jurisdictions and private network state passports.',
+  { quick: true, text: 'National borders should be replaced by online communities you choose to join, each with its own laws and passport.',
     effects: { struct: -2.0, nation: -2.0, tech: -1.0 } },
   { text: 'Most decisions now made by national governments should be made by towns and neighbourhood assemblies.',
     effects: { struct: -2.0, rule: -1.0 } },
 
   /* ------------------------------- NATION ------------------------------- */
-  { quick: true, text: 'The primary obligation of an economic system is to preserve national industrial sovereignty, even if consumer costs rise sharply.',
+  { quick: true, text: 'A country should make its own essential goods at home, even if that makes things much more expensive.',
     effects: { nation: 2.0, econ: 1.0 } },
-  { quick: true, text: 'Global environmental quotas must be enforced by an international governing body with authority to levy military and economic sanctions.',
+  { quick: true, text: 'A world body should set environmental limits for every country and punish those that break them, by force if needed.',
     effects: { nation: -2.0, eco: 2.0, struct: 1.0, force: 0.5 } },
   { text: 'A citizen owes more to their own countrymen than to strangers abroad.',
     effects: { nation: 2.0 } },
@@ -104,7 +104,7 @@ const QUESTION_BANK = [
     effects: { ident: 2.0, nation: 1.0 } },
   { quick: true, text: 'A country is stronger when many distinct cultures live side by side under one law.',
     effects: { ident: -2.0, nation: -0.5 } },
-  { text: 'Cultural preservation takes priority over economic globalism or foreign labor integration.',
+  { text: 'Protecting a country\'s culture matters more than global trade or bringing in foreign workers.',
     effects: { ident: 1.5, nation: 1.5, cult: 1.0, econ: 0.5 } },
   { text: 'State schools should teach minority children in their own mother tongue where families want it.',
     effects: { ident: -2.0 } },
@@ -112,7 +112,7 @@ const QUESTION_BANK = [
     effects: { ident: -2.0, relig: 1.0, struct: -1.0 } },
 
   /* ------------------------------- CULTURE ------------------------------ */
-  { quick: true, text: 'Communities should retain the sovereign authority to enforce traditional social norms and restrict public speech that undermines local heritage.',
+  { quick: true, text: 'A local community should be able to enforce its traditional values and ban speech that attacks its heritage.',
     effects: { cult: 2.0, rights: 1.0, ident: 1.0, struct: -1.0 } },
   { quick: true, text: 'Society should actively dismantle traditional gender roles.',
     effects: { cult: -2.0 } },
@@ -124,19 +124,19 @@ const QUESTION_BANK = [
     effects: { cult: -2.0 } },
 
   /* ----------------------------- TECHNOLOGY ----------------------------- */
-  { quick: true, text: 'State agencies should mandate open-source protocols for high-level Artificial Intelligence, even if it accelerates dangerous proliferation.',
+  { quick: true, text: 'The most powerful AI should have to be open source, free for anyone to copy, even if that spreads dangerous abilities faster.',
     effects: { tech: -2.0, struct: -1.0, rights: -0.5 } },
-  { quick: true, text: 'Scientific progress must be strictly regulated by ethical bio-panels to prevent post-human degradation.',
+  { quick: true, text: 'Ethics boards should strictly control science, to stop technology changing what it means to be human.',
     effects: { tech: 2.0, cult: 1.0, rights: 0.5 } },
-  { text: 'Human genetic modification and neural enhancements should be completely unregulated and left to private market adoption.',
+  { text: 'Gene editing and brain implants for humans should have no regulation at all. Let people buy what they want.',
     effects: { tech: -2.0, econ: -1.5, cult: -1.0 } },
-  { text: 'Subsidized technological automation should replace manual human labor in every sector where it is engineering-feasible.',
+  { text: 'The government should pay to replace human workers with machines in every job where it is possible.',
     effects: { tech: -1.5, eco: -1.0, econ: 0.5 } },
   { text: 'A powerful new technology should be banned until it has been proven safe.',
     effects: { tech: 2.0 } },
 
   /* ------------------------------- ECOLOGY ------------------------------ */
-  { quick: true, text: 'Industrial production must be intentionally de-growth scaled, even if standard economic growth metrics collapse.',
+  { quick: true, text: 'We should deliberately shrink industry to protect the planet, even if the economy stops growing.',
     effects: { eco: 2.0, tech: 1.5, econ: 1.0 } },
   { quick: true, text: 'Human welfare should always come before the preservation of wilderness.',
     effects: { eco: -2.0 } },
