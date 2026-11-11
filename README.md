@@ -95,9 +95,9 @@ The script looks everyone up in a few batched requests and pauses between downlo
 
 ## Licences
 
-**Code.** No licence has been chosen for the site's code yet. Until one is added, the default applies: all rights reserved, so others may read it but not reuse it.
+**Code.** The site's code, questions and ideology data are released under the [MIT License](LICENSE). You can use, change and share them, including in your own quiz, as long as you keep the copyright notice.
 
-**Portraits.** These are not covered by the code's licence. Each one comes from Wikimedia Commons and is either public domain or under a Creative Commons BY, BY-SA or CC0 licence. Authors, licences and the changes made are listed in [`figures/CREDITS.md`](figures/CREDITS.md), the credit is shown under every portrait on the site, and it is printed on every result card.
+**Portraits.** The images in `figures/` are not covered by the MIT License. Each one comes from Wikimedia Commons and is either public domain or under a Creative Commons BY, BY-SA or CC0 licence. Authors, licences and the changes made are listed in [`figures/CREDITS.md`](figures/CREDITS.md), the credit is shown under every portrait on the site, and it is printed on every result card.
 
 **Libraries and fonts**, loaded from public CDNs and not copied into this repo: Plotly.js (MIT), qrcode-generator (MIT), and the Anton and Archivo typefaces (SIL Open Font License).
 

@@ -181,7 +181,7 @@ Every image was cropped to a 4:5 portrait and resized to 400 by 500 pixels. The 
 
 ## Licence of these files
 
-The files in this folder are separate works from the site's code and are not covered by the code's licence.
+The files in this folder are separate works from the site's code and are not covered by its MIT License.
 
 - **Public domain and CC0** images carry no conditions.
 - **CC BY** images may be reused if the author is credited as shown below.
