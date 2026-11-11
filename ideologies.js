@@ -67,7 +67,7 @@ const IDEOLOGIES = [
     coords: coords(65, 35, 95, 95, 95, 95, 90, 75, 30, 20, 55, 100),
     figure: { name: 'Giovanni Gentile', years: '1875 to 1944' },
     source: { author: 'Giovanni Gentile and Benito Mussolini', work: 'The Doctrine of Fascism', year: 1932 },
-    tagline: 'Everything within the state, nothing outside the state.',
+    tagline: 'Everything within the state, nothing outside the state, nothing against the state.',
     desc: 'Holds that the individual has meaning only through the nation, and the nation only through the state, which is an ethical and spiritual whole and not a referee between interests. Property stays private but must serve national ends, with employers and workers bound together in state corporations. It rejects liberal individualism, Marxist class struggle and pacifism alike, and treats struggle and war as what brings a people to its full strength.'
   },
   {
@@ -82,7 +82,7 @@ const IDEOLOGIES = [
     id: 'peronism', name: 'Peronism (Justicialism)', family: 'Third Position',
     coords: coords(65, 45, 65, 60, 75, 85, 65, 65, 40, 30, 65, 55),
     figure: { name: 'Juan Perón', years: '1895 to 1974' },
-    source: { author: 'Juan Domingo Perón', work: 'The Organised Community and the Twenty Truths', year: 1950 },
+    source: { author: 'Juan Domingo Perón', work: 'The Organised Community and the Twenty Truths', year: '1949 and 1950' },
     tagline: 'Social justice, economic independence, political sovereignty.',
     desc: 'The origin of the phrase Third Position: a path between capitalist individualism and communist collectivism, declared by Perón in the 1940s. It aims at an organised community in which the state balances capital and labour, unions are a pillar of the nation, and capital serves the economy and the economy serves social wellbeing. It is national and popular in character, and it seeks its mandate through mass elections.'
   },
@@ -92,7 +92,7 @@ const IDEOLOGIES = [
     figure: { name: 'Otto Strasser', years: '1897 to 1974' },
     source: { author: 'Otto Strasser', work: 'Germany Tomorrow', year: 1940 },
     tagline: 'A national socialism turned against big capital.',
-    desc: 'The anti capitalist wing that broke with Hitler in 1930. Strasser wanted large industry and estates broken up, with ownership shared between the state, the workers and managers through a system of entailed tenure. He proposed a federal Germany of self governing regions and professional estates, and a return of much of the population to the land, while remaining intensely nationalist.'
+    desc: 'The anti capitalist wing that broke with Hitler in 1930. Strasser wanted large estates broken up and large industry held in shared tenure by the state, the workers and managers, through a system of entailed fiefs. He proposed a federal Germany of self governing regions and professional estates, and a return of much of the population to the land, while remaining intensely nationalist.'
   },
   {
     id: 'national-bolshevism', name: 'National Bolshevism', family: 'Third Position',
@@ -103,7 +103,7 @@ const IDEOLOGIES = [
     desc: 'Niekisch argued that Germany could only escape the liberal West by adopting a fully planned, state owned economy and aligning with Soviet Russia. The nation, not the international working class, is the subject of the revolution. It is militarised, anti liberal and anti bourgeois, and unlike Falangism it has no religious foundation.'
   },
   {
-    id: 'eurasianism', name: 'Eurasianism (Fourth Political Theory)', family: 'Third Position',
+    id: 'eurasianism', name: 'Neo Eurasianism (Fourth Political Theory)', family: 'Third Position',
     coords: coords(65, 50, 85, 90, 65, 80, 40, 95, 80, 55, 90, 90),
     figure: { name: 'Aleksandr Dugin', years: 'born 1962' },
     source: { author: 'Aleksandr Dugin', work: 'The Fourth Political Theory', year: 2009 },
@@ -124,7 +124,7 @@ const IDEOLOGIES = [
     id: 'marxism-leninism', name: 'Marxism Leninism', family: 'Communist',
     coords: coords(100, 100, 90, 85, 95, 30, 45, 30, 15, 15, 0, 75),
     figure: { name: 'Vladimir Lenin', years: '1870 to 1924' },
-    source: { author: 'V. I. Lenin', work: 'The State and Revolution', year: 1917 },
+    source: { author: 'V. I. Lenin', work: 'What Is to Be Done? (1902) and The State and Revolution', year: 1918 },
     tagline: 'A vanguard party leads the workers to state power.',
     desc: 'Holds that the working class must seize the state through a disciplined vanguard party and use it to abolish private ownership of the means of production. The economy is then centrally planned. The state is expected to wither away only after class divisions have disappeared.'
   },
@@ -142,7 +142,7 @@ const IDEOLOGIES = [
     figure: { name: 'Kim Il Sung', years: '1912 to 1994' },
     source: { author: 'Kim Jong Il', work: 'On the Juche Idea', year: 1982 },
     tagline: 'Self reliance in ideology, politics, economy and defence.',
-    desc: 'Teaches that the masses are masters of the revolution but can only act through a single supreme leader. The nation must depend on no outside power, which means a closed, planned economy and a military first posture. It combines total state ownership with an intense, ethnically defined nationalism.'
+    desc: 'Teaches that the masses are masters of the revolution but can only act through a single supreme leader. The nation must depend on no outside power, which means a self sufficient planned economy and self reliance in defence. It combines total state ownership with what it calls socialist patriotism.'
   },
   {
     id: 'council-communism', name: 'Council Communism', family: 'Communist',
@@ -159,7 +159,7 @@ const IDEOLOGIES = [
     coords: coords(70, 100, 0, 0, 0, 0, 20, 15, 40, 60, 10, 30),
     figure: { name: 'Peter Kropotkin', years: '1842 to 1921' },
     source: { author: 'Peter Kropotkin', work: 'The Conquest of Bread', year: 1892 },
-    tagline: 'From each according to ability, to each according to need, with no state.',
+    tagline: 'All is for all.',
     desc: 'Argues that everything produced is the common inheritance of humanity, so both the state and private property should be abolished at once. Free communes would federate voluntarily and share goods according to need, without wages or money. Kropotkin grounded this in mutual aid as a factor of evolution.'
   },
   {
@@ -173,8 +173,8 @@ const IDEOLOGIES = [
   {
     id: 'mutualism', name: 'Mutualism', family: 'Anarchist',
     coords: coords(15, 65, 5, 5, 0, 15, 35, 45, 45, 50, 15, 25),
-    figure: { name: 'Pierre Joseph Proudhon', years: '1809 to 1865' },
-    source: { author: 'Pierre Joseph Proudhon', work: 'What Is Property?', year: 1840 },
+    figure: { name: 'Pierre-Joseph Proudhon', years: '1809 to 1865' },
+    source: { author: 'Pierre-Joseph Proudhon', work: 'What Is Property? (1840) and The Principle of Federation', year: 1863 },
     tagline: 'Markets without landlords, bosses or bankers.',
     desc: 'Distinguishes property used to extract rent and interest, which Proudhon called theft, from possession based on personal use, which he defended. Free producers and cooperatives would trade in a market, financed by mutual credit at cost. Society would be held together by contracts and federation instead of a state.'
   },
@@ -242,7 +242,7 @@ const IDEOLOGIES = [
     figure: { name: 'Oskar Lange', years: '1904 to 1965' },
     source: { author: 'Oskar Lange', work: 'On the Economic Theory of Socialism', year: 1936 },
     tagline: 'Public ownership, with prices doing the work.',
-    desc: 'Lange\'s reply to Mises: an economy can own its industries in common and still calculate rationally. A planning board sets prices by trial and error, and managers of public firms respond to them as they would in a market. Consumers keep free choice of goods and jobs.'
+    desc: 'Lange\'s reply to Mises: an economy can own its industries in common and still calculate rationally. A planning board sets the prices of capital goods by trial and error, and managers of public firms respond to them as they would in a market. Consumers keep free choice of goods and jobs.'
   },
   {
     id: 'georgism', name: 'Georgism', family: 'Socialist',
@@ -256,7 +256,7 @@ const IDEOLOGIES = [
     id: 'left-accelerationism', name: 'Left Accelerationism', family: 'Socialist',
     coords: coords(85, 85, 35, 20, 55, 5, 20, 5, 0, 30, 0, 30),
     figure: { name: 'Nick Srnicek', years: 'born 1982' },
-    source: { author: 'Alex Williams and Nick Srnicek', work: '#Accelerate: Manifesto for an Accelerationist Politics', year: 2013 },
+    source: { author: 'Nick Srnicek and Alex Williams', work: '#Accelerate Manifesto (2013) and Inventing the Future', year: 2015 },
     tagline: 'Demand full automation.',
     desc: 'Argues the left should stop defending local, small scale resistance and instead take over the technology that capitalism built. Automation, logistics and planning tools should be repurposed toward a world without work. Its demands include full automation, a universal basic income and a shorter working week.'
   },
@@ -318,13 +318,13 @@ const IDEOLOGIES = [
     figure: { name: 'Edmund Burke', years: '1729 to 1797' },
     source: { author: 'Edmund Burke', work: 'Reflections on the Revolution in France', year: 1790 },
     tagline: 'Society is a partnership of the dead, the living and the unborn.',
-    desc: 'Distrusts schemes that rebuild society from abstract principles, because inherited institutions hold more accumulated wisdom than any one generation can see. Change should be gradual and should repair, not replace. Family, church and local attachments, the little platoons, are where loyalty to the wider nation begins.'
+    desc: 'Distrusts schemes that rebuild society from abstract principles, because inherited institutions hold more accumulated wisdom than any one generation can see. Change should be gradual and should repair, not replace. Attachment to one\'s own small corner of society, which Burke called the little platoon, is where loyalty to the wider nation begins.'
   },
   {
     id: 'reactionary-monarchism', name: 'Reactionary Monarchism', family: 'Conservative',
     coords: coords(45, 25, 90, 100, 85, 60, 85, 100, 80, 45, 100, 70),
     figure: { name: 'Joseph de Maistre', years: '1753 to 1821' },
-    source: { author: 'Joseph de Maistre', work: 'Considerations on France', year: 1797 },
+    source: { author: 'Joseph de Maistre', work: 'Considerations on France (1797) and The Pope', year: 1819 },
     tagline: 'Throne and altar.',
     desc: 'Reads the French Revolution as divine punishment for a society that put human reason above God. No constitution can be written by men; legitimate authority grows from history and providence. Order requires an absolute monarch, and above him the spiritual authority of the Pope.'
   },
@@ -332,9 +332,9 @@ const IDEOLOGIES = [
     id: 'christian-democracy', name: 'Christian Democracy', family: 'Conservative',
     coords: coords(45, 30, 40, 15, 35, 35, 45, 75, 55, 50, 85, 35),
     figure: { name: 'Jacques Maritain', years: '1882 to 1973' },
-    source: { author: 'Jacques Maritain', work: 'Integral Humanism', year: 1936 },
+    source: { author: 'Jacques Maritain', work: 'Integral Humanism (1936) and Christianity and Democracy', year: 1943 },
     tagline: 'The dignity of the person, in a pluralist democracy.',
-    desc: 'Grounds democracy and human rights in the Christian view of the person, against both individualism and collectivism. Decisions belong at the lowest level able to handle them, with family, church and associations standing between the individual and the state. It supports markets tempered by solidarity and a welfare safety net.'
+    desc: 'Grounds democracy and human rights in the Christian view of the person, against both individualism and collectivism. Following Catholic social teaching, decisions belong at the lowest level able to handle them, with family, church and associations standing between the individual and the state. It supports markets tempered by solidarity and a welfare safety net.'
   },
   {
     id: 'distributism', name: 'Distributism', family: 'Conservative',
@@ -366,7 +366,7 @@ const IDEOLOGIES = [
     id: 'right-accelerationism', name: 'Right Accelerationism', family: 'Neoreactionary',
     coords: coords(0, 0, 40, 85, 15, 10, 55, 50, 0, 0, 10, 45),
     figure: { name: 'Nick Land', years: 'born 1962' },
-    source: { author: 'Nick Land', work: 'The Dark Enlightenment', year: 2012 },
+    source: { author: 'Nick Land', work: 'Fanged Noumena (2011) and The Dark Enlightenment', year: 2012 },
     tagline: 'Capital and technology are an intelligence to be unleashed.',
     desc: 'Sees capitalism and technology as one self reinforcing process that is outrunning human control, and holds that this should be sped up, not restrained. Democracy is treated as a brake that consumes the future for present comfort. Land favours exit into competing, non democratic jurisdictions over any attempt at reform.'
   },
@@ -384,7 +384,7 @@ const IDEOLOGIES = [
     id: 'deep-ecology', name: 'Deep Ecology', family: 'Green',
     coords: coords(55, 60, 30, 15, 15, 15, 25, 40, 85, 100, 40, 5),
     figure: { name: 'Arne Næss', years: '1912 to 2009' },
-    source: { author: 'Arne Næss', work: 'The Shallow and the Deep, Long Range Ecology Movement', year: 1973 },
+    source: { author: 'Arne Næss, with George Sessions', work: 'The Shallow and the Deep (1973) and the Deep Ecology Platform', year: 1984 },
     tagline: 'All life has value in itself.',
     desc: 'Næss separated shallow environmentalism, which protects nature for human benefit, from deep ecology, which holds that every living thing has worth of its own. Humans have no right to reduce the richness of life except to meet vital needs. This implies a smaller human population and a much lighter way of living.'
   },
@@ -392,7 +392,7 @@ const IDEOLOGIES = [
     id: 'eco-authoritarianism', name: 'Eco Authoritarianism', family: 'Green',
     coords: coords(85, 70, 100, 95, 90, 70, 75, 65, 95, 100, 20, 80),
     figure: { name: 'Pentti Linkola', years: '1932 to 2020' },
-    source: { author: 'Pentti Linkola', work: 'Can Life Prevail?', year: 2004 },
+    source: { author: 'Pentti Linkola', work: 'Voisiko elämä voittaa (in English: Can Life Prevail?)', year: 2004 },
     tagline: 'Only a firm hand can stop the ecological collapse.',
     desc: 'Linkola held that democracy and consumer freedom cannot stop ecological destruction, because people will not vote to give up comfort. He called for a strong central authority to end economic growth, dismantle most industry and sharply reduce both consumption and population. The survival of life as a whole ranks above individual human rights.'
   },
@@ -400,7 +400,7 @@ const IDEOLOGIES = [
     id: 'technocracy', name: 'Technocracy', family: 'Technological',
     coords: coords(100, 85, 60, 85, 100, 50, 60, 40, 5, 35, 5, 40),
     figure: { name: 'Howard Scott', years: '1890 to 1970' },
-    source: { author: 'Howard Scott and Technocracy Inc.', work: 'Technocracy Study Course', year: 1934 },
+    source: { author: 'Technocracy Inc., written chiefly by M. King Hubbert', work: 'Technocracy Study Course', year: 1934 },
     tagline: 'Government by engineers, accounting in energy.',
     desc: 'Argued that politics and the price system could not manage an economy of abundance. Scott proposed replacing both with a continental Technate run by engineers and scientists chosen for competence. Money would be replaced by energy certificates, and production planned as an engineering problem.'
   },
@@ -428,21 +428,21 @@ const IDEOLOGIES = [
     figure: { name: 'Plínio Salgado', years: '1895 to 1975' },
     source: { author: 'Plínio Salgado', work: 'The October Manifesto', year: 1932 },
     tagline: 'God, fatherland, family.',
-    desc: 'Calls for an integral state that unites every class and region of Brazil under a spiritual conception of life. It is corporatist and anti liberal like European fascism, but it rejects racial doctrine and presents the nation as a fusion of all its peoples. Christian faith is treated as the foundation of the whole political order.'
+    desc: 'Calls for an integral state that unites every class and region of Brazil under a spiritual conception of life. It is corporatist and anti liberal like European fascism, but its official line rejects racial doctrine and presents the nation as a fusion of all its peoples, although the movement also had a strongly antisemitic wing. Christian faith is treated as the foundation of the whole political order.'
   },
   {
     id: 'austrofascism', name: 'Austrofascism', family: 'Third Position',
     coords: coords(60, 30, 85, 90, 60, 70, 80, 95, 60, 40, 100, 60),
     figure: { name: 'Engelbert Dollfuss', years: '1892 to 1934' },
     source: { author: 'Engelbert Dollfuss', work: 'The Trabrennplatz Address', year: 1933 },
-    tagline: 'A Christian state of estates, on an authoritarian basis.',
+    tagline: 'A Christian, German state of estates under authoritarian leadership.',
     desc: 'Dollfuss announced the end of parliament and parties and their replacement by a state organised into occupational estates, following the papal encyclical Quadragesimo Anno. It is Catholic and corporatist, and it defined itself against both Marxism and German National Socialism. Authority flows from above, with the Church as the moral centre.'
   },
   {
     id: 'third-international-theory', name: 'Third International Theory', family: 'Third Position',
     coords: coords(75, 85, 70, 25, 35, 85, 80, 85, 50, 40, 80, 65),
     figure: { name: 'Muammar Gaddafi', years: '1942 to 2011' },
-    source: { author: 'Muammar Gaddafi', work: 'The Green Book', year: 1975 },
+    source: { author: 'Muammar Gaddafi', work: 'The Green Book', year: '1975 to 1979' },
     tagline: 'Neither capitalism nor communism, but the state of the masses.',
     desc: 'The Green Book rejects parliaments and parties as a fraud on the people and proposes direct rule through popular congresses and committees. In economics it says workers should be partners, not wage earners, and that a house belongs to whoever lives in it. Nation, religion and custom are named as the natural basis of society. This describes the text, not how Libya was actually governed.'
   },
@@ -450,7 +450,7 @@ const IDEOLOGIES = [
     id: 'nasserism', name: 'Nasserism', family: 'Third Position',
     coords: coords(75, 65, 80, 85, 90, 95, 85, 50, 25, 15, 40, 80),
     figure: { name: 'Gamal Abdel Nasser', years: '1918 to 1970' },
-    source: { author: 'Gamal Abdel Nasser', work: 'The Philosophy of the Revolution', year: 1954 },
+    source: { author: 'Gamal Abdel Nasser', work: 'The Philosophy of the Revolution (1954) and the National Charter', year: 1962 },
     tagline: 'Arab unity, socialism, and no alignment with either bloc.',
     desc: 'Nasser placed Egypt at the centre of three circles: Arab, African and Islamic. The army is the vanguard that frees the nation from foreign control and feudal landowners. The state then drives development through nationalisation and land reform, while staying outside both the American and Soviet camps.'
   },
@@ -492,15 +492,15 @@ const IDEOLOGIES = [
     id: 'stalinism', name: 'Stalinism', family: 'Communist',
     coords: coords(100, 100, 100, 100, 100, 65, 65, 55, 10, 5, 0, 90),
     figure: { name: 'Joseph Stalin', years: '1878 to 1953' },
-    source: { author: 'J. V. Stalin', work: 'The Foundations of Leninism', year: 1924 },
+    source: { author: 'J. V. Stalin', work: 'Concerning Questions of Leninism', year: 1926 },
     tagline: 'Socialism in one country.',
-    desc: 'Stalin held that socialism could be completed inside the Soviet Union alone, through forced collectivisation of farming and rapid heavy industrialisation under five year plans. He added that class struggle sharpens as socialism advances, which justified an ever stronger security state. Party, state and leader become a single command.'
+    desc: 'Against Trotsky, Stalin argued that a complete socialist society could be built inside the Soviet Union alone, without waiting for revolution abroad. In practice this became forced collectivisation of farming and rapid heavy industry under five year plans. He later added that class struggle sharpens as socialism advances, which justified an ever stronger security state.'
   },
   {
     id: 'luxemburgism', name: 'Luxemburgism', family: 'Communist',
     coords: coords(85, 100, 35, 15, 45, 0, 25, 20, 25, 25, 0, 50),
     figure: { name: 'Rosa Luxemburg', years: '1871 to 1919' },
-    source: { author: 'Rosa Luxemburg', work: 'The Russian Revolution', year: 1918 },
+    source: { author: 'Rosa Luxemburg', work: 'The Russian Revolution', year: 'written 1918, published 1922' },
     tagline: 'Freedom is always the freedom of the one who thinks differently.',
     desc: 'A revolutionary Marxism that insists socialism must be made by the masses themselves through spontaneous action such as the mass strike. Luxemburg supported the Bolshevik revolution but attacked its suppression of elections, press and assembly. Without open democracy, she warned, the party dictatorship would harden into rule by a clique.'
   },
@@ -517,14 +517,14 @@ const IDEOLOGIES = [
     coords: coords(45, 60, 85, 90, 85, 70, 60, 45, 10, 10, 0, 60),
     figure: { name: 'Deng Xiaoping', years: '1904 to 1997' },
     source: { author: 'Deng Xiaoping', work: 'Emancipate the Mind, Seek Truth from Facts and Unite as One in Looking to the Future', year: 1978 },
-    tagline: 'It does not matter if the cat is black or white.',
+    tagline: 'Yellow cat or black cat, the one that catches mice is a good cat.',
     desc: 'Deng argued that poverty is not socialism and that the task of a socialist state is to develop the productive forces. Markets, private firms and foreign capital are tools to that end, to be judged by results. The Communist Party keeps an absolute monopoly on political power throughout.'
   },
   {
     id: 'guevarism', name: 'Guevarism', family: 'Communist',
     coords: coords(100, 100, 80, 80, 85, 25, 35, 25, 30, 20, 0, 95),
     figure: { name: 'Che Guevara', years: '1928 to 1967' },
-    source: { author: 'Ernesto Che Guevara', work: 'Socialism and Man in Cuba', year: 1965 },
+    source: { author: 'Ernesto Che Guevara', work: 'Guerrilla Warfare (1960) and Socialism and Man in Cuba', year: 1965 },
     tagline: 'Create two, three, many Vietnams.',
     desc: 'Holds that a small band of guerrillas in the countryside can create the conditions for revolution without waiting for them to ripen. After victory, socialism must build a new human being who works from moral conviction and not for material reward. The struggle is continental and anti imperialist.'
   },
@@ -534,7 +534,7 @@ const IDEOLOGIES = [
     id: 'utopian-socialism', name: 'Utopian Socialism', family: 'Socialist',
     coords: coords(60, 85, 20, 25, 10, 10, 25, 20, 35, 50, 20, 5),
     figure: { name: 'Robert Owen', years: '1771 to 1858' },
-    source: { author: 'Robert Owen', work: 'A New View of Society', year: 1813 },
+    source: { author: 'Robert Owen', work: 'A New View of Society and the Report to the County of Lanark', year: '1813 to 1820' },
     tagline: 'Change the surroundings and you change the person.',
     desc: 'Owen argued that character is formed by environment, so poverty and vice can be removed by reorganising how people live and work. He proposed small cooperative villages with shared property, education for all and humane conditions. Change comes through example and persuasion, not class conflict.'
   },
@@ -544,13 +544,13 @@ const IDEOLOGIES = [
     figure: { name: 'Georges Sorel', years: '1847 to 1922' },
     source: { author: 'Georges Sorel', work: 'Reflections on Violence', year: 1908 },
     tagline: 'The myth of the general strike.',
-    desc: 'Sorel rejected parliamentary socialism as a betrayal that tames the workers. What moves people to heroic action is a myth, and for the working class that myth is the general strike. Proletarian violence, he argued, restores moral energy to a decadent society. Both anarcho syndicalists and early fascists drew on him.'
+    desc: 'Sorel rejected parliamentary socialism as a betrayal that tames the workers. What moves people to heroic action is a myth, and for the working class that myth is the general strike. Proletarian violence, he argued, restores moral energy to a decadent society. He was theorising the syndicalist unions of his own day, and early fascists later drew on him.'
   },
   {
     id: 'ujamaa', name: 'Ujamaa (African Socialism)', family: 'Socialist',
     coords: coords(80, 90, 65, 75, 60, 65, 50, 60, 60, 55, 35, 35),
     figure: { name: 'Julius Nyerere', years: '1922 to 1999' },
-    source: { author: 'Julius Nyerere', work: 'Ujamaa: The Basis of African Socialism', year: 1962 },
+    source: { author: 'Julius Nyerere', work: 'Ujamaa: The Basis of African Socialism (1962) and the Arusha Declaration', year: 1967 },
     tagline: 'Socialism as the extended family.',
     desc: 'Nyerere argued that socialism is an attitude of mind already present in traditional African society, where nobody starved while others hoarded. The nation should be rebuilt as a family of self reliant village communities that farm together. It rejects both capitalism and the doctrine of class war.'
   },
@@ -565,7 +565,7 @@ const IDEOLOGIES = [
 
   /* --------------------------- MORE ANARCHIST --------------------------- */
   {
-    id: 'democratic-confederalism', name: 'Democratic Confederalism', family: 'Anarchist',
+    id: 'democratic-confederalism', name: 'Democratic Confederalism', family: 'Autonomist',
     coords: coords(60, 85, 10, 0, 0, 5, 5, 10, 45, 85, 10, 45),
     figure: { name: 'Abdullah Öcalan', years: 'born 1949' },
     source: { author: 'Abdullah Öcalan', work: 'Democratic Confederalism', year: 2011 },
@@ -573,9 +573,9 @@ const IDEOLOGIES = [
     desc: 'Öcalan abandoned the goal of a Kurdish nation state and proposed self government through networks of local councils instead. It rests on three pillars: grassroots democracy, ecology and the liberation of women. Different ethnic and religious groups govern themselves side by side, with armed self defence but no state above them.'
   },
   {
-    id: 'zapatismo', name: 'Zapatismo', family: 'Anarchist',
+    id: 'zapatismo', name: 'Zapatismo', family: 'Autonomist',
     coords: coords(60, 85, 10, 0, 5, 25, 5, 35, 60, 75, 25, 45),
-    figure: { name: 'Subcomandante Marcos', years: 'born 1957' },
+    figure: { name: 'Subcomandante Marcos', years: 'EZLN spokesman' },
     source: { author: 'Zapatista Army of National Liberation', work: 'Sixth Declaration of the Lacandon Jungle', year: 2005 },
     tagline: 'To lead by obeying.',
     desc: 'An indigenous movement from Chiapas that does not seek state power. Communities govern themselves through rotating councils whose delegates must obey those who chose them. It defends communal land and indigenous customs against neoliberal globalisation, and aims at a world in which many worlds fit.'
@@ -610,15 +610,15 @@ const IDEOLOGIES = [
     id: 'objectivism', name: 'Objectivism', family: 'Liberal',
     coords: coords(0, 0, 5, 25, 30, 25, 45, 25, 5, 0, 0, 40),
     figure: { name: 'Ayn Rand', years: '1905 to 1982' },
-    source: { author: 'Ayn Rand', work: 'The Virtue of Selfishness', year: 1964 },
+    source: { author: 'Ayn Rand, with essays by Nathaniel Branden', work: 'The Virtue of Selfishness', year: 1964 },
     tagline: 'Rational self interest is the moral ideal.',
-    desc: 'Rand held that reason is the only means of knowledge and that each person\'s own life is their highest moral purpose. Altruism, the duty to live for others, is rejected as destructive. The only system consistent with this is laissez faire capitalism under a government limited to police, courts and defence.'
+    desc: 'Rand held that reason is the only means of knowledge and that achieving one\'s own happiness is each person\'s highest moral purpose. Altruism, the duty to live for others, is rejected as destructive. The only system consistent with this is laissez faire capitalism under a government limited to police, courts and defence.'
   },
   {
     id: 'hoppeanism', name: 'Hoppean Libertarianism', family: 'Liberal',
     coords: coords(0, 0, 20, 70, 0, 35, 80, 90, 35, 15, 45, 25),
-    figure: { name: 'Hans Hermann Hoppe', years: 'born 1949' },
-    source: { author: 'Hans Hermann Hoppe', work: 'Democracy: The God That Failed', year: 2001 },
+    figure: { name: 'Hans-Hermann Hoppe', years: 'born 1949' },
+    source: { author: 'Hans-Hermann Hoppe', work: 'Democracy: The God That Failed', year: 2001 },
     tagline: 'A private law society of covenant communities.',
     desc: 'Hoppe argues that democracy is worse than monarchy because elected rulers are temporary caretakers who plunder for the short term. His ideal is no state at all, with all land privately owned. Owners would form covenant communities free to set their own rules and to exclude those who reject them, which gives the theory a strongly conservative social character.'
   },
@@ -636,7 +636,7 @@ const IDEOLOGIES = [
     id: 'bioconservatism', name: 'Bioconservatism', family: 'Technological',
     coords: coords(40, 30, 50, 20, 50, 40, 45, 75, 95, 60, 55, 35),
     figure: { name: 'Leon Kass', years: 'born 1939' },
-    source: { author: 'Leon R. Kass', work: 'Life, Liberty and the Defense of Dignity', year: 2002 },
+    source: { author: 'Leon R. Kass', work: 'Life, Liberty, and the Defense of Dignity', year: 2002 },
     tagline: 'Human nature is not ours to redesign.',
     desc: 'Kass argues that cloning, genetic enhancement and the pursuit of ageless bodies threaten the things that give human life its meaning. Our sense of revulsion at such projects holds a wisdom that argument cannot fully state. Biotechnology should therefore be restrained by law in defence of human dignity.'
   },
@@ -672,16 +672,16 @@ const IDEOLOGIES = [
     id: 'kemalism', name: 'Kemalism', family: 'Nationalist',
     coords: coords(65, 45, 75, 75, 95, 95, 100, 20, 15, 15, 5, 75),
     figure: { name: 'Mustafa Kemal Atatürk', years: '1881 to 1938' },
-    source: { author: 'Mustafa Kemal Atatürk', work: 'Nutuk (The Speech) and the Six Arrows', year: 1927 },
+    source: { author: 'Mustafa Kemal Atatürk', work: 'Nutuk (The Speech, 1927) and the Six Arrows', year: 1931 },
     tagline: 'Republicanism, nationalism, populism, statism, secularism, reformism.',
     desc: 'The founding programme of the Turkish Republic, summed up in six arrows. Religion is removed from the state, law and schooling. A single Turkish national identity replaces the many communities of the empire. The state leads industrialisation, and society is modernised from above along Western lines.'
   },
   {
     id: 'bonapartism', name: 'Bonapartism', family: 'Nationalist',
     coords: coords(50, 25, 80, 90, 100, 85, 80, 55, 30, 20, 40, 95),
-    figure: { name: 'Louis Napoléon Bonaparte', years: '1808 to 1873' },
-    source: { author: 'Louis Napoléon Bonaparte', work: 'Napoleonic Ideas', year: 1839 },
-    tagline: 'Authority from above, confidence from below.',
+    figure: { name: 'Louis-Napoléon Bonaparte', years: '1808 to 1873' },
+    source: { author: 'Louis-Napoléon Bonaparte', work: 'Napoleonic Ideas', year: 1839 },
+    tagline: 'One leader, chosen directly by the people.',
     desc: 'Presents the Napoleonic system as the true heir of the Revolution: a strong hereditary executive who draws his legitimacy directly from the people by plebiscite, over the heads of parliament and parties. It promises order, national glory, a centralised efficient administration and material progress for all classes.'
   },
   {
@@ -713,10 +713,10 @@ const IDEOLOGIES = [
   {
     id: 'khomeinism', name: 'Khomeinism', family: 'Religious',
     coords: coords(60, 45, 90, 90, 90, 55, 85, 95, 50, 30, 100, 80),
-    figure: { name: 'Ruhollah Khomeini', years: '1902 to 1989' },
+    figure: { name: 'Ruhollah Khomeini', years: '1900 or 1902 to 1989' },
     source: { author: 'Ruhollah Khomeini', work: 'Islamic Government: Governance of the Jurist', year: 1970 },
     tagline: 'Guardianship of the jurist.',
-    desc: 'Khomeini argued that in the absence of the hidden Imam, the right to govern passes to the most qualified Islamic jurist. Monarchy is illegitimate. Government exists to enforce divine law, and the jurist holds final authority over every other institution, including elected ones. It also frames politics as the oppressed against the arrogant powers.'
+    desc: 'Khomeini argued that in the absence of the hidden Imam, the right to govern passes to just and learned Islamic jurists. Monarchy is illegitimate. Government exists to enforce divine law. In the Islamic Republic that followed, this became a Supreme Leader with final authority over every other institution, including elected ones. It also frames politics as the oppressed against the arrogant powers.'
   },
   {
     id: 'gandhism', name: 'Gandhism', family: 'Religious',
@@ -724,7 +724,7 @@ const IDEOLOGIES = [
     figure: { name: 'Mohandas Gandhi', years: '1869 to 1948' },
     source: { author: 'M. K. Gandhi', work: 'Hind Swaraj', year: 1909 },
     tagline: 'Self rule through truth and non violence.',
-    desc: 'Hind Swaraj argues that real self rule is mastery of oneself, not just removing foreign rulers. Gandhi condemned modern industrial civilisation, with its railways, machinery, lawyers and doctors, as a disease. He wanted a federation of self sufficient villages, hand production, and resistance only through non violent refusal to cooperate.'
+    desc: 'Hind Swaraj argues that real self rule is mastery of oneself, not just removing foreign rulers. Gandhi condemned modern industrial civilisation, with its railways, machinery, lawyers and doctors, as a disease. He praised village life and hand production, and in later writing pictured India as a federation of self sufficient villages. Resistance must take the form of non violent refusal to cooperate.'
   },
 
   /* ------------------------------ CLASSICAL ------------------------------ */
@@ -742,7 +742,7 @@ const IDEOLOGIES = [
     figure: { name: 'Confucius', years: '551 to 479 BC' },
     source: { author: 'Confucius', work: 'The Analects', year: 'compiled after 479 BC' },
     tagline: 'Govern by virtue, and the people will have a sense of shame.',
-    desc: 'Teaches that good order comes from moral example and ritual, not from punishment. Society is a web of unequal but reciprocal relationships, beginning with the duty of children to parents. Rulers hold authority only as long as they are virtuous and care for the people, and office should go to the learned and upright.'
+    desc: 'Teaches that good order comes from moral example and ritual, not from punishment. Society is a web of unequal but reciprocal relationships, beginning with the duty of children to parents. Rulers should lead by virtue and care for the people, and office should go to the learned and upright. Later Confucians such as Mencius added that a ruler who fails in this loses the right to rule.'
   },
 
   /* -------------------------------- MEME -------------------------------- */
@@ -754,7 +754,7 @@ const IDEOLOGIES = [
     figure: { name: 'Internet Meme', years: 'no founder' },
     source: { note: 'No founding text. This is an internet joke ideology, built by bolting free market libertarianism onto Falangism.' },
     tagline: 'Deregulate everything, for the unity of destiny.',
-    desc: 'A deliberate contradiction. Real Falangism wants a national syndicalist economy with nationalised banking, and real libertarianism rejects the authoritarian nation state. This mash up keeps the Falangist nation, church and strongman while swapping the syndicates for free markets and low taxes. If you land here, you scored strongly nationalist, religious and pro market all at once.'
+    desc: 'A deliberate contradiction. Real Falangism wants a national syndicalist economy with nationalised banking, and real libertarianism rejects the authoritarian nation state. This mash up keeps the Falangist nation, Catholic identity and strongman while swapping the syndicates for free markets and low taxes. If you land here, you scored strongly nationalist, religious and pro market all at once.'
   },
   {
     id: 'monarcho-brezhnevism', name: 'Monarcho Brezhnevism', family: 'Meme',
