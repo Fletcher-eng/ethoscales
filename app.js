@@ -45,7 +45,7 @@
 
   const state = {
     view: 'landing',     // 'landing' | 'quiz' | 'results'
-    mode: 'full',        // 'full' (60) | 'quick' (25)
+    mode: 'full',        // 'full' (60) | 'quick' (24)
     questions: [],       // active question bank for this run
     index: 0,            // current question index
     answers: [],         // response weight per question (null = unanswered)

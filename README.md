@@ -10,7 +10,7 @@ No backend. No accounts. No tracking.
 
 * **12 independent axes** instead of a single left/right line
 * **60 statements**, five led by each axis, where most answers move several axes at once
-* **Quick test** (25 statements) and **Full test** (60 statements)
+* **Quick test** (24 statements, two per axis) and **Full test** (60 statements)
 * **86 ideologies**, each with a named source text and the thinker behind it
 * **Meme ideologies too**, such as Neo Libertarian Falangism and Monarcho Brezhnevism, clearly labelled as jokes
 * **Third Position split into its real movements**: Italian Fascism, Falangism, Peronism, Strasserism, National Bolshevism, Eurasianism and Ba'athism
