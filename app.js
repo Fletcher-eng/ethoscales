@@ -299,7 +299,33 @@
         <p>${a.low.label} vs ${a.high.label}</p>
         <p class="about">${a.about}</p>
       </div>`).join('');
+    renderCatalog();
     setMode(state.mode);
+  }
+
+  /** Every ideology, grouped by family, each folding open to its definition and source. */
+  function renderCatalog() {
+    const esc = (t) => String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;');
+    el.catalogCount.textContent = IDEOLOGIES.length;
+    el.catalog.innerHTML = Object.keys(FAMILY_COLORS).map((family) => {
+      const members = IDEOLOGIES.filter((i) => i.family === family);
+      if (!members.length) return '';
+      return `
+        <section class="family" style="--fc:${FAMILY_COLORS[family]}">
+          <h3><i></i>${family}<small>${members.length}</small></h3>
+          <div class="family-grid">
+            ${members.map((i) => `
+              <details class="ideo">
+                <summary><span class="sym">${SYMBOLS.svg(i)}</span><b>${esc(i.name)}<small>${esc(i.figure.name)}</small></b></summary>
+                <div class="body">
+                  <div class="tag">${esc(i.tagline)}</div>
+                  <p>${esc(i.desc)}</p>
+                  <p class="src">${esc(i.source.note || `Defined from: ${i.source.author}, ${i.source.work} (${i.source.year})`)}</p>
+                </div>
+              </details>`).join('')}
+          </div>
+        </section>`;
+    }).join('');
   }
 
   function setMode(mode) {
@@ -1514,7 +1540,8 @@
     if (tag === 'INPUT' || tag === 'TEXTAREA') return;
 
     if (state.view === 'landing') {
-      if (e.key === 'Enter' && tag !== 'BUTTON' && tag !== 'A') {
+      // Enter on a button, link or fold out should do that thing, not start the test.
+      if (e.key === 'Enter' && tag !== 'BUTTON' && tag !== 'A' && tag !== 'SUMMARY') {
         e.preventDefault();
         startQuiz();
       }
@@ -1542,6 +1569,8 @@
     };
     el.progress = $('#progress-track');
     el.axisChips = $('#axis-chips');
+    el.catalog = $('#catalog');
+    el.catalogCount = $('#catalog-count');
     el.duration = $('#duration-estimate');
     el.counter = $('#question-counter');
     el.quizModeLabel = $('#quiz-mode-label');
