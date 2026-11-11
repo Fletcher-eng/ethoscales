@@ -52,6 +52,8 @@
     scores: null,        // one value per axis key, each 0..100
     matches: [],         // ideologies sorted by distance, ascending
     plotAxes: null,      // the 3 axis keys shown in the 3D chart (null = auto)
+    plotMode: 'map',     // 'map' = all 12 axes squeezed into 3, 'axes' = pick 3 raw axes
+    friend: null,        // { scores, matches } for a pasted friend link
     busy: false          // true while a question transition is animating
   };
 
@@ -132,6 +134,48 @@
       .map((item) => item.key);
   }
 
+  /**
+   * A best fit map of all the axes in 3 dimensions (principal component analysis).
+   * It finds the 3 directions along which the ideologies differ the most, so dots
+   * that are close on the map are close across every axis, as far as 3D allows.
+   */
+  const MAP = (function buildMap() {
+    const n = AXIS_KEYS.length;
+    const rows = IDEOLOGIES.map((i) => AXIS_KEYS.map((k) => i.coords[k]));
+    const mean = AXIS_KEYS.map((_, j) => rows.reduce((s, r) => s + r[j], 0) / rows.length);
+    const cov = Array.from({ length: n }, () => new Array(n).fill(0));
+    rows.forEach((r) => {
+      for (let a = 0; a < n; a++) for (let b = 0; b < n; b++) cov[a][b] += ((r[a] - mean[a]) * (r[b] - mean[b])) / rows.length;
+    });
+    const total = cov.reduce((s, r, a) => s + r[a], 0);
+    const dims = [];
+    const work = cov.map((r) => r.slice());
+    for (let d = 0; d < 3; d++) {
+      // Power iteration finds the strongest remaining direction.
+      let v = new Array(n).fill(0).map((_, j) => 1 / (j + 1 + d));
+      let value = 0;
+      for (let it = 0; it < 300; it++) {
+        const w = work.map((r) => r.reduce((s, x, j) => s + x * v[j], 0));
+        value = Math.hypot(...w) || 1;
+        v = w.map((x) => x / value);
+      }
+      // Fix the sign so the map never flips between page loads.
+      const biggest = v.reduce((best, x, j) => (Math.abs(x) > Math.abs(v[best]) ? j : best), 0);
+      if (v[biggest] < 0) v = v.map((x) => -x);
+      dims.push({ vector: v, share: value / total });
+      for (let a = 0; a < n; a++) for (let b = 0; b < n; b++) work[a][b] -= value * v[a] * v[b];
+    }
+    const project = (coords) => dims.map((dim) => AXIS_KEYS.reduce((s, k, j) => s + (coords[k] - mean[j]) * dim.vector[j], 0));
+    // Name each dimension by the two axes that drive it most.
+    const labels = dims.map((dim) => dim.vector
+      .map((x, j) => ({ j, x }))
+      .sort((p, q) => Math.abs(q.x) - Math.abs(p.x))
+      .slice(0, 2)
+      .map((p) => AXES[p.j].name)
+      .join(' + '));
+    return { project, labels, captured: Math.round(dims.reduce((s, d) => s + d.share, 0) * 100) };
+  })();
+
   function clamp(n, lo, hi) { return Math.min(hi, Math.max(lo, n)); }
   function round1(n) { return Math.round(n * 10) / 10; }
   function fmt(n) { return (Math.round(n * 10) / 10).toFixed(1); }
@@ -152,8 +196,8 @@
   }
 
   /** Returns a scores object if every axis param is present and numeric, else null. */
-  function readScoresFromUrl() {
-    const params = new URLSearchParams(window.location.search);
+  function readScoresFromUrl(search) {
+    const params = new URLSearchParams(search === undefined ? window.location.search : search);
     const scores = {};
     for (const axis of AXES) {
       const rawValue = params.get(axis.param);
@@ -188,6 +232,8 @@
         node.classList.add('is-hidden');
       }
     });
+    // Drop focus from a button in the view that just closed, so Enter works on the next one.
+    if (document.activeElement && document.activeElement !== document.body) document.activeElement.blur();
     el.progress.classList.toggle('is-off', name !== 'quiz');
     window.scrollTo(0, 0);
   }
@@ -249,10 +295,36 @@
   /* 5. QUIZ                                                             */
   /* ------------------------------------------------------------------ */
 
+  /* Progress is kept in this browser only, so closing the tab does not lose your answers. */
+  const PROGRESS_KEY = 'ethoscales.progress.v1';
+  function saveProgress() {
+    try { localStorage.setItem(PROGRESS_KEY, JSON.stringify({ mode: state.mode, answers: state.answers, index: state.index })); } catch (err) { /* storage unavailable */ }
+  }
+  function loadProgress() {
+    try {
+      const saved = JSON.parse(localStorage.getItem(PROGRESS_KEY) || 'null');
+      const total = (saved && saved.mode === 'quick' ? QUESTIONS.filter((q) => q.quick) : QUESTIONS).length;
+      const ok = saved && (saved.mode === 'quick' || saved.mode === 'full') && Array.isArray(saved.answers) &&
+        saved.answers.length === total && Number.isInteger(saved.index) && saved.index > 0 && saved.index < total &&
+        saved.answers.every((a) => a === null || RESPONSES.some((r) => r.weight === a));
+      return ok ? saved : null;
+    } catch (err) { return null; }
+  }
+  function clearProgress() {
+    try { localStorage.removeItem(PROGRESS_KEY); } catch (err) { /* storage unavailable */ }
+  }
+
   function startQuiz() {
     state.questions = state.mode === 'quick' ? QUESTIONS.filter((q) => q.quick) : QUESTIONS.slice();
     state.answers = new Array(state.questions.length).fill(null);
     state.index = 0;
+    state.friend = null;
+    const saved = loadProgress();
+    if (saved && saved.mode === state.mode) {
+      state.answers = saved.answers;
+      state.index = saved.index;
+      toast('Picked up where you left off');
+    }
     state.busy = false;
     state.plotAxes = null;
     el.quizModeLabel.textContent = state.mode === 'quick' ? 'Quick test' : 'Full test';
@@ -319,6 +391,7 @@
     } else {
       transitionQuestion(() => {
         state.index += 1;
+        saveProgress();
         renderQuestion();
       });
     }
@@ -338,6 +411,7 @@
     state.scores = normalizeScores(raw, bounds);
     state.matches = matchIdeologies(state.scores);
     state.busy = false;
+    clearProgress();
 
     writeScoresToUrl(state.scores);
     showView('results');
@@ -357,6 +431,8 @@
     el.shareUrl.value = window.location.href;
 
     renderMatchCard(top);
+    renderFullRanking();
+    renderCompare();
     renderFigure(top.ideology);
     renderAxisBars(scores);
     renderPlotPickers(scores);
@@ -371,8 +447,20 @@
     }).catch((err) => console.warn('Card preview failed:', err));
   }
 
+  /** Shrink the big match name until its longest word fits the column. */
+  function fitMatchName() {
+    const node = el.matchName;
+    node.style.fontSize = '';
+    let size = parseFloat(getComputedStyle(node).fontSize);
+    while (node.scrollWidth > node.clientWidth + 1 && size > 30) {
+      size -= 4;
+      node.style.fontSize = size + 'px';
+    }
+  }
+
   function renderMatchCard(top) {
     el.matchName.textContent = top.ideology.name;
+    fitMatchName();
     el.matchSymbol.innerHTML = SYMBOLS.svg(top.ideology);
     el.matchFamily.textContent = top.ideology.family ? top.ideology.family + ' family' : '';
     const src = top.ideology.source;
@@ -393,6 +481,58 @@
 
     const far = state.matches[state.matches.length - 1];
     el.matchOpposite.innerHTML = `${far.ideology.name}<small>${fmt(far.compatibility)}% match / distance ${far.distance.toFixed(2)}</small>`;
+  }
+
+  /** Every ideology in order of closeness, tucked inside a fold out. */
+  function renderFullRanking() {
+    el.rankSummary.textContent = `See all ${state.matches.length} ranked`;
+    el.rankAll.innerHTML = state.matches.map((m, i) => `
+      <li>
+        <span class="rk num">${i + 1}</span>
+        <span class="sym">${SYMBOLS.svg(m.ideology)}</span>
+        <span class="nm">${m.ideology.name}<small>${m.ideology.family}</small></span>
+        <span class="pc num">${fmt(m.compatibility)}%</span>
+      </li>`).join('');
+  }
+
+  /* ------------------------------- compare -------------------------------- */
+
+  /** How alike two people are, on the same scale as the ideology match score. */
+  function similarity(a, b) {
+    const d = Math.sqrt(AXIS_KEYS.reduce((s, k) => s + Math.pow(a[k] - b[k], 2), 0));
+    return Math.max(0, 100 - d / (2 * Math.sqrt(AXIS_KEYS.length / 6)));
+  }
+
+  function compareWithLink(text) {
+    let search = '';
+    try { search = new URL(text.trim()).search; } catch (err) { search = text.trim().replace(/^[^?]*\?/, '?'); }
+    const scores = readScoresFromUrl(search);
+    if (!scores) {
+      toast('That does not look like a result link');
+      return;
+    }
+    state.friend = { scores, matches: matchIdeologies(scores) };
+    renderCompare();
+    renderCompasses(state.scores, state.matches[0].ideology);
+    toast('Friend added to your compasses');
+  }
+
+  function renderCompare() {
+    const friend = state.friend;
+    if (!friend) { el.compareOut.innerHTML = ''; return; }
+    const diffs = AXES.map((a) => ({ a, you: state.scores[a.key], them: friend.scores[a.key], gap: Math.abs(state.scores[a.key] - friend.scores[a.key]) }))
+      .sort((p, q) => q.gap - p.gap);
+    const side = (a, v) => (v >= 50 ? a.high.short : a.low.short);
+    const row = (d) => `<li><b>${d.a.name}</b><span>You: ${side(d.a, d.you)} ${Math.round(Math.max(d.you, 100 - d.you))}%</span><span>Them: ${side(d.a, d.them)} ${Math.round(Math.max(d.them, 100 - d.them))}%</span></li>`;
+    el.compareOut.innerHTML = `
+      <div class="cmp-head">
+        <span class="cmp-score num">${fmt(similarity(state.scores, friend.scores))}%</span>
+        <span class="label">alike<br />Their closest match: ${friend.matches[0].ideology.name}</span>
+      </div>
+      <div class="cmp-cols">
+        <div><div class="label">Where you clash most</div><ul>${diffs.slice(0, 3).map(row).join('')}</ul></div>
+        <div><div class="label">Where you agree most</div><ul>${diffs.slice(-3).reverse().map(row).join('')}</ul></div>
+      </div>`;
   }
 
   /* ------------------------------ portraits ------------------------------ */
@@ -501,6 +641,7 @@
             <div class="compass">
               <span class="tint" style="${tintStyle}"></span>
               ${ghosts}
+              ${state.friend ? `<span class="friend-dot" title="Your friend" style="left:${state.friend.scores[c.x]}%;top:${100 - state.friend.scores[c.y]}%"></span>` : ''}
               <span class="user-dot" title="You" style="left:${ux}%;top:${100 - uy}%"></span>
             </div>
             <div class="edge v">${ax.high.short}</div>
@@ -508,6 +649,7 @@
           <div class="edge">&darr; ${ay.low.short}</div>
           <div class="legend">
             <span><i style="width:14px;height:14px;border-radius:50%;background:${ax.color};border:3px solid #111"></i>You</span>
+            ${state.friend ? '<span><i style="width:13px;height:13px;background:#F5B700;border:3px solid #111;transform:rotate(45deg)"></i>Friend</span>' : ''}
             <span><i style="width:12px;height:12px;border:3px solid #111"></i>Match</span>
             <span><i style="width:8px;height:8px;background:#111;opacity:.4"></i>Others</span>
           </div>
@@ -517,16 +659,30 @@
 
   /* ------------------------------- 3D plot ------------------------------- */
 
-  /** Three dropdowns that choose which axes the 3D chart shows. */
+  /** Controls for the 3D chart: the all axes map, or any three axes you pick. */
   function renderPlotPickers(scores) {
     const chosen = state.plotAxes || mostPolarizedAxes(scores, 3);
-    el.plotPickers.innerHTML = ['X', 'Y', 'Z'].map((letter, i) => `
+    const mode = `
+      <label>View
+        <select id="plot-mode" aria-label="3D chart view">
+          <option value="map"${state.plotMode === 'map' ? ' selected' : ''}>Map of all ${AXES.length} axes</option>
+          <option value="axes"${state.plotMode === 'axes' ? ' selected' : ''}>Pick 3 axes</option>
+        </select>
+      </label>`;
+    const axes = state.plotMode !== 'axes' ? '' : ['X', 'Y', 'Z'].map((letter, i) => `
       <label>${letter}
         <select data-slot="${i}" aria-label="${letter} axis">
           ${AXES.map((a) => `<option value="${a.key}"${a.key === chosen[i] ? ' selected' : ''}>${a.name}</option>`).join('')}
         </select>
       </label>`).join('');
-    el.plotPickers.querySelectorAll('select').forEach((sel) => {
+    el.plotPickers.innerHTML = mode + axes;
+
+    el.plotPickers.querySelector('#plot-mode').addEventListener('change', (e) => {
+      state.plotMode = e.target.value;
+      renderPlotPickers(state.scores);
+      renderPlot3D(state.scores);
+    });
+    el.plotPickers.querySelectorAll('select[data-slot]').forEach((sel) => {
       sel.addEventListener('change', () => {
         const next = (state.plotAxes || mostPolarizedAxes(state.scores, 3)).slice();
         const slot = Number(sel.dataset.slot);
@@ -542,10 +698,15 @@
   }
 
   function renderPlot3D(scores) {
-    const [kx, ky, kz] = state.plotAxes || mostPolarizedAxes(scores, 3);
-    el.plotCaption.textContent = state.plotAxes
-      ? `Showing 3 of ${AXES.length} axes`
-      : `Showing your 3 strongest of ${AXES.length} axes`;
+    const mapMode = state.plotMode === 'map';
+    const picked = state.plotAxes || mostPolarizedAxes(scores, 3);
+
+    el.plotCaption.textContent = mapMode
+      ? `All ${AXES.length} axes in one map`
+      : `Showing 3 of ${AXES.length} axes`;
+    el.plotNote.textContent = mapMode
+      ? `This map squeezes all ${AXES.length} axes into 3 dimensions, keeping ${MAP.captured}% of the differences between ideologies. Dots that sit close together really are close overall. Drag to spin, scroll to zoom.`
+      : 'This shows 3 axes at a time, so two dots that look close here can be far apart on the other axes. Your match is worked out across all twelve. Drag to spin, scroll to zoom.';
 
     if (typeof window.Plotly === 'undefined') {
       // Plotly loads with "defer", so on a share link it may still be downloading.
@@ -563,28 +724,34 @@
       return;
     }
 
+    // One function turns any set of 12 scores into the 3 numbers this view plots.
+    const point = mapMode ? (c) => MAP.project(c) : (c) => picked.map((k) => c[k]);
+    const axisNames = mapMode ? MAP.labels : picked.map((k) => AXIS_BY_KEY[k].name);
+
     // Label the five closest by name. Everything else is a dot with a hover label.
     const near = state.matches.slice(0, 5).map((m) => m.ideology);
     const nearIds = new Set(near.map((i) => i.id));
     const others = IDEOLOGIES.filter((i) => !nearIds.has(i.id));
-    const hoverTpl = `<b>%{text}</b><br>${AXIS_BY_KEY[kx].name}: %{x:.1f}<br>${AXIS_BY_KEY[ky].name}: %{y:.1f}<br>${AXIS_BY_KEY[kz].name}: %{z:.1f}<extra></extra>`;
-    const ux = scores[kx], uy = scores[ky], uz = scores[kz];
+    const pOthers = others.map((i) => point(i.coords));
+    const pNear = near.map((i) => point(i.coords));
+    const [ux, uy, uz] = point(scores);
+    const all = [...pOthers, ...pNear, [ux, uy, uz]];
+    const floor = mapMode ? Math.min(...all.map((p) => p[2])) - 8 : 0;
+    const hoverTpl = mapMode
+      ? '<b>%{text}</b><extra></extra>'
+      : `<b>%{text}</b><br>${axisNames[0]}: %{x:.1f}<br>${axisNames[1]}: %{y:.1f}<br>${axisNames[2]}: %{z:.1f}<extra></extra>`;
 
     const traces = [
       {
         type: 'scatter3d', mode: 'markers', name: 'Others',
-        x: others.map((i) => i.coords[kx]),
-        y: others.map((i) => i.coords[ky]),
-        z: others.map((i) => i.coords[kz]),
+        x: pOthers.map((p) => p[0]), y: pOthers.map((p) => p[1]), z: pOthers.map((p) => p[2]),
         text: others.map((i) => i.name),
         hovertemplate: hoverTpl,
         marker: { size: 4, color: THEME.ink, opacity: 0.4, symbol: 'square', line: { width: 0 } }
       },
       {
         type: 'scatter3d', mode: 'markers+text', name: 'Your top 5',
-        x: near.map((i) => i.coords[kx]),
-        y: near.map((i) => i.coords[ky]),
-        z: near.map((i) => i.coords[kz]),
+        x: pNear.map((p) => p[0]), y: pNear.map((p) => p[1]), z: pNear.map((p) => p[2]),
         text: near.map((i) => i.name.replace(/\s*\(.*\)/, '')),
         textposition: 'top center',
         textfont: { family: 'Archivo, Arial, sans-serif', size: 11, color: THEME.ink },
@@ -594,14 +761,14 @@
       {
         // Drop line and floor shadow, so the height of your point is readable.
         type: 'scatter3d', mode: 'lines+markers', hoverinfo: 'skip', showlegend: false,
-        x: [ux, ux], y: [uy, uy], z: [uz, 0],
+        x: [ux, ux], y: [uy, uy], z: [uz, floor],
         line: { color: THEME.red, width: 5 },
         marker: { size: [0, 6], color: THEME.red, opacity: 0.55, symbol: 'circle' }
       },
       {
         // Tether between you and your closest match.
         type: 'scatter3d', mode: 'lines', hoverinfo: 'skip', showlegend: false,
-        x: [ux, near[0].coords[kx]], y: [uy, near[0].coords[ky]], z: [uz, near[0].coords[kz]],
+        x: [ux, pNear[0][0]], y: [uy, pNear[0][1]], z: [uz, pNear[0][2]],
         line: { color: THEME.ink, width: 5, dash: 'dash' }
       },
       {
@@ -613,14 +780,26 @@
       }
     ];
 
+    if (state.friend) {
+      const [fx, fy, fz] = point(state.friend.scores);
+      traces.push({
+        type: 'scatter3d', mode: 'markers', name: 'Friend',
+        x: [fx], y: [fy], z: [fz], text: ['Your friend'], hovertemplate: hoverTpl,
+        marker: { size: 9, color: '#F5B700', opacity: 1, symbol: 'diamond', line: { color: THEME.ink, width: 4 } }
+      });
+    }
+
     const narrow = el.plot.clientWidth < 640;
-    const axisLayout = (key) => {
-      const a = AXIS_BY_KEY[key];
+    const axisLayout = (i) => {
+      const a = mapMode ? null : AXIS_BY_KEY[picked[i]];
+      const title = mapMode
+        ? (narrow ? `DIMENSION ${i + 1}` : `DIMENSION ${i + 1} (${axisNames[i]})`)
+        : (narrow ? a.name.toUpperCase() : `${a.name.toUpperCase()} (${a.low.short} to ${a.high.short})`);
       return {
-        // Phones only have room for the axis name.
-        title: { text: narrow ? a.name.toUpperCase() : `${a.name.toUpperCase()} (${a.low.short} to ${a.high.short})`, font: { size: 11, color: THEME.ink } },
-        range: [0, 100],
-        dtick: 25,
+        title: { text: title, font: { size: 11, color: THEME.ink } },
+        range: mapMode ? undefined : [0, 100],
+        dtick: mapMode ? undefined : 25,
+        showticklabels: !mapMode,
         gridcolor: 'rgba(17,17,17,0.28)',
         zerolinecolor: THEME.ink,
         linecolor: THEME.ink,
@@ -641,11 +820,11 @@
       legend: { x: 0.01, y: 0.99, bgcolor: THEME.paper, bordercolor: THEME.ink, borderwidth: 3, font: { size: 11, color: THEME.ink } },
       hoverlabel: { bgcolor: THEME.ink, bordercolor: THEME.ink, font: { family: 'Archivo, Arial, sans-serif', size: 12, color: THEME.paper } },
       scene: {
-        xaxis: axisLayout(kx),
-        yaxis: axisLayout(ky),
-        zaxis: axisLayout(kz),
+        xaxis: axisLayout(0),
+        yaxis: axisLayout(1),
+        zaxis: axisLayout(2),
         aspectmode: 'cube',
-        camera: { eye: narrow ? { x: 2.25, y: 2.25, z: 1.2 } : { x: 1.5, y: 1.5, z: 0.85 }, center: { x: 0, y: 0, z: -0.12 } },
+        camera: { eye: narrow ? { x: 2.25, y: 2.25, z: 1.2 } : (mapMode ? { x: 1.3, y: 1.3, z: 0.75 } : { x: 1.5, y: 1.5, z: 0.85 }), center: { x: 0, y: 0, z: -0.12 } },
         bgcolor: THEME.paper2
       }
     };
@@ -673,6 +852,26 @@
       } catch (err2) {
         toast('Copy failed. Select the link and copy it by hand.');
       }
+    }
+  }
+
+  /** Phones: open the system share sheet with the result card attached, ready for a story. */
+  async function shareResult() {
+    const url = window.location.href;
+    const name = state.matches[0].ideology.name;
+    const text = `I got ${name} on EthosScales. Where do you stand?`;
+    try {
+      const canvas = await buildResultCard();
+      const blob = await new Promise((resolve) => canvas.toBlob(resolve, 'image/png'));
+      const file = blob ? new File([blob], `ethoscales-${state.matches[0].ideology.id}.png`, { type: 'image/png' }) : null;
+      if (file && navigator.canShare && navigator.canShare({ files: [file] })) {
+        await navigator.share({ files: [file], title: 'EthosScales', text: text + ' ' + url });
+      } else {
+        await navigator.share({ title: 'EthosScales', text, url });
+      }
+    } catch (err) {
+      if (err && err.name === 'AbortError') return; // the person closed the share sheet
+      copyShareLink();
     }
   }
 
@@ -1009,6 +1208,8 @@
     state.scores = null;
     state.matches = [];
     state.plotAxes = null;
+    state.friend = null;
+    clearProgress();
     clearUrl();
     showView('landing');
   }
@@ -1065,6 +1266,11 @@
     el.figure = $('#figure');
     el.figureCredit = $('#figure-credit');
     el.plotPickers = $('#plot-pickers');
+    el.plotNote = $('#plot-note');
+    el.rankAll = $('#rank-all');
+    el.rankSummary = $('#rank-summary');
+    el.compareOut = $('#compare-out');
+    el.compareInput = $('#compare-input');
     el.matchScore = $('#match-score');
     el.matchDistance = $('#match-distance');
     el.matchTagline = $('#match-tagline');
@@ -1088,12 +1294,20 @@
     $('#btn-back').addEventListener('click', goBack);
     $('#btn-quit').addEventListener('click', retake);
     $('#btn-copy').addEventListener('click', copyShareLink);
+    const shareBtn = $('#btn-share');
+    if (navigator.share) { shareBtn.hidden = false; shareBtn.addEventListener('click', shareResult); }
+    $('#compare-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      compareWithLink(el.compareInput.value);
+      renderPlot3D(state.scores);
+    });
     $('#btn-download').addEventListener('click', downloadResultCard);
     $('#btn-retake').addEventListener('click', retake);
     $('#brand-link').addEventListener('click', (e) => { e.preventDefault(); retake(); });
     el.shareUrl.addEventListener('focus', () => el.shareUrl.select());
     document.addEventListener('keydown', onKeyDown);
     window.addEventListener('popstate', route);
+    window.addEventListener('resize', () => { if (state.view === 'results') fitMatchName(); });
   }
 
   function boot() {
