@@ -9,8 +9,8 @@ No backend. No accounts. No tracking.
 ## Features
 
 * **12 independent axes** instead of a single left/right line
-* **60 statements**, five led by each axis, where most answers move several axes at once
-* **Quick test** (24 statements, two per axis) and **Full test** (60 statements)
+* **120 statements**, ten led by each axis, where most answers move several axes at once
+* **Three lengths**: Quick (24 statements, two per axis), Full (60) and Deep (120, ten per axis)
 * **86 ideologies**, each with a named source text and the thinker behind it
 * **Meme ideologies too**, such as Neo Libertarian Falangism and Monarcho Brezhnevism, clearly labelled as jokes
 * **Third Position split into its real movements**: Italian Fascism, Falangism, Peronism, Strasserism, National Bolshevism, Eurasianism and Ba'athism
@@ -55,7 +55,7 @@ The coordinates are a different matter. Placing a body of thought at a number be
 ```
 ethoscales/
 ├── index.html        Page layout and styles
-├── questions.js      The 60 statements and their scoring vectors
+├── questions.js      The 120 statements and their scoring vectors
 ├── ideologies.js     The 12 axis definitions and 86 ideologies
 ├── app.js            The engine: quiz flow, math, charts, sharing, card export
 ├── og.png            The preview image shown when the link is pasted into a chat

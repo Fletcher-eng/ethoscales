@@ -164,8 +164,11 @@ const SYMBOLS = (function () {
   };
 
   function glyphFor(ideology) {
-    const key = BY_ID[ideology.id];
-    return key ? G[key] : null;
+    // Older entries are mapped by id above. Newer entries name their emblem in a `symbol` field.
+    // A restricted entry (hateful or violent extremism) never gets one.
+    if (ideology.restricted) return null;
+    const key = ideology.id in BY_ID ? BY_ID[ideology.id] : ideology.symbol;
+    return key && G[key] ? G[key] : null;
   }
 
   /** Inline SVG markup for an ideology's emblem, or an empty string if it has none. */

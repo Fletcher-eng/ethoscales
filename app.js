@@ -39,6 +39,13 @@
   // Size of the marker on each answer button: big at the strong ends, small in the middle.
   const ANSWER_MARK_SIZES = [22, 16, 10, 16, 22];
 
+  // The three lengths of test. Each one covers every axis evenly.
+  const MODES = {
+    quick: { label: 'Quick test', time: 'About 4 minutes', questions: () => QUESTIONS.filter((q) => q.quick) },
+    full: { label: 'Full test', time: 'About 9 minutes', questions: () => QUESTIONS.slice() },
+    deep: { label: 'Deep test', time: 'About 18 minutes', questions: () => QUESTIONS_DEEP.slice() }
+  };
+
   // Six 2D compasses. Between them they show all twelve axes once.
   const COMPASSES = [
     { id: 'classic', title: 'Classic compass', x: 'econ', y: 'rule' },
@@ -55,7 +62,7 @@
 
   const state = {
     view: 'landing',     // 'landing' | 'quiz' | 'results'
-    mode: 'full',        // 'full' (60) | 'quick' (24)
+    mode: 'full',        // 'quick' (24) | 'full' (60) | 'deep' (120)
     questions: [],       // active question bank for this run
     index: 0,            // current question index
     answers: [],         // response weight per question (null = unanswered)
@@ -336,7 +343,7 @@
       btn.classList.toggle('is-active', active);
       btn.setAttribute('aria-checked', String(active));
     });
-    el.duration.textContent = mode === 'quick' ? 'About 4 minutes' : 'About 9 minutes';
+    el.duration.textContent = MODES[mode].time;
   }
 
   /* ------------------------------------------------------------------ */
@@ -351,8 +358,8 @@
   function loadProgress() {
     try {
       const saved = JSON.parse(localStorage.getItem(PROGRESS_KEY) || 'null');
-      const total = (saved && saved.mode === 'quick' ? QUESTIONS.filter((q) => q.quick) : QUESTIONS).length;
-      const ok = saved && (saved.mode === 'quick' || saved.mode === 'full') && Array.isArray(saved.answers) &&
+      const total = saved && MODES[saved.mode] ? MODES[saved.mode].questions().length : 0;
+      const ok = saved && Boolean(MODES[saved.mode]) && Array.isArray(saved.answers) &&
         saved.answers.length === total && Number.isInteger(saved.index) && saved.index > 0 && saved.index < total &&
         saved.answers.every((a) => a === null || RESPONSES.some((r) => r.weight === a));
       return ok ? saved : null;
@@ -363,7 +370,7 @@
   }
 
   function startQuiz() {
-    state.questions = state.mode === 'quick' ? QUESTIONS.filter((q) => q.quick) : QUESTIONS.slice();
+    state.questions = MODES[state.mode].questions();
     state.answers = new Array(state.questions.length).fill(null);
     state.index = 0;
     state.friend = null;
@@ -375,7 +382,7 @@
     }
     state.busy = false;
     state.plotAxes = null;
-    el.quizModeLabel.textContent = state.mode === 'quick' ? 'Quick test' : 'Full test';
+    el.quizModeLabel.textContent = MODES[state.mode].label;
     showView('quiz');
     renderQuestion();
   }
@@ -639,6 +646,7 @@
   /* ------------------------------ portraits ------------------------------ */
 
   function figureSrc(ideology) {
+    if (ideology.restricted) return null; // no portrait for hateful or violent extremist entries
     return FIGURE_CREDITS[ideology.id] ? `figures/${ideology.id}.jpg` : null;
   }
 

@@ -55,7 +55,7 @@ FIGURES = {
     "democratic-transhumanism": "James Hughes (sociologist)",
     "egoist-anarchism": "Max Stirner",
     "tolstoyanism": "Leo Tolstoy",
-    # national-socialism is left out on purpose: it shows a name plate, not a portrait.
+    "national-socialism": "Adolf Hitler",
     "national-syndicalism": "Ramiro Ledesma Ramos",
     "brazilian-integralism": "Plínio Salgado",
     "austrofascism": "Engelbert Dollfuss",
