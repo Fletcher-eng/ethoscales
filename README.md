@@ -1,4 +1,4 @@
-# AxiomValues // EthosScales
+# EthosScales
 
 A 6 axis political values test that runs entirely in your browser. Answer 18 dilemmas, get your coordinates in six dimensional ideology space, see which of 15 archetypes you sit closest to, and share the result as a link or a downloadable card.
 
