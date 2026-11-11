@@ -431,6 +431,7 @@
     el.shareUrl.value = window.location.href;
 
     renderMatchCard(top);
+    revealVerdict();
     renderFullRanking();
     renderCompare();
     renderFigure(top.ideology);
@@ -445,6 +446,35 @@
     buildResultCard().then((canvas) => {
       el.cardPreview.src = canvas.toDataURL('image/png');
     }).catch((err) => console.warn('Card preview failed:', err));
+  }
+
+  const REDUCED_MOTION = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /** Count a percentage up from zero. Skipped for people who ask for less motion. */
+  function countUp(node, value) {
+    const final = fmt(value) + '%';
+    if (REDUCED_MOTION || !window.requestAnimationFrame) { node.textContent = final; return; }
+    const start = performance.now();
+    const duration = 700;
+    const token = (node.dataset.count = String(start)); // a newer count cancels an older one
+    function frame(now) {
+      if (node.dataset.count !== token) return;
+      const t = Math.min(1, (now - start) / duration);
+      const eased = 1 - Math.pow(1 - t, 3);
+      node.textContent = t < 1 ? fmt(value * eased) + '%' : final;
+      if (t < 1) requestAnimationFrame(frame);
+    }
+    node.textContent = '0.0%';
+    requestAnimationFrame(frame);
+  }
+
+  /** Replay the verdict's entrance: each line rises in a beat after the one above. */
+  function revealVerdict() {
+    const verdict = el.matchName.closest('.verdict');
+    Array.from(el.matchName.parentElement.children).forEach((child, i) => child.style.setProperty('--i', i));
+    verdict.classList.remove('is-revealing');
+    void verdict.offsetWidth; // restart the animation
+    verdict.classList.add('is-revealing');
   }
 
   /** Shrink the big match name until its longest word fits the column. */
@@ -466,7 +496,7 @@
     const src = top.ideology.source;
     // Meme ideologies have no founding text, so they carry a note instead.
     el.matchSource.textContent = src.note || `Defined from: ${src.author}, ${src.work} (${src.year})`;
-    el.matchScore.textContent = fmt(top.compatibility) + '%';
+    countUp(el.matchScore, top.compatibility);
     el.matchDistance.textContent = 'Distance ' + top.distance.toFixed(2);
     el.matchTagline.textContent = top.ideology.tagline;
     el.matchDesc.textContent = top.ideology.desc;
