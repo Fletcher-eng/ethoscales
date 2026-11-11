@@ -1,6 +1,6 @@
 # EthosScales
 
-A 12 axis political values test that runs entirely in your browser. Answer 60 statements, get your coordinates in twelve dimensional ideology space, and see which of 46 ideologies you sit closest to. Every ideology is defined from its own founding text, not from how the word gets used online.
+A 12 axis political values test that runs entirely in your browser. Answer 60 statements, get your coordinates in twelve dimensional ideology space, and see which of 86 ideologies you sit closest to. Every ideology is defined from its own founding text, not from how the word gets used online.
 
 No backend. No accounts. No tracking.
 
@@ -11,9 +11,10 @@ No backend. No accounts. No tracking.
 * **12 independent axes** instead of a single left/right line
 * **60 statements**, five led by each axis, where most answers move several axes at once
 * **Quick test** (25 statements) and **Full test** (60 statements)
-* **46 ideologies**, each with a named source text and the thinker behind it
+* **86 ideologies**, each with a named source text and the thinker behind it
 * **Meme ideologies too**, such as Neo Libertarian Falangism and Monarcho Brezhnevism, clearly labelled as jokes
 * **Third Position split into its real movements**: Italian Fascism, Falangism, Peronism, Strasserism, National Bolshevism, Eurasianism and Ba'athism
+* **An emblem for every ideology**, drawn in the site's own style and shown large and faint behind your result
 * **3D chart** where you choose which three axes to view
 * **Six 2D compasses** that between them show all twelve axes
 * **Share links**: your whole result lives in the URL
@@ -53,7 +54,7 @@ The coordinates are a different matter. Placing a body of thought at a number be
 ethoscales/
 ├── index.html        Page layout and styles
 ├── questions.js      The 60 statements and their scoring vectors
-├── ideologies.js     The 12 axis definitions and 46 ideologies
+├── ideologies.js     The 12 axis definitions and 86 ideologies
 ├── app.js            The engine: quiz flow, math, charts, sharing, card export
 ├── figures/          Portraits, plus credits.json and CREDITS.md
 └── tools/

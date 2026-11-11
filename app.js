@@ -24,7 +24,7 @@
   const AXIS_BY_KEY = Object.fromEntries(AXES.map((a) => [a.key, a]));
 
   // Poster palette, shared by the 3D chart and the result card.
-  const THEME = { paper: '#EEE6D3', paper2: '#F7F1E1', ink: '#111111', red: '#D42A1C' };
+  const THEME = { paper: '#EEE6D3', paper2: '#F7F1E1', ink: '#111111', red: '#C42318' };
 
   // Size of the marker on each answer button: big at the strong ends, small in the middle.
   const ANSWER_MARK_SIZES = [22, 16, 10, 16, 22];
@@ -373,6 +373,7 @@
 
   function renderMatchCard(top) {
     el.matchName.textContent = top.ideology.name;
+    el.matchSymbol.innerHTML = SYMBOLS.svg(top.ideology);
     el.matchFamily.textContent = top.ideology.family ? top.ideology.family + ' family' : '';
     const src = top.ideology.source;
     // Meme ideologies have no founding text, so they carry a note instead.
@@ -385,6 +386,7 @@
     el.matchList.innerHTML = state.matches.slice(0, 5).map((m, i) => `
       <li>
         <span class="rk">${i + 1}</span>
+        <span class="sym">${SYMBOLS.svg(m.ideology)}</span>
         <span class="nm">${m.ideology.name}<small>${m.ideology.figure.name}</small></span>
         <span class="pc num">${fmt(m.compatibility)}%</span>
       </li>`).join('');
@@ -399,8 +401,13 @@
     return FIGURE_CREDITS[ideology.id] ? `figures/${ideology.id}.jpg` : null;
   }
 
+  /** First and last initial only, so long names never spell an unintended word. */
   function initials(name) {
-    return name.split(/\s+/).filter((w) => /^[A-Za-zÀ-ÿ]/.test(w)).map((w) => w[0]).slice(0, 3).join('').toUpperCase();
+    const words = name.split(/\s+/).filter((w) => /^[A-Za-zÀ-ÿ]/.test(w));
+    if (!words.length) return '?';
+    const first = words[0][0];
+    const last = words.length > 1 ? words[words.length - 1][0] : '';
+    return (first + last).toUpperCase();
   }
 
   function figureCreditLine(ideology) {
@@ -760,6 +767,12 @@
     ctx.fillStyle = T.ink;
     ctx.beginPath(); ctx.moveTo(W, headH - 190); ctx.lineTo(W, headH); ctx.lineTo(W - 190, headH); ctx.closePath(); ctx.fill();
 
+    // The ideology's emblem, huge and faint, bleeding off the left edge of the header.
+    ctx.save();
+    ctx.beginPath(); ctx.rect(0, 0, W, headH); ctx.clip();
+    SYMBOLS.draw(ctx, ideology, -150, 90, 620, T.ink, 0.13, -10);
+    ctx.restore();
+
     ctx.fillStyle = T.paper;
     ctx.textAlign = 'left';
     ctx.font = `56px ${FONT_DISPLAY}`;
@@ -1047,6 +1060,7 @@
     el.resultSource = $('#result-source');
     el.matchName = $('#match-name');
     el.matchFamily = $('#match-family');
+    el.matchSymbol = $('#match-symbol');
     el.matchSource = $('#match-source');
     el.figure = $('#figure');
     el.figureCredit = $('#figure-credit');

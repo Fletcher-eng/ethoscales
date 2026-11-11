@@ -4,12 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>EthosScales : Where do you stand?</title>
-  <meta name="description" content="A 12 axis political values test. 60 hard questions and 46 ideologies, each defined from its founding text. No sign up, no tracking." />
+  <meta name="description" content="A 12 axis political values test. 60 hard questions and 86 ideologies, each defined from its founding text. No sign up, no tracking." />
   <meta property="og:title" content="EthosScales : Where do you stand?" />
   <meta property="og:description" content="60 questions. 12 axes. No sitting on the fence." />
   <meta property="og:type" content="website" />
-  <meta name="theme-color" content="#D42A1C" />
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23D42A1C'/%3E%3Cpath d='M32 10v22H10z' fill='%23111'/%3E%3C/svg%3E" />
+  <meta name="theme-color" content="#C42318" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23C42318'/%3E%3Cpath d='M32 10v22H10z' fill='%23111'/%3E%3C/svg%3E" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -28,7 +28,7 @@
       --paper: #EEE6D3;
       --paper-2: #F7F1E1;
       --ink: #111111;
-      --red: #D42A1C;
+      --red: #C42318;
       --rule: 4px solid var(--ink);
       --shadow: 8px 8px 0 var(--ink);
       --display: 'Anton', Impact, 'Arial Narrow Bold', sans-serif;
@@ -165,6 +165,11 @@
     #match-score { font-family: var(--display); font-size: 64px; line-height: 0.9; background: var(--paper); color: var(--ink); padding: 8px 14px 4px; }
     #match-tagline { font-weight: 900; font-size: 18px; max-width: 46ch; margin-top: 22px; line-height: 1.3; }
     #match-desc { font-size: 17px; max-width: 62ch; margin-top: 12px; line-height: 1.5; color: #dcd4c2; }
+    /* The ideology's emblem, huge and faint, bleeding off the left edge behind the name */
+    #match-symbol { position: absolute; left: -150px; top: 30px; width: 640px; height: 640px; color: var(--paper); opacity: 0.09; transform: rotate(-10deg); pointer-events: none; }
+    #match-symbol svg { width: 100%; height: 100%; display: block; }
+    #match-list .sym { width: 26px; height: 26px; flex: none; }
+    #match-list .sym svg { width: 100%; height: 100%; display: block; }
     #match-family { color: #F5B700; margin-left: 8px; }
     #match-source { font-weight: 700; font-size: 14px; margin-top: 14px; max-width: 62ch; color: #F5B700; }
     .verdict-grid { display: grid; grid-template-columns: minmax(0, 1fr) 280px; gap: 40px; align-items: start; }
@@ -185,7 +190,7 @@
     #axis-bars { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px; background: var(--ink); }
     .axis-row { padding: 14px 16px 16px; background: var(--paper-2); }
     .axis-row .poles { display: flex; justify-content: space-between; gap: 12px; align-items: flex-end; margin: 6px 0 8px; }
-    .axis-row .pole { min-width: 0; opacity: 0.5; }
+    .axis-row .pole { min-width: 0; opacity: 0.7; }
     .axis-row .pole.is-win { opacity: 1; }
     .axis-row .pole b { font-family: var(--display); font-weight: 400; font-size: 30px; line-height: 0.95; display: block; }
     .axis-row .pole span { font-weight: 700; font-size: 13px; display: block; }
@@ -199,6 +204,7 @@
     #match-list li:first-child { background: var(--red); color: var(--paper); }
     #match-list .rk { font-family: var(--display); font-weight: 400; font-size: 26px; width: 30px; line-height: 1; }
     #match-list .nm { flex: 1; min-width: 0; text-transform: uppercase; font-size: 14px; letter-spacing: 0.04em; line-height: 1.2; }
+    #match-list li:first-child .nm small { opacity: 1; }
     #match-list .nm small { display: block; text-transform: none; letter-spacing: 0; font-weight: 700; font-size: 12px; opacity: 0.7; }
     #match-list .pc { font-family: var(--display); font-weight: 400; font-size: 24px; line-height: 1; }
     .opposite { padding: 14px 16px 16px; background: var(--ink); color: var(--paper); }
@@ -242,7 +248,7 @@
     #share-url { flex: 1; min-width: 0; border: 0; background: transparent; font: inherit; font-weight: 700; font-size: 13px; color: inherit; outline: none; text-overflow: ellipsis; }
     .share .actions { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 18px; }
     #card-preview { width: 190px; border: var(--rule); box-shadow: 8px 8px 0 var(--ink); transform: rotate(3deg); display: block; background: var(--paper); }
-    .fine { font-weight: 700; font-size: 13px; text-align: center; opacity: 0.6; }
+    .fine { font-weight: 700; font-size: 13px; text-align: center; opacity: 0.72; }
 
     #toast { position: fixed; left: 50%; bottom: 28px; transform: translate(-50%, 24px); opacity: 0; pointer-events: none; transition: all 200ms ease; z-index: 60;
       background: var(--ink); color: var(--paper); border: 4px solid var(--paper); padding: 12px 18px; font-weight: 900; font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; }
@@ -254,7 +260,8 @@
       .topbar .label { display: none; }
       .start-row kbd { display: none; }
       .hero::before { right: -380px; bottom: -380px; }
-      .verdict::after { right: -110px; top: -130px; width: 230px; height: 230px; }
+      .verdict::after { display: none; }
+      #match-family { display: block; margin: 4px 0 0; }
       .hero::after { right: -50px; top: -60px; width: 150px; height: 150px; }
       #axis-chips { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .axis-tile h3 { font-size: 24px; }
@@ -262,6 +269,7 @@
       .axis-tile p { font-size: 12px; }
       #compass-grid, #axis-bars { grid-template-columns: 1fr; }
       .verdict-grid { grid-template-columns: 1fr; }
+      #match-symbol { left: -120px; top: 60px; width: 420px; height: 420px; }
       .figure-col { max-width: 240px; }
       .two { grid-template-columns: 1fr; }
       .share { grid-template-columns: 1fr; }
@@ -280,7 +288,7 @@
   <header class="topbar on-dark">
     <div class="wrap">
       <a href="./" id="brand-link"><i></i>EthosScales</a>
-      <span class="label">12 axes / 46 ideologies</span>
+      <span class="label">12 axes / 86 ideologies</span>
     </div>
   </header>
 
@@ -312,16 +320,16 @@
             <div class="s-tag label">Example result</div>
             <div class="s-top"><span class="label">Your closest match</span><b>Social Ecology</b></div>
             <div class="s-body">
-              <div class="s-row"><span style="width:40%;background:#D42A1C"></span></div>
+              <div class="s-row"><span style="width:40%;background:#C42318"></span></div>
               <div class="s-row"><span style="width:10%;background:#B0307A"></span></div>
               <div class="s-row"><span style="width:95%;background:#1D3FBB"></span></div>
-              <div class="s-row"><span style="width:100%;background:#7B52D9"></span></div>
+              <div class="s-row"><span style="width:100%;background:#6F45D0"></span></div>
               <div class="s-row"><span style="width:100%;background:#EE6C1B"></span></div>
-              <div class="s-row"><span style="width:95%;background:#0E7C86"></span></div>
+              <div class="s-row"><span style="width:95%;background:#0B6C75"></span></div>
               <div class="s-row"><span style="width:80%;background:#E5457D"></span></div>
               <div class="s-row"><span style="width:85%;background:#C2A46B"></span></div>
               <div class="s-row"><span style="width:65%;background:#F5B700"></span></div>
-              <div class="s-row"><span style="width:10%;background:#14854F"></span></div>
+              <div class="s-row"><span style="width:10%;background:#10743F"></span></div>
               <div class="s-row"><span style="width:95%;background:#6FB7E8"></span></div>
               <div class="s-row"><span style="width:75%;background:#9A9A8E"></span></div>
             </div>
@@ -362,6 +370,7 @@
     <!-- ============================= RESULTS ============================ -->
     <section id="view-results" class="view is-hidden" aria-label="Results">
       <div class="verdict on-dark">
+        <div id="match-symbol" aria-hidden="true"></div>
         <div class="wrap verdict-grid">
           <div>
           <div class="label">Your closest match <span id="match-family"></span></div>
@@ -435,6 +444,7 @@
   <!-- App scripts (order matters: data first, engine last) -->
   <script src="questions.js"></script>
   <script src="ideologies.js"></script>
+  <script src="symbols.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
