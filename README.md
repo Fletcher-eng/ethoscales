@@ -17,6 +17,8 @@ No backend. No accounts. No tracking.
 * **An emblem for every ideology**, drawn in the site's own style and shown large and faint behind your result
 * **3D chart** where you choose which three axes to view
 * **Six 2D compasses** that between them show all twelve axes
+* **A catalogue of all 86 ideologies** on the start page, grouped by family, each with its definition and source
+* **You vs a friend**: paste a friend's result link to see where you agree and clash
 * **Share links**: your whole result lives in the URL
 * **Result card**: a 1080x1350 PNG with the thinker's portrait and a QR code that opens your result
 * **Keyboard controls**: `1` to `5` to answer, left arrow to go back, `Enter` to start
@@ -56,6 +58,7 @@ ethoscales/
 ├── questions.js      The 60 statements and their scoring vectors
 ├── ideologies.js     The 12 axis definitions and 86 ideologies
 ├── app.js            The engine: quiz flow, math, charts, sharing, card export
+├── og.png            The preview image shown when the link is pasted into a chat
 ├── figures/          Portraits, plus credits.json and CREDITS.md
 └── tools/
     └── fetch_figures.py   Downloads freely licensed portraits from Wikimedia Commons
