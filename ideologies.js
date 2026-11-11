@@ -59,7 +59,9 @@ function coords(...v) {
   return out;
 }
 
-/* family groups related ideologies, for example the Third Position movements. */
+/* family is a broad grouping used for the catalogue and for chart colors. It follows how
+   each ideology describes itself where it can. For example Juche is Radical Left by its
+   socialist economy, not "Communist", a label it dropped. Entries below are not in family order. */
 const IDEOLOGIES = [
   /* ---------------------- THIRD POSITION MOVEMENTS ---------------------- */
   {
@@ -111,7 +113,7 @@ const IDEOLOGIES = [
     desc: 'Claims that liberalism, communism and fascism are all exhausted products of Western modernity, and proposes a fourth theory built on tradition and on distinct civilisations. It wants a multipolar world of large land based blocs in place of one global order. Inside such a bloc, each people is meant to keep its own faith and customs under a strong sacral authority.'
   },
   {
-    id: 'baathism', name: 'Ba\'athism', family: 'Third Position',
+    id: 'baathism', name: 'Ba\'athism', family: 'Nationalist',
     coords: coords(75, 65, 85, 85, 90, 95, 85, 50, 35, 20, 35, 80),
     figure: { name: 'Michel Aflaq', years: '1910 to 1989' },
     source: { author: 'Michel Aflaq', work: 'On the Way of Resurrection (collected essays)', year: 1959 },
@@ -121,7 +123,7 @@ const IDEOLOGIES = [
 
   /* ----------------------------- COMMUNIST ------------------------------ */
   {
-    id: 'marxism-leninism', name: 'Marxism Leninism', family: 'Communist',
+    id: 'marxism-leninism', name: 'Marxism Leninism', family: 'Radical Left',
     coords: coords(100, 100, 90, 85, 95, 30, 45, 30, 15, 15, 0, 75),
     figure: { name: 'Vladimir Lenin', years: '1870 to 1924' },
     source: { author: 'V. I. Lenin', work: 'What Is to Be Done? (1902) and The State and Revolution', year: 1918 },
@@ -129,7 +131,7 @@ const IDEOLOGIES = [
     desc: 'Holds that the working class must seize the state through a disciplined vanguard party and use it to abolish private ownership of the means of production. The economy is then centrally planned. The state is expected to wither away only after class divisions have disappeared.'
   },
   {
-    id: 'maoism', name: 'Maoism', family: 'Communist',
+    id: 'maoism', name: 'Maoism', family: 'Radical Left',
     coords: coords(95, 100, 95, 85, 75, 60, 60, 15, 45, 15, 0, 90),
     figure: { name: 'Mao Zedong', years: '1893 to 1976' },
     source: { author: 'Mao Zedong', work: 'On New Democracy', year: 1940 },
@@ -137,15 +139,15 @@ const IDEOLOGIES = [
     desc: 'Adapts Marxism Leninism to an agrarian country by making the peasantry the main revolutionary force. The party is meant to draw its line from the masses and return it to them, and to keep class struggle going even after taking power. It is openly hostile to inherited tradition and treats armed struggle as the road to power.'
   },
   {
-    id: 'juche', name: 'Juche', family: 'Communist',
+    id: 'juche', name: 'Juche', family: 'Radical Left',
     coords: coords(100, 95, 100, 100, 100, 100, 100, 70, 35, 15, 10, 100),
     figure: { name: 'Kim Il Sung', years: '1912 to 1994' },
     source: { author: 'Kim Jong Il', work: 'On the Juche Idea', year: 1982 },
     tagline: 'Self reliance in ideology, politics, economy and defence.',
-    desc: 'Teaches that the masses are masters of the revolution but can only act through a single supreme leader. The nation must depend on no outside power, which means a self sufficient planned economy and self reliance in defence. It combines total state ownership with what it calls socialist patriotism.'
+    desc: 'North Korea\'s state doctrine. It grew out of Marxism Leninism but dropped that label in 1992 and now presents itself as an original idea of its own, so it is grouped here by its socialist economy and not called communist. It teaches that the masses are masters of the revolution but can only act through a single supreme leader. The nation must depend on no outside power, which means a self sufficient planned economy and self reliance in defence. It combines total state ownership with what it calls socialist patriotism.'
   },
   {
-    id: 'council-communism', name: 'Council Communism', family: 'Communist',
+    id: 'council-communism', name: 'Council Communism', family: 'Radical Left',
     coords: coords(80, 100, 30, 5, 15, 5, 30, 20, 30, 35, 5, 40),
     figure: { name: 'Anton Pannekoek', years: '1873 to 1960' },
     source: { author: 'Anton Pannekoek', work: 'Workers\' Councils', year: 1946 },
@@ -211,7 +213,7 @@ const IDEOLOGIES = [
     desc: 'Locates the origin of domination in agriculture, the division of labour and symbolic culture, not just in the state or capitalism. It holds that hunter gatherer life was freer, healthier and more equal. The goal is to undo industrial civilisation and return to small, wild, face to face bands.'
   },
   {
-    id: 'agorism', name: 'Agorism', family: 'Anarchist',
+    id: 'agorism', name: 'Agorism', family: 'Libertarian',
     coords: coords(0, 5, 0, 10, 0, 0, 35, 30, 20, 25, 10, 10),
     figure: { name: 'Samuel Edward Konkin III', years: '1947 to 2004' },
     source: { author: 'Samuel Edward Konkin III', work: 'New Libertarian Manifesto', year: 1980 },
@@ -219,7 +221,7 @@ const IDEOLOGIES = [
     desc: 'Rejects voting and political parties as ways to reach a free society. The strategy is counter economics: peaceful trade in black and grey markets that the state cannot tax or regulate. As this parallel economy grows it is meant to supply protection and arbitration too, until the state has nothing left to do.'
   },
   {
-    id: 'crypto-anarchism', name: 'Crypto Anarchism', family: 'Anarchist',
+    id: 'crypto-anarchism', name: 'Crypto Anarchism', family: 'Libertarian',
     coords: coords(0, 0, 0, 20, 0, 0, 40, 35, 0, 15, 5, 15),
     figure: { name: 'Timothy C. May', years: '1951 to 2018' },
     source: { author: 'Timothy C. May', work: 'The Crypto Anarchist Manifesto', year: 1988 },
@@ -229,7 +231,7 @@ const IDEOLOGIES = [
 
   /* ---------------------- SOCIALIST AND SOCIAL DEMOCRATIC ---------------------- */
   {
-    id: 'social-democracy', name: 'Social Democracy', family: 'Socialist',
+    id: 'social-democracy', name: 'Social Democracy', family: 'Left',
     coords: coords(60, 55, 35, 10, 60, 35, 30, 30, 35, 50, 20, 30),
     figure: { name: 'Eduard Bernstein', years: '1850 to 1932' },
     source: { author: 'Eduard Bernstein', work: 'Evolutionary Socialism', year: 1899 },
@@ -237,7 +239,7 @@ const IDEOLOGIES = [
     desc: 'Bernstein argued that capitalism was not heading for collapse, so socialists should pursue steady reform through parliament, unions and cooperatives instead of revolution. Democracy is both the means and the end. Socialism becomes the gradual extension of rights and security to everyone.'
   },
   {
-    id: 'market-socialism', name: 'Market Socialism', family: 'Socialist',
+    id: 'market-socialism', name: 'Market Socialism', family: 'Left',
     coords: coords(55, 85, 35, 15, 60, 30, 35, 30, 30, 40, 15, 35),
     figure: { name: 'Oskar Lange', years: '1904 to 1965' },
     source: { author: 'Oskar Lange', work: 'On the Economic Theory of Socialism', year: 1936 },
@@ -245,7 +247,7 @@ const IDEOLOGIES = [
     desc: 'Lange\'s reply to Mises: an economy can own its industries in common and still calculate rationally. A planning board sets the prices of capital goods by trial and error, and managers of public firms respond to them as they would in a market. Consumers keep free choice of goods and jobs.'
   },
   {
-    id: 'georgism', name: 'Georgism', family: 'Socialist',
+    id: 'georgism', name: 'Georgism', family: 'Liberal',
     coords: coords(25, 35, 20, 15, 40, 30, 35, 40, 35, 55, 35, 30),
     figure: { name: 'Henry George', years: '1839 to 1897' },
     source: { author: 'Henry George', work: 'Progress and Poverty', year: 1879 },
@@ -253,7 +255,7 @@ const IDEOLOGIES = [
     desc: 'Asks why poverty persists as wealth grows, and answers that landowners capture the gains as rent. Since nobody made the land, its value belongs to the community. George proposed a single tax on land value to replace taxes on work and trade, leaving everything people produce as their own.'
   },
   {
-    id: 'left-accelerationism', name: 'Left Accelerationism', family: 'Socialist',
+    id: 'left-accelerationism', name: 'Left Accelerationism', family: 'Left',
     coords: coords(85, 85, 35, 20, 55, 5, 20, 5, 0, 30, 0, 30),
     figure: { name: 'Nick Srnicek', years: 'born 1982' },
     source: { author: 'Nick Srnicek and Alex Williams', work: '#Accelerate Manifesto (2013) and Inventing the Future', year: 2015 },
@@ -261,7 +263,7 @@ const IDEOLOGIES = [
     desc: 'Argues the left should stop defending local, small scale resistance and instead take over the technology that capitalism built. Automation, logistics and planning tools should be repurposed toward a world without work. Its demands include full automation, a universal basic income and a shorter working week.'
   },
   {
-    id: 'democratic-transhumanism', name: 'Democratic Transhumanism', family: 'Socialist',
+    id: 'democratic-transhumanism', name: 'Democratic Transhumanism', family: 'Left',
     coords: coords(55, 45, 15, 5, 55, 10, 15, 5, 0, 40, 5, 25),
     figure: { name: 'James Hughes', years: 'born 1961' },
     source: { author: 'James Hughes', work: 'Citizen Cyborg', year: 2004 },
@@ -295,7 +297,7 @@ const IDEOLOGIES = [
     desc: 'Argues that free markets do not maintain themselves, because firms form cartels and monopolies. The state must set and enforce a firm framework of rules: stable money, open markets, liability and strict competition law. It should not steer the economy day to day. This is the basis of the German social market economy.'
   },
   {
-    id: 'minarchism', name: 'Minarchist Libertarianism', family: 'Liberal',
+    id: 'minarchism', name: 'Minarchist Libertarianism', family: 'Libertarian',
     coords: coords(5, 0, 10, 25, 25, 20, 40, 40, 20, 15, 15, 30),
     figure: { name: 'Robert Nozick', years: '1938 to 2002' },
     source: { author: 'Robert Nozick', work: 'Anarchy, State, and Utopia', year: 1974 },
@@ -303,7 +305,7 @@ const IDEOLOGIES = [
     desc: 'Starts from individual rights so strong that they limit what any state may do. Only a minimal state that protects against force, theft and fraud and enforces contracts can be justified. Anything more, including taxing some people to help others, violates rights.'
   },
   {
-    id: 'anarcho-capitalism', name: 'Anarcho Capitalism', family: 'Liberal',
+    id: 'anarcho-capitalism', name: 'Anarcho Capitalism', family: 'Libertarian',
     coords: coords(0, 0, 0, 30, 0, 15, 45, 55, 20, 10, 25, 15),
     figure: { name: 'Murray Rothbard', years: '1926 to 1995' },
     source: { author: 'Murray Rothbard', work: 'For a New Liberty', year: 1973 },
@@ -321,7 +323,7 @@ const IDEOLOGIES = [
     desc: 'Distrusts schemes that rebuild society from abstract principles, because inherited institutions hold more accumulated wisdom than any one generation can see. Change should be gradual and should repair, not replace. Attachment to one\'s own small corner of society, which Burke called the little platoon, is where loyalty to the wider nation begins.'
   },
   {
-    id: 'reactionary-monarchism', name: 'Reactionary Monarchism', family: 'Conservative',
+    id: 'reactionary-monarchism', name: 'Reactionary Monarchism', family: 'Reactionary',
     coords: coords(45, 25, 90, 100, 85, 60, 85, 100, 80, 45, 100, 70),
     figure: { name: 'Joseph de Maistre', years: '1753 to 1821' },
     source: { author: 'Joseph de Maistre', work: 'Considerations on France (1797) and The Pope', year: 1819 },
@@ -355,7 +357,7 @@ const IDEOLOGIES = [
 
   /* --------------------------- NEOREACTIONARY --------------------------- */
   {
-    id: 'neo-cameralism', name: 'Neo Cameralism', family: 'Neoreactionary',
+    id: 'neo-cameralism', name: 'Neo Cameralism', family: 'Reactionary',
     coords: coords(10, 0, 60, 100, 30, 30, 60, 75, 15, 15, 35, 50),
     figure: { name: 'Curtis Yarvin', years: 'born 1973' },
     source: { author: 'Curtis Yarvin, writing as Mencius Moldbug', work: 'Patchwork: A Political System for the 21st Century', year: 2008 },
@@ -363,7 +365,7 @@ const IDEOLOGIES = [
     desc: 'Treats a state as a business that owns a country. It should be run for profit by a chief executive who answers to shareholders, with no elections. Yarvin imagines a patchwork of many small sovereign corporations competing for residents, whose main protection is the freedom to leave.'
   },
   {
-    id: 'right-accelerationism', name: 'Right Accelerationism', family: 'Neoreactionary',
+    id: 'right-accelerationism', name: 'Right Accelerationism', family: 'Reactionary',
     coords: coords(0, 0, 40, 85, 15, 10, 55, 50, 0, 0, 10, 45),
     figure: { name: 'Nick Land', years: 'born 1962' },
     source: { author: 'Nick Land', work: 'Fanged Noumena (2011) and The Dark Enlightenment', year: 2012 },
@@ -371,7 +373,7 @@ const IDEOLOGIES = [
     desc: 'Sees capitalism and technology as one self reinforcing process that is outrunning human control, and holds that this should be sped up, not restrained. Democracy is treated as a brake that consumes the future for present comfort. Land favours exit into competing, non democratic jurisdictions over any attempt at reform.'
   },
   {
-    id: 'network-state', name: 'Network State', family: 'Neoreactionary',
+    id: 'network-state', name: 'Network State', family: 'Technological',
     coords: coords(10, 10, 20, 45, 5, 5, 45, 45, 0, 25, 25, 20),
     figure: { name: 'Balaji Srinivasan', years: 'born 1980' },
     source: { author: 'Balaji Srinivasan', work: 'The Network State', year: 2022 },
@@ -447,7 +449,7 @@ const IDEOLOGIES = [
     desc: 'The Green Book rejects parliaments and parties as a fraud on the people and proposes direct rule through popular congresses and committees. In economics it says workers should be partners, not wage earners, and that a house belongs to whoever lives in it. Nation, religion and custom are named as the natural basis of society. This describes the text, not how Libya was actually governed.'
   },
   {
-    id: 'nasserism', name: 'Nasserism', family: 'Third Position',
+    id: 'nasserism', name: 'Nasserism', family: 'Nationalist',
     coords: coords(75, 65, 80, 85, 90, 95, 85, 50, 25, 15, 40, 80),
     figure: { name: 'Gamal Abdel Nasser', years: '1918 to 1970' },
     source: { author: 'Gamal Abdel Nasser', work: 'The Philosophy of the Revolution (1954) and the National Charter', year: 1962 },
@@ -463,7 +465,7 @@ const IDEOLOGIES = [
     desc: 'Marinetti demanded the destruction of museums, libraries and every inherited piety, and the worship of speed, machines, youth and danger. The manifesto glorifies war as the world\'s only hygiene. Its politics were fiercely nationalist and anti clerical, and many Futurists fed into early Fascism while despising its later compromise with tradition.'
   },
   {
-    id: 'radical-traditionalism', name: 'Radical Traditionalism', family: 'Third Position',
+    id: 'radical-traditionalism', name: 'Radical Traditionalism', family: 'Reactionary',
     coords: coords(45, 30, 90, 100, 70, 45, 80, 100, 95, 50, 90, 90),
     figure: { name: 'Julius Evola', years: '1898 to 1974' },
     source: { author: 'Julius Evola', work: 'Revolt Against the Modern World', year: 1934 },
@@ -471,7 +473,7 @@ const IDEOLOGIES = [
     desc: 'Evola held that history is a long decline from a primordial order ruled by a sacred kingship and a warrior caste. Democracy, equality, materialism and mass nationalism are all symptoms of that fall. He wanted an aristocratic, imperial order founded on spiritual authority, and criticised Fascism for being too modern and too plebeian.'
   },
   {
-    id: 'archeofuturism', name: 'Archeofuturism', family: 'Third Position',
+    id: 'archeofuturism', name: 'Archeofuturism', family: 'Reactionary',
     coords: coords(45, 30, 85, 90, 65, 80, 95, 85, 5, 45, 35, 85),
     figure: { name: 'Guillaume Faye', years: '1949 to 2019' },
     source: { author: 'Guillaume Faye', work: 'Archeofuturism', year: 1998 },
@@ -481,7 +483,7 @@ const IDEOLOGIES = [
 
   /* --------------------------- MORE COMMUNIST --------------------------- */
   {
-    id: 'trotskyism', name: 'Trotskyism', family: 'Communist',
+    id: 'trotskyism', name: 'Trotskyism', family: 'Radical Left',
     coords: coords(95, 100, 70, 60, 80, 0, 30, 20, 15, 15, 0, 80),
     figure: { name: 'Leon Trotsky', years: '1879 to 1940' },
     source: { author: 'Leon Trotsky', work: 'The Permanent Revolution', year: 1930 },
@@ -489,7 +491,7 @@ const IDEOLOGIES = [
     desc: 'Argues that in backward countries the working class must lead the revolution straight through to socialism, and that it can only survive by spreading internationally. Socialism in a single country is impossible. Trotsky also condemned the Soviet bureaucracy as a caste that had usurped the workers\' state.'
   },
   {
-    id: 'stalinism', name: 'Stalinism', family: 'Communist',
+    id: 'stalinism', name: 'Stalinism', family: 'Radical Left',
     coords: coords(100, 100, 100, 100, 100, 65, 65, 55, 10, 5, 0, 90),
     figure: { name: 'Joseph Stalin', years: '1878 to 1953' },
     source: { author: 'J. V. Stalin', work: 'Concerning Questions of Leninism', year: 1926 },
@@ -497,7 +499,7 @@ const IDEOLOGIES = [
     desc: 'Against Trotsky, Stalin argued that a complete socialist society could be built inside the Soviet Union alone, without waiting for revolution abroad. In practice this became forced collectivisation of farming and rapid heavy industry under five year plans. He later added that class struggle sharpens as socialism advances, which justified an ever stronger security state.'
   },
   {
-    id: 'luxemburgism', name: 'Luxemburgism', family: 'Communist',
+    id: 'luxemburgism', name: 'Luxemburgism', family: 'Radical Left',
     coords: coords(85, 100, 35, 15, 45, 0, 25, 20, 25, 25, 0, 50),
     figure: { name: 'Rosa Luxemburg', years: '1871 to 1919' },
     source: { author: 'Rosa Luxemburg', work: 'The Russian Revolution', year: 'written 1918, published 1922' },
@@ -505,7 +507,7 @@ const IDEOLOGIES = [
     desc: 'A revolutionary Marxism that insists socialism must be made by the masses themselves through spontaneous action such as the mass strike. Luxemburg supported the Bolshevik revolution but attacked its suppression of elections, press and assembly. Without open democracy, she warned, the party dictatorship would harden into rule by a clique.'
   },
   {
-    id: 'titoism', name: 'Titoism (Self Management)', family: 'Communist',
+    id: 'titoism', name: 'Titoism (Self Management)', family: 'Radical Left',
     coords: coords(60, 90, 65, 70, 35, 45, 25, 30, 30, 25, 5, 55),
     figure: { name: 'Edvard Kardelj', years: '1910 to 1979' },
     source: { author: 'Edvard Kardelj', work: 'Directions of the Development of the Political System of Socialist Self Management', year: 1977 },
@@ -513,7 +515,7 @@ const IDEOLOGIES = [
     desc: 'The Yugoslav break with Stalin. Enterprises are socially owned but run by councils of their own workers, competing in a regulated market instead of following a central plan. The state is a federation of republics with real powers, and in foreign policy it refuses to join either Cold War bloc.'
   },
   {
-    id: 'dengism', name: 'Dengism', family: 'Communist',
+    id: 'dengism', name: 'Dengism', family: 'Radical Left',
     coords: coords(45, 60, 85, 90, 85, 70, 60, 45, 10, 10, 0, 60),
     figure: { name: 'Deng Xiaoping', years: '1904 to 1997' },
     source: { author: 'Deng Xiaoping', work: 'Emancipate the Mind, Seek Truth from Facts and Unite as One in Looking to the Future', year: 1978 },
@@ -521,7 +523,7 @@ const IDEOLOGIES = [
     desc: 'Deng argued that poverty is not socialism and that the task of a socialist state is to develop the productive forces. Markets, private firms and foreign capital are tools to that end, to be judged by results. The Communist Party keeps an absolute monopoly on political power throughout.'
   },
   {
-    id: 'guevarism', name: 'Guevarism', family: 'Communist',
+    id: 'guevarism', name: 'Guevarism', family: 'Radical Left',
     coords: coords(100, 100, 80, 80, 85, 25, 35, 25, 30, 20, 0, 95),
     figure: { name: 'Che Guevara', years: '1928 to 1967' },
     source: { author: 'Ernesto Che Guevara', work: 'Guerrilla Warfare (1960) and Socialism and Man in Cuba', year: 1965 },
@@ -531,7 +533,7 @@ const IDEOLOGIES = [
 
   /* --------------------------- MORE SOCIALIST --------------------------- */
   {
-    id: 'utopian-socialism', name: 'Utopian Socialism', family: 'Socialist',
+    id: 'utopian-socialism', name: 'Utopian Socialism', family: 'Left',
     coords: coords(60, 85, 20, 25, 10, 10, 25, 20, 35, 50, 20, 5),
     figure: { name: 'Robert Owen', years: '1771 to 1858' },
     source: { author: 'Robert Owen', work: 'A New View of Society and the Report to the County of Lanark', year: '1813 to 1820' },
@@ -539,7 +541,7 @@ const IDEOLOGIES = [
     desc: 'Owen argued that character is formed by environment, so poverty and vice can be removed by reorganising how people live and work. He proposed small cooperative villages with shared property, education for all and humane conditions. Change comes through example and persuasion, not class conflict.'
   },
   {
-    id: 'revolutionary-syndicalism', name: 'Revolutionary Syndicalism', family: 'Socialist',
+    id: 'revolutionary-syndicalism', name: 'Revolutionary Syndicalism', family: 'Left',
     coords: coords(60, 90, 25, 15, 15, 20, 35, 45, 40, 30, 10, 85),
     figure: { name: 'Georges Sorel', years: '1847 to 1922' },
     source: { author: 'Georges Sorel', work: 'Reflections on Violence', year: 1908 },
@@ -547,7 +549,7 @@ const IDEOLOGIES = [
     desc: 'Sorel rejected parliamentary socialism as a betrayal that tames the workers. What moves people to heroic action is a myth, and for the working class that myth is the general strike. Proletarian violence, he argued, restores moral energy to a decadent society. He was theorising the syndicalist unions of his own day, and early fascists later drew on him.'
   },
   {
-    id: 'ujamaa', name: 'Ujamaa (African Socialism)', family: 'Socialist',
+    id: 'ujamaa', name: 'Ujamaa (African Socialism)', family: 'Left',
     coords: coords(80, 90, 65, 75, 60, 65, 50, 60, 60, 55, 35, 35),
     figure: { name: 'Julius Nyerere', years: '1922 to 1999' },
     source: { author: 'Julius Nyerere', work: 'Ujamaa: The Basis of African Socialism (1962) and the Arusha Declaration', year: 1967 },
@@ -607,7 +609,7 @@ const IDEOLOGIES = [
     desc: 'An attempt to renew social democracy after the Cold War by accepting markets and globalisation. The state should invest in people through education and training instead of simply redistributing income. Not to be confused with Third Position: this third way runs between old social democracy and free market liberalism.'
   },
   {
-    id: 'objectivism', name: 'Objectivism', family: 'Liberal',
+    id: 'objectivism', name: 'Objectivism', family: 'Libertarian',
     coords: coords(0, 0, 5, 25, 30, 25, 45, 25, 5, 0, 0, 40),
     figure: { name: 'Ayn Rand', years: '1905 to 1982' },
     source: { author: 'Ayn Rand, with essays by Nathaniel Branden', work: 'The Virtue of Selfishness', year: 1964 },
@@ -615,7 +617,7 @@ const IDEOLOGIES = [
     desc: 'Rand held that reason is the only means of knowledge and that achieving one\'s own happiness is each person\'s highest moral purpose. Altruism, the duty to live for others, is rejected as destructive. The only system consistent with this is laissez faire capitalism under a government limited to police, courts and defence.'
   },
   {
-    id: 'hoppeanism', name: 'Hoppean Libertarianism', family: 'Liberal',
+    id: 'hoppeanism', name: 'Hoppean Libertarianism', family: 'Libertarian',
     coords: coords(0, 0, 20, 70, 0, 35, 80, 90, 35, 15, 45, 25),
     figure: { name: 'Hans-Hermann Hoppe', years: 'born 1949' },
     source: { author: 'Hans-Hermann Hoppe', work: 'Democracy: The God That Failed', year: 2001 },

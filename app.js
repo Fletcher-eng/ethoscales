@@ -29,11 +29,12 @@
 
   // One color per ideology family, used to tell clusters apart on the 3D chart.
   const FAMILY_COLORS = {
-    'Third Position': '#6B3A1E', 'Communist': '#C42318', 'Anarchist': '#111111', 'Autonomist': '#B0307A',
-    'Socialist': '#E5457D', 'Liberal': '#F5B700', 'Conservative': '#1D3FBB', 'Nationalist': '#EE6C1B',
-    'Religious': '#6FB7E8', 'Neoreactionary': '#6F45D0', 'Green': '#10743F', 'Technological': '#0B6C75',
-    'Classical': '#9A9A8E', 'Meme': '#C2A46B'
+    'Radical Left': '#C42318', 'Left': '#E5457D', 'Liberal': '#6FB7E8', 'Libertarian': '#F5B700',
+    'Anarchist': '#111111', 'Autonomist': '#B0307A', 'Conservative': '#1D3FBB', 'Nationalist': '#EE6C1B',
+    'Religious': '#F7F1E1', 'Reactionary': '#6F45D0', 'Third Position': '#6B3A1E', 'Green': '#10743F',
+    'Technological': '#0B6C75', 'Classical': '#9A9A8E', 'Meme': '#C2A46B'
   };
+
 
   // Size of the marker on each answer button: big at the strong ends, small in the middle.
   const ANSWER_MARK_SIZES = [22, 16, 10, 16, 22];
