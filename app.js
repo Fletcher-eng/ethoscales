@@ -24,26 +24,34 @@
   const AXIS_BY_KEY = Object.fromEntries(AXES.map((a) => [a.key, a]));
 
   // Poster palette, shared by the 3D chart and the result card.
-  const THEME = { paper: '#EEE6D3', paper2: '#F7F1E1', ink: '#111111', red: '#D42A1C' };
+  const THEME = { paper: '#EEE6D3', paper2: '#F7F1E1', ink: '#111111', red: '#C42318' };
 
   // Size of the marker on each answer button: big at the strong ends, small in the middle.
   const ANSWER_MARK_SIZES = [22, 16, 10, 16, 22];
 
-  // The three issue specific 2D compasses.
+  // Six 2D compasses. Between them they show all twelve axes once.
   const COMPASSES = [
-    { id: 'classic', title: 'Classic compass', x: 'econ', y: 'gov' },
-    { id: 'culture', title: 'Culture and tech', x: 'tech', y: 'cult' },
-    { id: 'system', title: 'System and ecology', x: 'struct', y: 'eco' }
+    { id: 'classic', title: 'Classic compass', x: 'econ', y: 'rule' },
+    { id: 'property', title: 'Property and rights', x: 'own', y: 'rights' },
+    { id: 'state', title: 'State and nation', x: 'struct', y: 'nation' },
+    { id: 'culture', title: 'Identity and culture', x: 'ident', y: 'cult' },
+    { id: 'future', title: 'Tech and ecology', x: 'tech', y: 'eco' },
+    { id: 'spirit', title: 'Faith and force', x: 'relig', y: 'force' }
   ];
+
+  // Portrait credits, loaded from figures/credits.json. An ideology whose id
+  // is missing here has no portrait yet and gets a name plate instead.
+  let FIGURE_CREDITS = {};
 
   const state = {
     view: 'landing',     // 'landing' | 'quiz' | 'results'
-    mode: 'full',        // 'full' (18) | 'quick' (12)
+    mode: 'full',        // 'full' (60) | 'quick' (25)
     questions: [],       // active question bank for this run
     index: 0,            // current question index
     answers: [],         // response weight per question (null = unanswered)
-    scores: null,        // { econ, gov, tech, cult, struct, eco } in 0..100
+    scores: null,        // one value per axis key, each 0..100
     matches: [],         // ideologies sorted by distance, ascending
+    plotAxes: null,      // the 3 axis keys shown in the 3D chart (null = auto)
     busy: false          // true while a question transition is animating
   };
 
@@ -97,7 +105,12 @@
     return pct;
   }
 
-  /** Step 3: Euclidean distance in 6D, sorted ascending. */
+  /**
+   * Step 3: Euclidean distance across every axis, sorted ascending.
+   * The match score is 100 - D/2 for six axes. With more axes the largest
+   * possible distance grows by sqrt(axes / 6), so the divisor grows with it
+   * and the score keeps the same meaning.
+   */
   function matchIdeologies(scores) {
     return IDEOLOGIES.map((ideo) => {
       const sumSq = AXIS_KEYS.reduce((acc, k) => acc + Math.pow(scores[k] - ideo.coords[k], 2), 0);
@@ -105,7 +118,7 @@
       return {
         ideology: ideo,
         distance: distance,
-        compatibility: Math.max(0, 100 - distance / 2)
+        compatibility: Math.max(0, 100 - distance / (2 * Math.sqrt(AXIS_KEYS.length / 6)))
       };
     }).sort((a, b) => a.distance - b.distance);
   }
@@ -128,14 +141,8 @@
   /* ------------------------------------------------------------------ */
 
   function writeScoresToUrl(scores) {
-    const params = new URLSearchParams({
-      e: scores.econ,
-      g: scores.gov,
-      t: scores.tech,
-      c: scores.cult,
-      s: scores.struct,
-      ec: scores.eco
-    });
+    const params = new URLSearchParams();
+    AXES.forEach((a) => params.set(a.param, scores[a.key]));
     try {
       window.history.pushState({}, '', '?' + params.toString());
     } catch (err) {
@@ -144,7 +151,7 @@
     }
   }
 
-  /** Returns a scores object if all six params are present and numeric, else null. */
+  /** Returns a scores object if every axis param is present and numeric, else null. */
   function readScoresFromUrl() {
     const params = new URLSearchParams(window.location.search);
     const scores = {};
@@ -185,11 +192,9 @@
     window.scrollTo(0, 0);
   }
 
-  /** The axis a question moves the most. It sets that question's color and shape. */
+  /** A question's lead axis is the first one listed in its effects. It sets the color and shape. */
   function leadAxis(question) {
-    const [key] = Object.entries(question.effects)
-      .sort((a, b) => Math.abs(b[1]) - Math.abs(a[1]))[0];
-    return AXIS_BY_KEY[key];
+    return AXIS_BY_KEY[Object.keys(question.effects)[0]];
   }
 
   /** Segmented progress: one block per question, filled in that question's color. */
@@ -225,7 +230,7 @@
       <div class="axis-tile" style="--c:${a.color};--k:${a.ink}">
         <div class="shape shape-${a.shape}"></div>
         <h3>${a.name}</h3>
-        <p>${a.low.short} vs ${a.high.short}</p>
+        <p>${a.low.label} vs ${a.high.label}</p>
       </div>`).join('');
     setMode(state.mode);
   }
@@ -237,7 +242,7 @@
       btn.classList.toggle('is-active', active);
       btn.setAttribute('aria-checked', String(active));
     });
-    el.duration.textContent = mode === 'quick' ? 'About 2 minutes' : 'About 3 minutes';
+    el.duration.textContent = mode === 'quick' ? 'About 4 minutes' : 'About 9 minutes';
   }
 
   /* ------------------------------------------------------------------ */
@@ -249,6 +254,7 @@
     state.answers = new Array(state.questions.length).fill(null);
     state.index = 0;
     state.busy = false;
+    state.plotAxes = null;
     el.quizModeLabel.textContent = state.mode === 'quick' ? 'Quick test' : 'Full test';
     showView('quiz');
     renderQuestion();
@@ -351,7 +357,9 @@
     el.shareUrl.value = window.location.href;
 
     renderMatchCard(top);
+    renderFigure(top.ideology);
     renderAxisBars(scores);
+    renderPlotPickers(scores);
     renderCompasses(scores, top.ideology);
 
     // Plotly needs a visible container with a real width, so wait a frame.
@@ -365,6 +373,11 @@
 
   function renderMatchCard(top) {
     el.matchName.textContent = top.ideology.name;
+    el.matchSymbol.innerHTML = SYMBOLS.svg(top.ideology);
+    el.matchFamily.textContent = top.ideology.family ? top.ideology.family + ' family' : '';
+    const src = top.ideology.source;
+    // Meme ideologies have no founding text, so they carry a note instead.
+    el.matchSource.textContent = src.note || `Defined from: ${src.author}, ${src.work} (${src.year})`;
     el.matchScore.textContent = fmt(top.compatibility) + '%';
     el.matchDistance.textContent = 'Distance ' + top.distance.toFixed(2);
     el.matchTagline.textContent = top.ideology.tagline;
@@ -373,12 +386,66 @@
     el.matchList.innerHTML = state.matches.slice(0, 5).map((m, i) => `
       <li>
         <span class="rk">${i + 1}</span>
-        <span class="nm">${m.ideology.name}</span>
+        <span class="sym">${SYMBOLS.svg(m.ideology)}</span>
+        <span class="nm">${m.ideology.name}<small>${m.ideology.figure.name}</small></span>
         <span class="pc num">${fmt(m.compatibility)}%</span>
       </li>`).join('');
 
     const far = state.matches[state.matches.length - 1];
     el.matchOpposite.innerHTML = `${far.ideology.name}<small>${fmt(far.compatibility)}% match / distance ${far.distance.toFixed(2)}</small>`;
+  }
+
+  /* ------------------------------ portraits ------------------------------ */
+
+  function figureSrc(ideology) {
+    return FIGURE_CREDITS[ideology.id] ? `figures/${ideology.id}.jpg` : null;
+  }
+
+  /** First and last initial only, so long names never spell an unintended word. */
+  function initials(name) {
+    const words = name.split(/\s+/).filter((w) => /^[A-Za-zÀ-ÿ]/.test(w));
+    if (!words.length) return '?';
+    const first = words[0][0];
+    const last = words.length > 1 ? words[words.length - 1][0] : '';
+    return (first + last).toUpperCase();
+  }
+
+  function figureCreditLine(ideology) {
+    const c = FIGURE_CREDITS[ideology.id];
+    return c ? `Portrait: ${c.author}, ${c.license}, via Wikimedia Commons` : '';
+  }
+
+  /** The thinker behind the closest ideology: a portrait, or a name plate if there is none. */
+  function renderFigure(ideology) {
+    const src = figureSrc(ideology);
+    const fig = ideology.figure;
+    el.figure.innerHTML = `
+      ${src
+        ? `<img src="${src}" alt="Portrait of ${fig.name}" />`
+        : `<div class="plate" aria-hidden="true">${initials(fig.name)}</div>`}
+      <div class="cap">
+        <div class="label">The thinker behind it</div>
+        <b>${fig.name}</b>
+        <span>${fig.years}</span>
+      </div>`;
+    el.figureCredit.textContent = figureCreditLine(ideology);
+  }
+
+  async function loadFigureCredits() {
+    try {
+      const res = await fetch('figures/credits.json', { cache: 'no-cache' });
+      if (res.ok) FIGURE_CREDITS = await res.json();
+    } catch (err) { /* no portraits available, name plates are used */ }
+  }
+
+  function loadImage(src) {
+    return new Promise((resolve) => {
+      if (!src) { resolve(null); return; }
+      const img = new Image();
+      img.onload = () => resolve(img);
+      img.onerror = () => resolve(null);
+      img.src = src;
+    });
   }
 
   function renderAxisBars(scores) {
@@ -450,10 +517,35 @@
 
   /* ------------------------------- 3D plot ------------------------------- */
 
+  /** Three dropdowns that choose which axes the 3D chart shows. */
+  function renderPlotPickers(scores) {
+    const chosen = state.plotAxes || mostPolarizedAxes(scores, 3);
+    el.plotPickers.innerHTML = ['X', 'Y', 'Z'].map((letter, i) => `
+      <label>${letter}
+        <select data-slot="${i}" aria-label="${letter} axis">
+          ${AXES.map((a) => `<option value="${a.key}"${a.key === chosen[i] ? ' selected' : ''}>${a.name}</option>`).join('')}
+        </select>
+      </label>`).join('');
+    el.plotPickers.querySelectorAll('select').forEach((sel) => {
+      sel.addEventListener('change', () => {
+        const next = (state.plotAxes || mostPolarizedAxes(state.scores, 3)).slice();
+        const slot = Number(sel.dataset.slot);
+        // Picking an axis that another slot already shows swaps the two.
+        const clash = next.indexOf(sel.value);
+        if (clash !== -1 && clash !== slot) next[clash] = next[slot];
+        next[slot] = sel.value;
+        state.plotAxes = next;
+        renderPlotPickers(state.scores);
+        renderPlot3D(state.scores);
+      });
+    });
+  }
+
   function renderPlot3D(scores) {
-    const [kx, ky, kz] = mostPolarizedAxes(scores, 3);
-    const names = [kx, ky, kz].map((k) => AXIS_BY_KEY[k].name);
-    el.plotCaption.textContent = `Your 3 strongest axes: ${names.join(', ')}`;
+    const [kx, ky, kz] = state.plotAxes || mostPolarizedAxes(scores, 3);
+    el.plotCaption.textContent = state.plotAxes
+      ? `Showing 3 of ${AXES.length} axes`
+      : `Showing your 3 strongest of ${AXES.length} axes`;
 
     if (typeof window.Plotly === 'undefined') {
       // Plotly loads with "defer", so on a share link it may still be downloading.
@@ -471,9 +563,12 @@
       return;
     }
 
-    const top = state.matches[0].ideology;
-    const others = IDEOLOGIES.filter((i) => i.id !== top.id);
+    // Label the five closest by name. Everything else is a dot with a hover label.
+    const near = state.matches.slice(0, 5).map((m) => m.ideology);
+    const nearIds = new Set(near.map((i) => i.id));
+    const others = IDEOLOGIES.filter((i) => !nearIds.has(i.id));
     const hoverTpl = `<b>%{text}</b><br>${AXIS_BY_KEY[kx].name}: %{x:.1f}<br>${AXIS_BY_KEY[ky].name}: %{y:.1f}<br>${AXIS_BY_KEY[kz].name}: %{z:.1f}<extra></extra>`;
+    const ux = scores[kx], uy = scores[ky], uz = scores[kz];
 
     const traces = [
       {
@@ -483,24 +578,35 @@
         z: others.map((i) => i.coords[kz]),
         text: others.map((i) => i.name),
         hovertemplate: hoverTpl,
-        marker: { size: 5, color: THEME.ink, opacity: 0.45, symbol: 'square', line: { width: 0 } }
+        marker: { size: 4, color: THEME.ink, opacity: 0.4, symbol: 'square', line: { width: 0 } }
       },
       {
-        type: 'scatter3d', mode: 'markers', name: 'Match',
-        x: [top.coords[kx]], y: [top.coords[ky]], z: [top.coords[kz]],
-        text: [top.name],
+        type: 'scatter3d', mode: 'markers+text', name: 'Your top 5',
+        x: near.map((i) => i.coords[kx]),
+        y: near.map((i) => i.coords[ky]),
+        z: near.map((i) => i.coords[kz]),
+        text: near.map((i) => i.name.replace(/\s*\(.*\)/, '')),
+        textposition: 'top center',
+        textfont: { family: 'Archivo, Arial, sans-serif', size: 11, color: THEME.ink },
         hovertemplate: hoverTpl,
-        marker: { size: 8, color: THEME.paper, opacity: 1, symbol: 'square', line: { color: THEME.ink, width: 4 } }
+        marker: { size: 7, color: THEME.paper, opacity: 1, symbol: 'square', line: { color: THEME.ink, width: 4 } }
       },
       {
-        // Tether between you and your closest archetype.
+        // Drop line and floor shadow, so the height of your point is readable.
+        type: 'scatter3d', mode: 'lines+markers', hoverinfo: 'skip', showlegend: false,
+        x: [ux, ux], y: [uy, uy], z: [uz, 0],
+        line: { color: THEME.red, width: 5 },
+        marker: { size: [0, 6], color: THEME.red, opacity: 0.55, symbol: 'circle' }
+      },
+      {
+        // Tether between you and your closest match.
         type: 'scatter3d', mode: 'lines', hoverinfo: 'skip', showlegend: false,
-        x: [scores[kx], top.coords[kx]], y: [scores[ky], top.coords[ky]], z: [scores[kz], top.coords[kz]],
+        x: [ux, near[0].coords[kx]], y: [uy, near[0].coords[ky]], z: [uz, near[0].coords[kz]],
         line: { color: THEME.ink, width: 5, dash: 'dash' }
       },
       {
         type: 'scatter3d', mode: 'markers', name: 'You',
-        x: [scores[kx]], y: [scores[ky]], z: [scores[kz]],
+        x: [ux], y: [uy], z: [uz],
         text: ['You'],
         hovertemplate: hoverTpl,
         marker: { size: 12, color: THEME.red, opacity: 1, line: { color: THEME.ink, width: 4 } }
@@ -609,10 +715,10 @@
     } catch (err) { /* fall back to system fonts */ }
   }
 
-  /** Pick the largest font size that lets the title fit in at most two lines. */
-  function fitTitle(ctx, text, maxWidth) {
+  /** Pick the largest font size that lets the title fit the given box in at most three lines. */
+  function fitTitle(ctx, text, maxWidth, maxHeight) {
     const words = text.split(/\s+/);
-    for (let size = 190; size >= 70; size -= 6) {
+    for (let size = 150; size >= 44; size -= 4) {
       ctx.font = `${size}px ${FONT_DISPLAY}`;
       const lines = [];
       let line = '';
@@ -627,22 +733,21 @@
       }
       if (line) lines.push(line);
       const widest = Math.max(...lines.map((l) => ctx.measureText(l).width));
-      // Keep the whole title block short enough to leave room for the bars.
-      const fitsHeight = lines.length * size * 0.98 <= 300;
-      if (lines.length <= 2 && widest <= maxWidth && fitsHeight) return { size, lines };
+      if (lines.length <= 3 && widest <= maxWidth && lines.length * size * 0.98 <= maxHeight) return { size, lines };
     }
-    ctx.font = `70px ${FONT_DISPLAY}`;
-    return { size: 70, lines: [text] };
+    ctx.font = `44px ${FONT_DISPLAY}`;
+    return { size: 44, lines: [text] };
   }
 
   async function buildResultCard() {
-    await ensureFonts();
+    const top = state.matches[0];
+    const ideology = top.ideology;
+    const [, portrait] = await Promise.all([ensureFonts(), loadImage(figureSrc(ideology))]);
 
     const W = CONFIG.card.width;
     const H = CONFIG.card.height;
-    const PAD = 60;
+    const PAD = 56;
     const scores = state.scores;
-    const top = state.matches[0];
     const T = THEME;
 
     const canvas = document.createElement('canvas'); // off screen, never attached
@@ -655,34 +760,61 @@
     ctx.fillStyle = T.paper;
     ctx.fillRect(0, 0, W, H);
 
-    /* Red header block with the match name */
-    const title = fitTitle(ctx, top.ideology.name.toUpperCase(), W - PAD * 2);
-    const titleTop = 196;
-    const titleH = title.lines.length * title.size * 0.98;
-    const headH = Math.round(titleTop + titleH + 118);
-
+    /* Red header block: brand, match name, score, and the thinker's portrait */
+    const headH = 556;
     ctx.fillStyle = T.red;
     ctx.fillRect(0, 0, W, headH);
+    ctx.fillStyle = T.ink;
+    ctx.beginPath(); ctx.moveTo(W, headH - 190); ctx.lineTo(W, headH); ctx.lineTo(W - 190, headH); ctx.closePath(); ctx.fill();
 
-    // Black corner wedge and a yellow disc, clipped to the header.
+    // The ideology's emblem, huge and faint, bleeding off the left edge of the header.
     ctx.save();
     ctx.beginPath(); ctx.rect(0, 0, W, headH); ctx.clip();
-    ctx.fillStyle = T.ink;
-    ctx.beginPath(); ctx.moveTo(W, headH - 250); ctx.lineTo(W, headH); ctx.lineTo(W - 250, headH); ctx.closePath(); ctx.fill();
-    ctx.fillStyle = '#F5B700';
-    ctx.beginPath(); ctx.arc(W - 150, 20, 120, 0, Math.PI * 2); ctx.fill();
-    ctx.lineWidth = 8; ctx.strokeStyle = T.ink; ctx.stroke();
+    SYMBOLS.draw(ctx, ideology, -150, 90, 620, T.ink, 0.13, -10);
     ctx.restore();
 
     ctx.fillStyle = T.paper;
     ctx.textAlign = 'left';
-    ctx.font = `60px ${FONT_DISPLAY}`;
-    ctx.fillText(CONFIG.brand, PAD, 104);
-    ctx.font = `900 24px ${FONT_BODY}`;
-    ctx.fillText(spaced('MY CLOSEST MATCH'), PAD, 162);
+    ctx.font = `56px ${FONT_DISPLAY}`;
+    ctx.fillText(CONFIG.brand, PAD, 98);
+    ctx.font = `900 22px ${FONT_BODY}`;
+    ctx.fillText(spaced('MY CLOSEST MATCH'), PAD, 150);
 
+    // Portrait frame on the right
+    const pw = 250, ph = 312;
+    const px = W - PAD - pw, py = 62;
+    ctx.fillStyle = T.ink;
+    ctx.fillRect(px + 12, py + 12, pw, ph);          // hard shadow
+    ctx.fillRect(px - 6, py - 6, pw + 12, ph + 12);  // border
+    if (portrait) {
+      ctx.save();
+      if ('filter' in ctx) ctx.filter = 'grayscale(1) contrast(1.15)';
+      ctx.drawImage(portrait, px, py, pw, ph);
+      ctx.restore();
+    } else {
+      ctx.fillStyle = '#F5B700';
+      ctx.fillRect(px, py, pw, ph);
+      ctx.fillStyle = T.ink;
+      ctx.textAlign = 'center';
+      ctx.font = `120px ${FONT_DISPLAY}`;
+      ctx.fillText(initials(ideology.figure.name), px + pw / 2, py + ph / 2 + 44);
+    }
+    ctx.textAlign = 'right';
+    ctx.fillStyle = T.paper;
+    ctx.font = `900 16px ${FONT_BODY}`;
+    ctx.fillText(spaced('THE THINKER BEHIND IT'), px + pw + 6, py + ph + 50);
+    ctx.font = `900 24px ${FONT_BODY}`;
+    let figName = ideology.figure.name;
+    while (ctx.measureText(figName).width > 560 && figName.includes(' ')) figName = figName.split(' ').slice(1).join(' ');
+    ctx.fillText(figName, px + pw + 6, py + ph + 82);
+
+    // Match name, without any bracketed alias, to the left of the portrait
+    ctx.textAlign = 'left';
+    const cardName = ideology.name.replace(/\s*\(.*\)/, '').toUpperCase();
+    const title = fitTitle(ctx, cardName, px - PAD - 34, 250);
+    ctx.fillStyle = T.paper;
     ctx.font = `${title.size}px ${FONT_DISPLAY}`;
-    let ty = titleTop + title.size * 0.86;
+    let ty = 172 + title.size * 0.86;
     title.lines.forEach((line) => {
       ctx.fillText(line, PAD, ty);
       ty += title.size * 0.98;
@@ -690,50 +822,50 @@
 
     // Score plate
     const scoreText = fmt(top.compatibility) + '%';
-    ctx.font = `76px ${FONT_DISPLAY}`;
+    ctx.font = `70px ${FONT_DISPLAY}`;
     const sw = ctx.measureText(scoreText).width;
-    const sy = headH - 104;
+    const sy = headH - 100;
     ctx.fillStyle = T.ink;
-    ctx.fillRect(PAD, sy, sw + 44, 82);
+    ctx.fillRect(PAD, sy, sw + 40, 76);
     ctx.fillStyle = T.paper;
-    ctx.fillText(scoreText, PAD + 22, sy + 68);
-    ctx.fillStyle = T.paper;
-    ctx.font = `900 24px ${FONT_BODY}`;
-    ctx.fillText(spaced('MATCH'), PAD + sw + 66, sy + 52);
+    ctx.fillText(scoreText, PAD + 20, sy + 63);
+    ctx.font = `900 22px ${FONT_BODY}`;
+    ctx.fillText(spaced('MATCH'), PAD + sw + 60, sy + 48);
 
     ctx.fillStyle = T.ink;
     ctx.fillRect(0, headH, W, 8);
 
-    /* Six axis bars */
-    const footH = 276;
-    const barsTop = headH + 34;
-    const barsBottom = H - footH - 14;
-    const rowH = (barsBottom - barsTop) / AXES.length;
-    const barW = W - PAD * 2;
-    const barH = Math.max(18, Math.min(30, rowH - 46));
+    /* Axis bars in two columns */
+    const footH = 250;
+    const barsTop = headH + 30;
+    const barsBottom = H - footH - 8;
+    const cols = 2;
+    const rows = Math.ceil(AXES.length / cols);
+    const gutter = 44;
+    const colW = (W - PAD * 2 - gutter * (cols - 1)) / cols;
+    const rowH = (barsBottom - barsTop) / rows;
+    const barH = 22;
 
     AXES.forEach((a, i) => {
-      const y = barsTop + i * rowH;
+      const col = Math.floor(i / rows);
+      const x = PAD + col * (colW + gutter);
+      const y = barsTop + (i % rows) * rowH;
       const high = scores[a.key];
       const low = round1(100 - high);
 
-      ctx.font = `900 21px ${FONT_BODY}`;
+      ctx.font = `900 16px ${FONT_BODY}`;
       ctx.fillStyle = T.ink;
       ctx.textAlign = 'left';
-      ctx.fillText(`${fmt(low)}%  ${a.low.short.toUpperCase()}`, PAD, y + 24);
+      ctx.fillText(`${Math.round(low)}% ${a.low.short.toUpperCase()}`, x, y + 20);
       ctx.textAlign = 'right';
-      ctx.fillText(`${a.high.short.toUpperCase()}  ${fmt(high)}%`, W - PAD, y + 24);
+      ctx.fillText(`${a.high.short.toUpperCase()} ${Math.round(high)}%`, x + colW, y + 20);
 
-      const by = y + 36;
-      const split = (barW * low) / 100;
+      const by = y + 30;
+      const split = (colW * low) / 100;
       ctx.fillStyle = T.ink;
-      ctx.fillRect(PAD, by, barW, barH);
+      ctx.fillRect(x, by, colW, barH);
       ctx.fillStyle = a.color;
-      ctx.fillRect(PAD + 5, by + 5, Math.max(0, split - 5), barH - 10);
-      // Midpoint notch
-      ctx.fillStyle = T.paper;
-      ctx.fillRect(W / 2 - 2, by - 6, 4, 6);
-      ctx.fillRect(W / 2 - 2, by + barH, 4, 6);
+      ctx.fillRect(x + 4, by + 4, Math.max(0, split - 4), barH - 8);
     });
 
     /* Black footer: compass, call to action, QR */
@@ -741,61 +873,72 @@
     ctx.fillStyle = T.ink;
     ctx.fillRect(0, fy, W, footH);
 
-    const cs = 196;
+    const cs = 168;
     const cx = PAD;
-    const cy = fy + 40;
-    const econ = AXIS_BY_KEY.econ;
-    const gov = AXIS_BY_KEY.gov;
+    const cy = fy + 34;
+    const xAxis = AXIS_BY_KEY[COMPASSES[0].x];
+    const yAxis = AXIS_BY_KEY[COMPASSES[0].y];
+    const sx = scores[xAxis.key];
+    const syv = scores[yAxis.key];
 
     ctx.fillStyle = T.paper;
     ctx.fillRect(cx, cy, cs, cs);
-    // Tint the quadrant the user sits in.
     ctx.globalAlpha = 0.3;
     ctx.fillStyle = T.red;
-    ctx.fillRect(scores.econ >= 50 ? cx + cs / 2 : cx, scores.gov >= 50 ? cy : cy + cs / 2, cs / 2, cs / 2);
+    ctx.fillRect(sx >= 50 ? cx + cs / 2 : cx, syv >= 50 ? cy : cy + cs / 2, cs / 2, cs / 2);
     ctx.globalAlpha = 1;
     ctx.fillStyle = T.ink;
     ctx.fillRect(cx + cs / 2 - 3, cy, 6, cs);
     ctx.fillRect(cx, cy + cs / 2 - 3, cs, 6);
 
     // Match marker (hollow square) and user marker (red disc)
-    const mx = cx + (top.ideology.coords.econ / 100) * cs;
-    const my = cy + (1 - top.ideology.coords.gov / 100) * cs;
+    const mx = clamp(cx + (ideology.coords[xAxis.key] / 100) * cs, cx + 9, cx + cs - 9);
+    const my = clamp(cy + (1 - ideology.coords[yAxis.key] / 100) * cs, cy + 9, cy + cs - 9);
     ctx.fillStyle = T.paper;
     ctx.fillRect(mx - 9, my - 9, 18, 18);
     ctx.lineWidth = 5; ctx.strokeStyle = T.ink;
     ctx.strokeRect(mx - 9, my - 9, 18, 18);
 
-    const ux = clamp(cx + (scores.econ / 100) * cs, cx + 14, cx + cs - 14);
-    const uy = clamp(cy + (1 - scores.gov / 100) * cs, cy + 14, cy + cs - 14);
+    const ux = clamp(cx + (sx / 100) * cs, cx + 14, cx + cs - 14);
+    const uy = clamp(cy + (1 - syv / 100) * cs, cy + 14, cy + cs - 14);
     ctx.fillStyle = T.red;
-    ctx.beginPath(); ctx.arc(ux, uy, 14, 0, Math.PI * 2); ctx.fill();
+    ctx.beginPath(); ctx.arc(ux, uy, 13, 0, Math.PI * 2); ctx.fill();
     ctx.lineWidth = 6; ctx.strokeStyle = T.ink; ctx.stroke();
 
-    const tx = cx + cs + 34;
+    const tx = cx + cs + 30;
     ctx.textAlign = 'left';
     ctx.fillStyle = T.paper;
-    ctx.font = `900 18px ${FONT_BODY}`;
-    ctx.fillText(spaced(`${econ.low.short} / ${econ.high.short}`.toUpperCase()) + '   ' + spaced('LEFT TO RIGHT'), tx, cy + 18);
-    ctx.fillText(spaced(`${gov.low.short} / ${gov.high.short}`.toUpperCase()) + '   ' + spaced('BOTTOM TO TOP'), tx, cy + 46);
-    ctx.font = `64px ${FONT_DISPLAY}`;
+    ctx.font = `900 16px ${FONT_BODY}`;
+    ctx.fillText(spaced(`${xAxis.low.short} to ${xAxis.high.short}, left to right`.toUpperCase()), tx, cy + 16);
+    ctx.fillText(spaced(`${yAxis.low.short} to ${yAxis.high.short}, bottom to top`.toUpperCase()), tx, cy + 42);
+    ctx.font = `60px ${FONT_DISPLAY}`;
     ctx.fillStyle = T.red;
-    ctx.fillText('WHERE DO YOU STAND?', tx, cy + 124);
+    ctx.fillText('WHERE DO YOU STAND?', tx, cy + 112);
     ctx.fillStyle = T.paper;
-    ctx.font = `900 22px ${FONT_BODY}`;
-    ctx.fillText(CONFIG.brandUrl, tx, cy + 162);
-    ctx.font = `700 17px ${FONT_BODY}`;
+    ctx.font = `900 21px ${FONT_BODY}`;
+    ctx.fillText(CONFIG.brandUrl, tx, cy + 146);
+    ctx.font = `700 14px ${FONT_BODY}`;
     ctx.fillStyle = '#a69f8f';
-    ctx.fillText(timestamp(), tx, cy + 190);
+    ctx.fillText(timestamp(), tx, cy + 170);
 
     /* QR code that points at the live share link */
     const qrSize = 150;
     const qx = W - PAD - qrSize;
-    const qy = cy + 46;
-    // Only draw the QR if the text column leaves room for it.
-    ctx.font = `64px ${FONT_DISPLAY}`;
+    const qy = cy + 10;
+    ctx.font = `60px ${FONT_DISPLAY}`;
     const ctaRight = tx + ctx.measureText('WHERE DO YOU STAND?').width;
-    if (ctaRight < qx - 20) drawQr(ctx, window.location.href, qx, qy, qrSize);
+    if (ctaRight < qx - 16) drawQr(ctx, window.location.href, qx, qy, qrSize);
+
+    /* Portrait credit, required by the image licences */
+    const credit = figureCreditLine(ideology);
+    if (credit) {
+      ctx.font = `500 12px ${FONT_BODY}`;
+      ctx.fillStyle = '#8f897b';
+      ctx.textAlign = 'left';
+      let line = credit;
+      while (ctx.measureText(line).width > W - PAD * 2 && line.length > 20) line = line.slice(0, -2);
+      ctx.fillText(line === credit ? line : line + '...', PAD, H - 16);
+    }
 
     return canvas;
   }
@@ -865,6 +1008,7 @@
     state.answers = [];
     state.scores = null;
     state.matches = [];
+    state.plotAxes = null;
     clearUrl();
     showView('landing');
   }
@@ -915,6 +1059,12 @@
     el.resultVector = $('#result-vector');
     el.resultSource = $('#result-source');
     el.matchName = $('#match-name');
+    el.matchFamily = $('#match-family');
+    el.matchSymbol = $('#match-symbol');
+    el.matchSource = $('#match-source');
+    el.figure = $('#figure');
+    el.figureCredit = $('#figure-credit');
+    el.plotPickers = $('#plot-pickers');
     el.matchScore = $('#match-score');
     el.matchDistance = $('#match-distance');
     el.matchTagline = $('#match-tagline');
@@ -950,7 +1100,8 @@
     cacheElements();
     bindEvents();
     renderLanding();
-    route();
+    // Results need to know which portraits exist, so wait for the credits file.
+    loadFigureCredits().finally(route);
   }
 
   if (document.readyState === 'loading') {
