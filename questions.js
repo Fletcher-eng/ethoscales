@@ -11,7 +11,7 @@
        progressive, accelerationist, industrial, secular, pacifist)
    The first axis listed in effects is the lead axis. It sets the color
    and shape of the question.
-   quick: true marks the 25 statements used by the Quick test. Every axis
+   quick: true marks the 24 statements used by the Quick test. Every axis
    leads two of them, one pushing each way.
    ========================================================================== */
 
@@ -82,7 +82,7 @@ const QUESTION_BANK = [
     effects: { struct: 2.0 } },
   { text: 'Employers and workers in each industry should be organised into one state recognised body that settles wages without strikes or lockouts.',
     effects: { struct: 1.5, econ: 1.0, rule: 1.0 } },
-  { quick: true, text: 'National borders should be replaced by online communities you choose to join, each with its own laws and passport.',
+  { text: 'National borders should be replaced by online communities you choose to join, each with its own laws and passport.',
     effects: { struct: -2.0, nation: -2.0, tech: -1.0 } },
   { text: 'Most decisions now made by national governments should be made by towns and neighbourhood assemblies.',
     effects: { struct: -2.0, rule: -1.0 } },

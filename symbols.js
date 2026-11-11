@@ -15,10 +15,23 @@ const SYMBOLS = (function () {
   const rad = (deg) => (deg * Math.PI) / 180;
   const at = (cx, cy, r, deg) => [cx + r * Math.cos(rad(deg)), cy + r * Math.sin(rad(deg))];
 
-  /* ---- shape builders, each returns an SVG path string ---- */
-  const poly = (pts) => 'M' + pts.map((p) => f(p[0]) + ' ' + f(p[1])).join('L') + 'Z';
-  const circle = (cx, cy, r) => `M${f(cx - r)} ${f(cy)}a${r} ${r} 0 1 0 ${2 * r} 0a${r} ${r} 0 1 0 ${-2 * r} 0Z`;
-  const ring = (cx, cy, R, r) => circle(cx, cy, R) + circle(cx, cy, r); // hole via even odd fill
+  /* ---- shape builders, each returns an SVG path string ----
+     Every solid piece is wound clockwise and every hole counter clockwise.
+     That lets all the pieces of an emblem be joined into ONE path and filled
+     with the nonzero rule, so overlapping pieces fuse into a single outline
+     with no seams, while holes stay open. */
+  const poly = (pts) => {
+    let area = 0;
+    for (let i = 0; i < pts.length; i++) {
+      const a = pts[i], b = pts[(i + 1) % pts.length];
+      area += a[0] * b[1] - b[0] * a[1];
+    }
+    const ordered = area < 0 ? pts.slice().reverse() : pts; // positive area is clockwise on screen
+    return 'M' + ordered.map((p) => f(p[0]) + ' ' + f(p[1])).join('L') + 'Z';
+  };
+  const circle = (cx, cy, r) => `M${f(cx - r)} ${f(cy)}a${r} ${r} 0 1 1 ${2 * r} 0a${r} ${r} 0 1 1 ${-2 * r} 0Z`;
+  const hole = (cx, cy, r) => `M${f(cx - r)} ${f(cy)}a${r} ${r} 0 1 0 ${2 * r} 0a${r} ${r} 0 1 0 ${-2 * r} 0Z`;
+  const ring = (cx, cy, R, r) => circle(cx, cy, R) + hole(cx, cy, r);
   const rect = (x, y, w, h) => poly([[x, y], [x + w, y], [x + w, y + h], [x, y + h]]);
   const bar = (x1, y1, x2, y2, t) => {
     const len = Math.hypot(x2 - x1, y2 - y1) || 1;
@@ -35,7 +48,7 @@ const SYMBOLS = (function () {
     const len = Math.hypot(x2 - x1, y2 - y1) || 1;
     const ux = (x2 - x1) / len, uy = (y2 - y1) / len;
     const bx = x2 - ux * head, by = y2 - uy * head;
-    return [bar(x1, y1, bx, by, t), poly([[x2, y2], [bx - uy * head * 0.6, by + ux * head * 0.6], [bx + uy * head * 0.6, by - ux * head * 0.6]])];
+    return [bar(x1, y1, bx + ux * 3, by + uy * 3, t), poly([[x2, y2], [bx - uy * head * 0.6, by + ux * head * 0.6], [bx + uy * head * 0.6, by - ux * head * 0.6]])];
   };
   // A crescent: the long way round a circle between two angles, then back along a tighter arc.
   const crescent = (cx, cy, R, a1, a2, r) => {
@@ -43,11 +56,14 @@ const SYMBOLS = (function () {
     return `M${f(p1[0])} ${f(p1[1])}A${R} ${R} 0 1 1 ${f(p2[0])} ${f(p2[1])}A${r} ${r} 0 1 0 ${f(p1[0])} ${f(p1[1])}Z`;
   };
   const spokes = (cx, cy, r, n, t) => Array.from({ length: n }, (_, i) => { const p = at(cx, cy, r, (i * 360) / n); return bar(cx, cy, p[0], p[1], t); });
+  // A bundle of arrows tied in the middle: shafts fan out above the tie and below it.
   const fan = (n) => {
-    const out = [rect(40, 76, 20, 8)];
+    const out = [rect(34, 60, 32, 9)]; // the tie
     for (let i = 0; i < n; i++) {
-      const p = at(50, 94, 74, -131 + (i * 82) / (n - 1));
-      out.push(...arrow(50, 94, p[0], p[1], 5, 14));
+      const spread = n === 1 ? 0 : -1 + (2 * i) / (n - 1); // -1 .. 1
+      const top = [50 + spread * 38, 8 + Math.abs(spread) * 12];
+      const tail = [50 - spread * 20, 96];
+      out.push(...arrow(tail[0], tail[1], top[0], top[1], 5.5, 15));
     }
     return out;
   };
@@ -58,7 +74,7 @@ const SYMBOLS = (function () {
       const a = (i * 360) / teeth;
       pts.push(at(50, 50, 36, a - 11), at(50, 50, 47, a - 7), at(50, 50, 47, a + 7), at(50, 50, 36, a + 11));
     }
-    return [poly(pts) + circle(50, 50, 15)];
+    return [poly(pts) + hole(50, 50, 15)];
   };
 
   /* ---- the emblem library ---- */
@@ -158,7 +174,7 @@ const SYMBOLS = (function () {
     if (!g) return '';
     const cls = className ? ` class="${className}"` : '';
     const body = Array.isArray(g)
-      ? g.map((d) => `<path d="${d}" fill-rule="evenodd"/>`).join('')
+      ? `<path d="${g.join('')}" fill-rule="nonzero"/>`
       : `<text x="50" y="84" text-anchor="middle" font-family="Anton, Impact, sans-serif" font-size="${g.text.length > 1 ? 78 : 104}">${g.text}</text>`;
     return `<svg${cls} viewBox="0 0 100 100" fill="currentColor" aria-hidden="true" focusable="false">${body}</svg>`;
   }
@@ -167,14 +183,14 @@ const SYMBOLS = (function () {
   function draw(ctx, ideology, x, y, size, color, alpha, rotateDeg) {
     const g = glyphFor(ideology);
     if (!g) return;
-    // Paint on a scratch canvas first so overlapping pieces do not double up when faded.
+    // Paint on a scratch canvas first so the faded emblem can be rotated and placed as one image.
     const scratch = document.createElement('canvas');
     scratch.width = scratch.height = Math.ceil(size);
     const s = scratch.getContext('2d');
     s.fillStyle = color;
     s.scale(size / 100, size / 100);
     if (Array.isArray(g)) {
-      g.forEach((d) => s.fill(new Path2D(d), 'evenodd'));
+      s.fill(new Path2D(g.join('')), 'nonzero');
     } else {
       s.font = `${g.text.length > 1 ? 78 : 104}px Anton, Impact, sans-serif`;
       s.textAlign = 'center';
