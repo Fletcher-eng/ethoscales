@@ -15,7 +15,7 @@
 
   const CONFIG = {
     brand: 'ETHOSSCALES',
-    brandUrl: 'fletcher-eng.github.io/ethoscales',
+    brandUrl: 'ethoscales.github.io/ethoscales',
     plotlyUrl: 'https://cdn.plot.ly/plotly-2.35.2.min.js',
     // Where shared survey rows are sent. Paste the web app URL from tools/collector.gs
     // here to switch collection on. While it is empty nothing is ever sent.
