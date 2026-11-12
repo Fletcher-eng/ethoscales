@@ -4,7 +4,7 @@ A 13 axis political values test that runs entirely in your browser. Answer up to
 
 No accounts and no tracking. Nothing about you is saved unless you choose to share it at the end.
 
-**Live site:** https://fletcher-eng.github.io/ethoscales/
+**Live site:** https://ethoscales.github.io/ethoscales/
 
 ## Features
 
@@ -158,7 +158,7 @@ The site is hosted on GitHub Pages from the `main` branch. Every merge into `mai
 A result link carries one value per axis:
 
 ```
-https://fletcher-eng.github.io/ethoscales/?e=49.3&o=50&r=61.5&d=58.6&s=48.5&n=44.3&i=37&c=47.1&t=43&ec=62.5&rl=39.6&f=45.5&tr=55
+https://ethoscales.github.io/ethoscales/?e=49.3&o=50&r=61.5&d=58.6&s=48.5&n=44.3&i=37&c=47.1&t=43&ec=62.5&rl=39.6&f=45.5&tr=55
 ```
 
 | Param | Axis | Param | Axis |
