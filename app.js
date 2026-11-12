@@ -652,11 +652,17 @@
     renderShelf();
     renderClassic(scores, top.ideology);
     renderParties();
+    // A link ending in #dodecahedron opens straight on that view.
+    const toDodeca = window.location.hash === '#dodecahedron';
+    if (toDodeca) state.plotMode = 'dodeca';
     renderPlotPickers(scores);
     renderCompasses(scores, top.ideology);
 
     // Plotly needs a visible container with a real width, so wait a frame.
-    requestAnimationFrame(() => renderPlot3D(scores));
+    requestAnimationFrame(() => {
+      renderPlot3D(scores);
+      if (toDodeca) setTimeout(() => el.plotCaption.scrollIntoView({ block: 'start' }), 400);
+    });
 
     // The card preview draws after web fonts are ready so text measures right.
     buildResultCard().then((canvas) => {
@@ -1107,6 +1113,7 @@
           <option value="map"${state.plotMode === 'map' ? ' selected' : ''}>3D map of all ${AXES.length} axes</option>
           <option value="flat"${state.plotMode === 'flat' ? ' selected' : ''}>Flat map of all ${AXES.length} axes</option>
           <option value="axes"${state.plotMode === 'axes' ? ' selected' : ''}>Pick 3 axes</option>
+          <option value="dodeca"${state.plotMode === 'dodeca' ? ' selected' : ''}>Your Dodecahedron</option>
         </select>
       </label>`;
     const axes = state.plotMode !== 'axes' ? '' : ['X', 'Y', 'Z'].map((letter, i) => `
@@ -1277,8 +1284,72 @@
       used.map((f) => `<span><i style="background:${FAMILY_COLORS[f]}"></i>${f}</span>`).join('');
   }
 
+  /* --------------------------- The Dodecahedron --------------------------- */
+
+  function renderDodecahedron(scores) {
+    renderDimensionGuide(0);
+    el.plotKey.hidden = true;
+    el.plotCaption.textContent = 'Your Dodecahedron';
+    el.plotNote.textContent = 'Twelve faces, one end of an axis on each. Every dot is an ideology, pulled toward the faces it scores high on. The red dot is you. Point near a dot to see what it is and tap it to pin its name. Opposite faces hold axes that move together, so they never cancel out. Dots are spread out so the middle is readable, and Trade is left off this view.';
+    if (el.plot.dataset.kind !== 'dodeca') window.Plotly.purge(el.plot);
+    el.plot.dataset.kind = 'dodeca';
+    const eye = DODECA.render({
+      plot: el.plot, top: el.dodecaTop, bottom: el.dodecaBottom, tip: el.dodecaTip, colors: FAMILY_COLORS,
+      you: scores, friend: state.friend ? state.friend.scores : null,
+      onTurn: () => stopSpin(true),
+      onAction: (kind) => { if (kind === 'link') copyDodecahedronLink(); else saveDodecahedronImage(); }
+    });
+    startSpin(eye);
+  }
+
+  function copyDodecahedronLink() {
+    const url = window.location.origin + window.location.pathname + window.location.search + '#dodecahedron';
+    const done = () => toast('Link to your dodecahedron copied');
+    try {
+      if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(url).then(done, () => { legacyCopy(url); done(); });
+      else { legacyCopy(url); done(); }
+    } catch (err) { toast('Copy failed. Add #dodecahedron to the end of your link.'); }
+  }
+
+  /** A square poster of the shape at the angle it is turned to right now. */
+  async function saveDodecahedronImage() {
+    try {
+      const shot = await window.Plotly.toImage(el.plot, { format: 'png', width: 1000, height: 1000, scale: 1 });
+      const img = await loadImage(shot);
+      const size = 1080;
+      const canvas = document.createElement('canvas');
+      canvas.width = size; canvas.height = 1350;
+      const ctx = canvas.getContext('2d');
+      ctx.fillStyle = THEME.paper; ctx.fillRect(0, 0, size, 1350);
+      ctx.fillStyle = THEME.ink; ctx.fillRect(0, 0, size, 210);
+      ctx.fillStyle = THEME.red; ctx.fillRect(0, 210, size, 10);
+      ctx.fillStyle = THEME.paper; ctx.textBaseline = 'alphabetic';
+      ctx.font = `900 22px ${FONT_BODY}`; ctx.fillText(spaced(CONFIG.brand + ' / MY DODECAHEDRON'), 56, 70);
+      const title = state.matches[0].ideology.name.toUpperCase();
+      let px = 96; do { ctx.font = `${px}px ${FONT_DISPLAY}`; px -= 4; } while (ctx.measureText(title).width > size - 112 && px > 36);
+      ctx.fillText(title, 56, 170);
+      ctx.drawImage(img, 40, 230, 1000, 1000);
+      ctx.fillStyle = THEME.ink; ctx.fillRect(0, 1240, size, 110);
+      ctx.fillStyle = THEME.paper; ctx.font = `900 26px ${FONT_BODY}`;
+      ctx.fillText('The red dot is me. Where do you stand?', 56, 1290);
+      ctx.font = `700 22px ${FONT_BODY}`; ctx.fillText(CONFIG.brandUrl, 56, 1326);
+      const link = document.createElement('a');
+      link.href = canvas.toDataURL('image/png');
+      link.download = 'ethoscales-dodecahedron.png';
+      document.body.appendChild(link); link.click(); document.body.removeChild(link);
+      toast('Image saved');
+    } catch (err) {
+      console.error(err);
+      toast('Could not make the image. Try again.');
+    }
+  }
+
   function renderPlot3D(scores) {
     const mapMode = state.plotMode === 'map';
+    const dodeca = state.plotMode === 'dodeca';
+    el.dodecaTop.hidden = !dodeca;
+    el.dodecaBottom.hidden = !dodeca;
+    if (!dodeca) DODECA.leave();
     const picked = state.plotAxes || mostPolarizedAxes(scores, 3);
 
     el.plotCaption.textContent = mapMode
@@ -1302,6 +1373,7 @@
       return;
     }
 
+    if (dodeca) { renderDodecahedron(scores); return; }
     if (state.plotMode === 'flat') { renderFlatMap(scores); return; }
     renderDimensionGuide(mapMode ? 3 : 0);
 
@@ -1951,6 +2023,9 @@
     el.plotNote = $('#plot-note');
     el.plotKey = $('#plot-key');
     el.plotDims = $('#plot-dims');
+    el.dodecaTop = $('#dodeca-top');
+    el.dodecaBottom = $('#dodeca-bottom');
+    el.dodecaTip = $('#dodeca-tip');
     el.rankAll = $('#rank-all');
     el.rankSummary = $('#rank-summary');
     el.compareOut = $('#compare-out');

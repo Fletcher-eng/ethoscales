@@ -16,6 +16,7 @@ No accounts and no tracking. Nothing about you is saved unless you choose to sha
 * **Third Position split into its real movements**: Italian Fascism, Falangism, Peronism, Strasserism, National Bolshevism, Eurasianism and Ba'athism
 * **An emblem for every ideology**, drawn in the site's own style and shown large and faint behind your result
 * **3D chart** where you choose which three axes to view
+* **Your Dodecahedron**: a twelve faced map with one end of an axis on each face and every ideology as a dot inside, pulled toward the faces it scores high on. Filter by family, tap a dot to pin its name, add a friend's dot, save it as an image, or share a link that opens straight on it by adding `#dodecahedron`
 * **Seven 2D compasses** that between them show every axis
 * **A classic compass** with the familiar four coloured quadrants, worked out from your scores
 * **Closest parties**: 25 current and historical parties, each placed from a named manifesto or programme
@@ -65,6 +66,7 @@ ethoscales/
 ├── questions.js      The 130 statements and their scoring vectors
 ├── ideologies.js     The 13 axis definitions and 242 ideologies
 ├── extras.js         The survey questions and the party list
+├── dodecahedron.js   The twelve faced map
 ├── app.js            The engine: quiz flow, math, charts, sharing, card export
 ├── legal.html        Terms, privacy and cookies
 ├── og.png            The preview image shown when the link is pasted into a chat
@@ -109,6 +111,12 @@ If you switch sharing on you are collecting political and religious views, which
 ## Parties
 
 `PARTIES` in `extras.js` lists each party with the document it was placed from, such as a manifesto or founding programme. The thirteen numbers are editorial estimates of what that document says, not of how the party governed. Party logos are trademarks, so the site shows a coloured square with the party's initials instead.
+
+## How the dodecahedron works
+
+A dodecahedron has twelve faces, which come in six opposite pairs. Each pair is given two axes that move together across the ideologies, such as Economy with Ownership, and the pairing is worked out from the data when the page loads. One face shows the high end of the first axis and the opposite face shows the low end of the second, so a high score on both pulls a dot the same way.
+
+It is still twelve numbers shown in three dimensions, so two different ideologies can land close together. Distance from the centre is evened out so the crowded middle stays readable: a dot keeps its direction and its rank, not its exact distance. Trade is left off because the shape has twelve faces.
 
 ## Portraits
 
