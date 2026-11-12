@@ -100,6 +100,25 @@ FIGURES = {
     "luxury-space-communism": "Aaron Bastani",
 }
 
+def figures_from_site_data():
+    """Newer entries name their portrait article in a `wiki` field in ideologies.js.
+    Entries marked restricted are skipped: they get no portrait."""
+    out = {}
+    try:
+        text = open("ideologies.js", encoding="utf-8").read()
+    except FileNotFoundError:
+        return out
+    for block in re.split(r"\n  \{\n", text)[1:]:
+        m_id = re.search(r"id: '([^']+)'", block)
+        m_wiki = re.search(r"wiki: '((?:[^'\\]|\\.)*)'", block)
+        if m_id and m_wiki and "restricted: true" not in block:
+            out[m_id.group(1)] = m_wiki.group(1).replace("\\'", "'")
+    return out
+
+
+FIGURES.update({k: v for k, v in figures_from_site_data().items() if k not in FIGURES})
+
+
 def get(url, timeout=60):
     """GET with patient retries, since Wikimedia rate limits bursts."""
     for attempt in range(5):

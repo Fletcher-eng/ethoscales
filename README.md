@@ -1,6 +1,6 @@
 # EthosScales
 
-A 12 axis political values test that runs entirely in your browser. Answer 60 statements, get your coordinates in twelve dimensional ideology space, and see which of 86 ideologies you sit closest to. Every ideology is defined from its own founding text, not from how the word gets used online.
+A 12 axis political values test that runs entirely in your browser. Answer up to 120 statements, get your coordinates in twelve dimensional ideology space, and see which of 242 ideologies you sit closest to. Every ideology is defined from its own founding text, not from how the word gets used online.
 
 No backend. No accounts. No tracking.
 
@@ -11,13 +11,13 @@ No backend. No accounts. No tracking.
 * **12 independent axes** instead of a single left/right line
 * **120 statements**, ten led by each axis, where most answers move several axes at once
 * **Three lengths**: Quick (24 statements, two per axis), Full (60) and Deep (120, ten per axis)
-* **86 ideologies**, each with a named source text and the thinker behind it
+* **242 ideologies** in 15 families, each with a named source text and the thinker behind it
 * **Meme ideologies too**, such as Neo Libertarian Falangism and Monarcho Brezhnevism, clearly labelled as jokes
 * **Third Position split into its real movements**: Italian Fascism, Falangism, Peronism, Strasserism, National Bolshevism, Eurasianism and Ba'athism
 * **An emblem for every ideology**, drawn in the site's own style and shown large and faint behind your result
 * **3D chart** where you choose which three axes to view
 * **Six 2D compasses** that between them show all twelve axes
-* **A catalogue of all 86 ideologies** on the start page, grouped by family, each with its definition and source
+* **A catalogue of all 242 ideologies** on the start page, grouped by family, each with its definition and source
 * **You vs a friend**: paste a friend's result link to see where you agree and clash
 * **Share links**: your whole result lives in the URL
 * **Result card**: a 1080x1350 PNG with the thinker's portrait and a QR code that opens your result
@@ -56,7 +56,7 @@ The coordinates are a different matter. Placing a body of thought at a number be
 ethoscales/
 ├── index.html        Page layout and styles
 ├── questions.js      The 120 statements and their scoring vectors
-├── ideologies.js     The 12 axis definitions and 86 ideologies
+├── ideologies.js     The 12 axis definitions and 242 ideologies
 ├── app.js            The engine: quiz flow, math, charts, sharing, card export
 ├── og.png            The preview image shown when the link is pasted into a chat
 ├── figures/          Portraits, plus credits.json and CREDITS.md
@@ -86,7 +86,7 @@ The smallest distance wins. The match score is `max(0, 100 - D / (2 * sqrt(axes 
 
 ## Portraits
 
-79 of the 86 ideologies have a portrait. The rest show a name plate with the thinker's initials: four where no freely licensed image exists, the two meme entries that have no founder, and National Socialism, which is left without one on purpose.
+Most ideologies have a portrait of the thinker behind them. The rest show a name plate with the thinker's initials. That happens when no freely licensed image exists, for the two meme entries that have no founder, and for the entries marked `restricted` in `ideologies.js`. Those are hateful or violent extremist ideologies, which get no portrait and no emblem.
 
 To download missing portraits, run this from the repo root:
 
