@@ -100,6 +100,11 @@ FIGURES = {
     "luxury-space-communism": "Aaron Bastani",
 }
 
+# Articles whose lead image is not a portrait of the person (graffiti, a diagram).
+# These keep a name plate. Checked by eye after each download.
+NOT_A_PORTRAIT = {"situationism", "steady-state-economics"}
+
+
 def figures_from_site_data():
     """Newer entries name their portrait article in a `wiki` field in ideologies.js.
     Entries marked restricted are skipped: they get no portrait."""
@@ -117,6 +122,8 @@ def figures_from_site_data():
 
 
 FIGURES.update({k: v for k, v in figures_from_site_data().items() if k not in FIGURES})
+for _skip in NOT_A_PORTRAIT:
+    FIGURES.pop(_skip, None)
 
 
 def get(url, timeout=60):
