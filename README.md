@@ -35,14 +35,14 @@ Every axis is scored from 0 to 100.
 | --- | --- | --- |
 | Economy (`econ`) | Market | Planned |
 | Ownership (`own`) | Private | Collective |
-| Rights (`rights`) | Freedom | Security |
+| Rights (`rights`) | Liberty | Security |
 | Government (`rule`) | Democracy | Autocracy |
-| Structure (`struct`) | Local | Central |
-| Nation (`nation`) | Globalist | Nationalist |
-| Immigration (`ident`) | Multicultural | One culture |
+| Structure (`struct`) | Decentralised | Centralised |
+| Nation (`nation`) | Internationalist | Nationalist |
+| Immigration (`ident`) | Multiculturalist | Assimilationist |
 | Values (`cult`) | Progressive | Traditional |
-| Technology (`tech`) | Full speed | Cautious |
-| Environment (`eco`) | Growth first | Nature first |
+| Technology (`tech`) | Accelerationist | Precautionary |
+| Environment (`eco`) | Industrialist | Environmentalist |
 | Religion (`relig`) | Secular | Religious |
 | Military (`force`) | Pacifist | Militarist |
 
