@@ -458,6 +458,28 @@
       *, *::before, *::after { transition-duration: 1ms !important; animation: none !important; }
       .board > .will-reveal { opacity: 1; transform: none; }
     }
+    /* ------------------------------ Challenges ------------------------------ */
+    .challenge-banner { background: #F5B700; color: var(--ink); border: 4px solid var(--paper); padding: 14px 16px; margin: 0 0 22px; max-width: 560px; font-weight: 700; font-size: 15px; }
+    .challenge-banner[hidden], .challenge-result[hidden] { display: none; }
+    .challenge-banner b { display: block; font-family: var(--display); font-weight: 400; text-transform: uppercase; font-size: 30px; line-height: 1; margin-bottom: 6px; }
+    .challenge-banner em { font-style: normal; text-decoration: underline; text-underline-offset: 3px; }
+    .challenge-banner .what { margin-top: 8px; font-size: 14px; }
+    .challenge-banner button { background: none; border: 0; padding: 0; margin-top: 10px; font-weight: 900; font-size: 13px; text-decoration: underline; text-underline-offset: 3px; }
+    .challenge { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 20px 28px; padding: 20px 22px; align-items: center; }
+    .board .challenge h2 { margin-bottom: 8px; }
+    .challenge p { font-weight: 700; font-size: 15px; }
+    .challenge-acts { display: flex; flex-direction: column; gap: 12px; align-items: stretch; min-width: 0; }
+    .challenge-acts label { font-weight: 900; font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; display: flex; flex-direction: column; gap: 6px; margin-top: 6px; }
+    .challenge-acts select { font: inherit; font-weight: 700; font-size: 15px; letter-spacing: 0; text-transform: none; background: var(--paper); color: var(--ink); border: 3px solid var(--ink); border-radius: 0; padding: 9px 8px; width: 100%; min-width: 0; }
+    .challenge-result { background: var(--ink); color: var(--paper); padding: 22px; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px 24px; align-items: center; box-shadow: 8px 8px 0 var(--red); }
+    .challenge-result .label { color: #F5B700; }
+    .board .challenge-result h2 { font-size: clamp(32px, 5vw, 56px); margin: 6px 0 8px; overflow-wrap: anywhere; }
+    .challenge-result p { font-weight: 700; font-size: 16px; max-width: 60ch; }
+    .challenge-result .big { font-family: var(--display); font-size: clamp(64px, 11vw, 120px); line-height: 0.9; color: #F5B700; font-variant-numeric: tabular-nums; text-align: right; }
+    .challenge-result .acts { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 12px; margin-top: 10px; }
+    .challenge-result .btn { --btn-shadow: var(--red); }
+    @media (max-width: 760px) { .challenge, .challenge-result { grid-template-columns: minmax(0, 1fr); } .challenge-result .big { text-align: left; } }
+
     /* ---------- Terms bar, survey, classic compass, shelf, parties ---------- */
     .terms-note { margin-top: 14px; font-size: 13px; font-weight: 700; opacity: 0.85; max-width: 46ch; }
     .terms-note a, #terms-bar a, .survey a { color: inherit; text-underline-offset: 3px; }
@@ -552,6 +574,7 @@
       <div class="hero on-dark">
         <div class="wrap">
           <div>
+            <div id="challenge-banner" class="challenge-banner" hidden></div>
             <div class="label">Political values test</div>
             <h1 class="display">Where do <em>you</em> stand?</h1>
             <p class="lede">Left and right are not enough. Answer hard questions and find your place across thirteen axes, matched to ideologies as their own founders defined them.</p>
@@ -674,6 +697,22 @@
       </div>
 
       <div class="wrap board">
+        <div id="challenge-result" class="panel challenge-result" hidden></div>
+
+        <div class="panel challenge">
+          <div>
+            <h2 class="display">Challenge a friend</h2>
+            <p>Send a link. They take the test and you both see how alike you are. Or dare them to answer as another ideology and see who gets closest.</p>
+          </div>
+          <div class="challenge-acts">
+            <button id="ch-compare" type="button" class="btn is-red">Compare with me</button>
+            <label for="ch-ideology">Or dare them to become
+              <select id="ch-ideology"></select>
+            </label>
+            <button id="ch-dare" type="button" class="btn">Send the dare</button>
+          </div>
+        </div>
+
         <div>
           <h2 class="display">Your strongest positions</h2>
           <div id="highlights"></div>
