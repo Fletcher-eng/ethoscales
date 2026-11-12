@@ -51,12 +51,12 @@
 
   // Six 2D compasses. Between them they show all twelve axes once.
   const COMPASSES = [
-    { id: 'classic', title: 'Economy and rule', x: 'econ', y: 'rule' },
+    { id: 'classic', title: 'Economy and government', x: 'econ', y: 'rule' },
     { id: 'property', title: 'Property and rights', x: 'own', y: 'rights' },
     { id: 'state', title: 'State and nation', x: 'struct', y: 'nation' },
-    { id: 'culture', title: 'Identity and culture', x: 'ident', y: 'cult' },
-    { id: 'future', title: 'Tech and ecology', x: 'tech', y: 'eco' },
-    { id: 'spirit', title: 'Faith and force', x: 'relig', y: 'force' }
+    { id: 'culture', title: 'Immigration and values', x: 'ident', y: 'cult' },
+    { id: 'future', title: 'Tech and environment', x: 'tech', y: 'eco' },
+    { id: 'spirit', title: 'Faith and military', x: 'relig', y: 'force' }
   ];
 
   // Portrait credits, loaded from figures/credits.json. An ideology whose id
