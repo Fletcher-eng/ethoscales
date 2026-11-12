@@ -73,9 +73,9 @@
     scores: null,        // one value per axis key, each 0..100
     matches: [],         // ideologies sorted by distance, ascending
     plotAxes: null,      // the 3 axis keys shown in the 3D chart (null = auto)
-    // 'map' = all axes squeezed into 3D, 'flat' = the same in 2D, 'axes' = pick 3 raw axes.
-    // Small screens open on the flat map, which is much easier to read at that size.
-    plotMode: window.innerWidth < 700 ? 'flat' : 'map',
+    // 'dodeca' = the twelve faced map, which opens first. 'map' = all axes squeezed into 3D,
+    // 'flat' = the same in 2D, 'axes' = pick 3 raw axes.
+    plotMode: 'dodeca',
     friend: null,        // { scores, matches } for a pasted friend link
     storyFile: null,     // the story sized share image, built ahead of the tap
     baseScores: null,    // scores from the statements alone, before the survey nudges
@@ -1274,10 +1274,10 @@
     const mode = `
       <label>View
         <select id="plot-mode" aria-label="3D chart view">
+          <option value="dodeca"${state.plotMode === 'dodeca' ? ' selected' : ''}>Your Dodecahedron</option>
           <option value="map"${state.plotMode === 'map' ? ' selected' : ''}>3D map of all ${AXES.length} axes</option>
           <option value="flat"${state.plotMode === 'flat' ? ' selected' : ''}>Flat map of all ${AXES.length} axes</option>
           <option value="axes"${state.plotMode === 'axes' ? ' selected' : ''}>Pick 3 axes</option>
-          <option value="dodeca"${state.plotMode === 'dodeca' ? ' selected' : ''}>Your Dodecahedron</option>
         </select>
       </label>`;
     const axes = state.plotMode !== 'axes' ? '' : ['X', 'Y', 'Z'].map((letter, i) => `
