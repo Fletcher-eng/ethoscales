@@ -163,11 +163,19 @@ const SYMBOLS = (function () {
     'posadism': 'ufo', 'luxury-space-communism': 'star'
   };
 
+  /* Fallback for a newer entry that names no emblem of its own. */
+  const BY_FAMILY = {
+    'Radical Left': 'star', 'Left': 'threeArrows', 'Liberal': 'torch', 'Libertarian': 'splitFlag',
+    'Anarchist': 'circleA', 'Autonomist': 'sun', 'Conservative': 'tree', 'Nationalist': 'flag',
+    'Religious': 'wheel', 'Reactionary': 'crown', 'Third Position': 'gear', 'Green': 'theta',
+    'Technological': 'nodes', 'Classical': 'column'
+  };
+
   function glyphFor(ideology) {
     // Older entries are mapped by id above. Newer entries name their emblem in a `symbol` field.
     // A restricted entry (hateful or violent extremism) never gets one.
     if (ideology.restricted) return null;
-    const key = ideology.id in BY_ID ? BY_ID[ideology.id] : ideology.symbol;
+    const key = ideology.id in BY_ID ? BY_ID[ideology.id] : (ideology.symbol || BY_FAMILY[ideology.family]);
     return key && G[key] ? G[key] : null;
   }
 

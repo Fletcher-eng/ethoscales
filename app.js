@@ -315,6 +315,8 @@
   function renderCatalog() {
     const esc = (t) => String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;');
     el.catalogCount.textContent = IDEOLOGIES.length;
+    const siteCount = $('#site-count');
+    if (siteCount) siteCount.textContent = `${AXES.length} axes / ${IDEOLOGIES.length} ideologies`;
     el.catalog.innerHTML = Object.keys(FAMILY_COLORS).map((family) => {
       const members = IDEOLOGIES.filter((i) => i.family === family);
       if (!members.length) return '';
