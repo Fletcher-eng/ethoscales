@@ -17,6 +17,9 @@
     brand: 'ETHOSSCALES',
     brandUrl: 'fletcher-eng.github.io/ethoscales',
     plotlyUrl: 'https://cdn.plot.ly/plotly-2.35.2.min.js',
+    // Where shared survey rows are sent. Paste the web app URL from tools/collector.gs
+    // here to switch collection on. While it is empty nothing is ever sent.
+    collectUrl: '',
     fadeMs: 180,
     card: { width: 1080, height: 1350 }
   };
@@ -48,7 +51,7 @@
 
   // Six 2D compasses. Between them they show all twelve axes once.
   const COMPASSES = [
-    { id: 'classic', title: 'Classic compass', x: 'econ', y: 'rule' },
+    { id: 'classic', title: 'Economy and rule', x: 'econ', y: 'rule' },
     { id: 'property', title: 'Property and rights', x: 'own', y: 'rights' },
     { id: 'state', title: 'State and nation', x: 'struct', y: 'nation' },
     { id: 'culture', title: 'Identity and culture', x: 'ident', y: 'cult' },
@@ -61,7 +64,7 @@
   let FIGURE_CREDITS = {};
 
   const state = {
-    view: 'landing',     // 'landing' | 'quiz' | 'results'
+    view: 'landing',     // 'landing' | 'quiz' | 'survey' | 'results'
     mode: 'full',        // 'quick' (24) | 'full' (60) | 'deep' (120)
     questions: [],       // active question bank for this run
     index: 0,            // current question index
@@ -74,6 +77,10 @@
     plotMode: window.innerWidth < 700 ? 'flat' : 'map',
     friend: null,        // { scores, matches } for a pasted friend link
     storyFile: null,     // the story sized share image, built ahead of the tap
+    baseScores: null,    // scores from the statements alone, before the survey nudges
+    survey: null,        // { beliefs, about, changes } once the end survey is answered
+    startedAt: 0,        // when this run of the test began
+    partyGroup: 'all',   // which tab of the party list is open
     busy: false          // true while a question transition is animating
   };
 
@@ -249,7 +256,7 @@
 
   function showView(name) {
     state.view = name;
-    ['landing', 'quiz', 'results'].forEach((v) => {
+    ['landing', 'quiz', 'survey', 'results'].forEach((v) => {
       const node = el.views[v];
       if (v === name) {
         node.classList.remove('is-hidden');
@@ -384,6 +391,9 @@
     }
     state.busy = false;
     state.plotAxes = null;
+    state.survey = null;
+    state.startedAt = Date.now();
+    acceptTerms();
     el.quizModeLabel.textContent = MODES[state.mode].label;
     showView('quiz');
     renderQuestion();
@@ -466,14 +476,152 @@
   function finishQuiz() {
     const bounds = computeBounds(state.questions);
     const raw = computeRawScores(state.questions, state.answers);
-    state.scores = normalizeScores(raw, bounds);
+    state.baseScores = normalizeScores(raw, bounds);
+    state.scores = state.baseScores;
     state.matches = matchIdeologies(state.scores);
     state.busy = false;
-    clearProgress();
+    showView('survey');
+    renderSurvey();
+  }
 
+  /* ------------------------------------------------------------------ */
+  /* 5b. THE END SURVEY                                                  */
+  /* ------------------------------------------------------------------ */
+
+  const TERMS_KEY = 'ethoscales.terms.v1';
+  const SHARED_KEY = 'ethoscales.shared.v1';
+
+  function store(key, value) {
+    try {
+      if (value === undefined) return window.localStorage.getItem(key);
+      window.localStorage.setItem(key, value);
+    } catch (err) { /* private windows can block storage; nothing depends on it */ }
+    return null;
+  }
+
+  function acceptTerms() {
+    store(TERMS_KEY, '1');
+    el.termsBar.hidden = true;
+  }
+
+  function countryOptions() {
+    let names = null;
+    try { names = new Intl.DisplayNames(['en'], { type: 'region' }); } catch (err) { /* old browser */ }
+    return SURVEY_COUNTRIES
+      .map((code) => ({ code, name: names ? names.of(code) : code }))
+      .sort((a, b) => a.name.localeCompare(b.name))
+      .map((c) => `<option value="${c.code}">${c.name}</option>`).join('') + '<option value="other">Somewhere else</option>';
+  }
+
+  function renderSurvey() {
+    const collecting = Boolean(CONFIG.collectUrl);
+    el.surveyTitle.textContent = collecting ? 'Want to help out?' : 'One last thing';
+    el.surveyPitch.textContent = collecting
+      ? 'Answer a few optional questions and add your anonymous result to the EthosScales statistics. It helps us show how views differ by country, age and belief. No name, no email, no account.'
+      : 'A few optional questions before your result. What you say you believe counts a little toward where you land.';
+    el.surveyShare.hidden = !collecting;
+    el.surveyKeep.textContent = collecting ? 'See my result without sharing' : 'See my result';
+    el.surveyKeep.className = collecting ? 'btn is-paper' : 'btn is-red is-big';
+    el.surveySmall.innerHTML = (collecting
+      ? 'Pressing Share saves your scores and these answers as one anonymous row, which may include your political and religious views. '
+      : '') + 'The five belief questions shift your scores slightly. The rest never change your result. <a href="legal.html#privacy" target="_blank" rel="noopener">How this is handled</a>';
+
+    el.surveyBeliefs.innerHTML = SURVEY_BELIEFS.map((q) => `
+      <fieldset>
+        <legend>${q.text}</legend>
+        <div class="opts">${q.options.map((o) => `<label><input type="radio" name="b-${q.id}" value="${o.v}" /> ${o.label}</label>`).join('')}</div>
+      </fieldset>`).join('');
+
+    const select = (id, label, options) => `
+      <label class="field"><span>${label}</span>
+        <select id="s-${id}"><option value="">Prefer not to say</option>${options}</select>
+      </label>`;
+    el.surveyAbout.innerHTML = select('country', 'Country', countryOptions()) +
+      SURVEY_ABOUT.map((q) => select(q.id, q.label, q.options.map((o) => `<option>${o}</option>`).join(''))).join('');
+    el.surveyWebsite.value = '';
+  }
+
+  /** Read the form into { beliefs, about }. Unanswered questions are left out. */
+  function readSurvey() {
+    const beliefs = {};
+    SURVEY_BELIEFS.forEach((q) => {
+      const picked = el.surveyForm.querySelector(`input[name="b-${q.id}"]:checked`);
+      if (picked) beliefs[q.id] = picked.value;
+    });
+    const about = {};
+    ['country'].concat(SURVEY_ABOUT.map((q) => q.id)).forEach((id) => {
+      const value = $('#s-' + id).value;
+      if (value) about[id] = value;
+    });
+    return { beliefs, about };
+  }
+
+  /** Scores after the belief answers are added. Returns { scores, changes }. */
+  function applyBeliefs(base, beliefs) {
+    const delta = {};
+    SURVEY_BELIEFS.forEach((q) => {
+      const option = q.options.find((o) => o.v === beliefs[q.id]);
+      if (!option) return;
+      Object.keys(option.nudge).forEach((k) => { delta[k] = (delta[k] || 0) + option.nudge[k]; });
+    });
+    const scores = {};
+    const changes = {};
+    AXIS_KEYS.forEach((k) => {
+      scores[k] = round1(clamp(base[k] + (delta[k] || 0), 0, 100));
+      if (scores[k] !== base[k]) changes[k] = round1(scores[k] - base[k]);
+    });
+    return { scores, changes };
+  }
+
+  /**
+   * Send one anonymous row. Only ever called from the Share button, and only
+   * for a test this browser actually finished, which keeps bots and repeat
+   * sends out of the numbers. The collector checks the same things again.
+   */
+  function sendSurvey(survey) {
+    if (!CONFIG.collectUrl) return false;
+    if (el.surveyWebsite.value) return false;                       // hidden field only bots fill in
+    if (survey.about.age === 'Under 13') return false;               // never collected
+    if (state.answers.length === 0 || state.answers.some((a) => a === null)) return false;
+    const signature = AXIS_KEYS.map((k) => state.baseScores[k]).join(',');
+    if (store(SHARED_KEY) === signature) return false;               // this result was already counted
+
+    const row = Object.assign({
+      mode: state.mode,
+      match: matchIdeologies(state.baseScores)[0].ideology.id,
+      seconds: Math.round((Date.now() - state.startedAt) / 1000),
+      website: ''
+    }, survey.about, survey.beliefs, state.baseScores);
+    try {
+      // text/plain keeps this a simple request, so no preflight is needed.
+      fetch(CONFIG.collectUrl, { method: 'POST', mode: 'no-cors', keepalive: true, headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(row) }).catch(() => {});
+    } catch (err) { return false; }
+    store(SHARED_KEY, signature);
+    return true;
+  }
+
+  /** kind: 'share' sends and applies, 'keep' applies without sending, 'skip' ignores the form. */
+  function completeSurvey(kind) {
+    if (state.view !== 'survey') return;
+    let sent = false;
+    if (kind === 'skip') {
+      state.survey = null;
+      state.scores = state.baseScores;
+    } else {
+      const answers = readSurvey();
+      const applied = applyBeliefs(state.baseScores, answers.beliefs);
+      state.survey = { beliefs: answers.beliefs, about: answers.about, changes: applied.changes };
+      state.scores = applied.scores;
+      if (kind === 'share') sent = sendSurvey(state.survey);
+    }
+    state.matches = matchIdeologies(state.scores);
+    state.partyGroup = state.survey && state.survey.about.country === 'GB' ? 'uk'
+      : state.survey && state.survey.about.country === 'US' ? 'us' : 'all';
+    clearProgress();
     writeScoresToUrl(state.scores);
     showView('results');
-    renderResults('From your answers');
+    renderResults(state.survey && Object.keys(state.survey.changes).length ? 'From your answers and beliefs' : 'From your answers');
+    if (sent) toast('Thanks. Your anonymous result was added.');
   }
 
   /* ------------------------------------------------------------------ */
@@ -497,6 +645,10 @@
     renderCompare();
     renderFigure(top.ideology);
     renderAxisBars(scores);
+    renderSaid();
+    renderShelf();
+    renderClassic(scores, top.ideology);
+    renderParties();
     renderPlotPickers(scores);
     renderCompasses(scores, top.ideology);
 
@@ -762,6 +914,140 @@
         span.style.width = span.dataset.w + '%';
       });
     }));
+  }
+
+  /* ------------------- What you said vs what you scored ------------------- */
+
+  function renderSaid() {
+    const survey = state.survey;
+    const base = state.baseScores;
+    const has = survey && base && (survey.beliefs.label || Object.keys(survey.changes).length);
+    el.saidWrap.hidden = !has;
+    if (!has) return;
+
+    let line = '';
+    const question = SURVEY_BELIEFS.find((q) => q.id === 'label');
+    const option = question.options.find((o) => o.v === survey.beliefs.label);
+    if (option && option.check) {
+      const axis = AXIS_BY_KEY[option.check.axis];
+      const score = base[axis.key];
+      const fits = (score >= 50) === option.check.high;
+      line = `You call yourself <b>${option.label}</b>. On ${axis.name} your answers scored ${fmt(score)}, which leans <b>${(score >= 50 ? axis.high : axis.low).short}</b>. ${fits ? 'The label fits.' : 'That does not match the label. It is common, and worth a think.'}`;
+    } else if (option && option.v === 'centrist') {
+      const far = AXIS_BY_KEY[mostPolarizedAxes(base, 1)[0]];
+      const gap = Math.abs(base[far.key] - 50);
+      line = `You call yourself a <b>Centrist</b>. Your furthest score from the middle is ${far.name} at ${fmt(base[far.key])}. ${gap <= 20 ? 'The label fits.' : 'That is a long way from the centre on that one.'}`;
+    } else if (option) {
+      line = 'You did not pick a label. Fair enough: your result is built from your answers, not from a name.';
+    }
+
+    const changed = Object.keys(survey.changes);
+    const list = changed.length
+      ? `<p${line ? ' style="margin-top:14px"' : ''}>Your belief answers moved these scores:</p><ul class="changes">${changed.map((k) => `<li><span>${AXIS_BY_KEY[k].name}</span><span>${fmt(base[k])} to ${fmt(state.scores[k])}</span></li>`).join('')}</ul>`
+      : '';
+    el.said.innerHTML = (line ? `<p>${line}</p>` : '') + list;
+  }
+
+  /* --------------------------- Read and watch ---------------------------- */
+
+  function renderShelf() {
+    const top = state.matches[0].ideology;
+    const q = encodeURIComponent;
+    const textCard = (label, ideo, first) => {
+      const src = ideo.source;
+      if (src.note || ideo.restricted) {
+        return `<div class="book${first ? ' first' : ''}"><span class="label">${label}</span><b>${src.note ? ideo.name : src.work}</b><small>${src.note || `${src.author}, ${src.year}`}</small></div>`;
+      }
+      return `<a class="${first ? 'first' : ''}" href="https://archive.org/search?query=${q(src.work + ' ' + src.author)}" target="_blank" rel="noopener">
+        <span class="label">${label}</span><b>${src.work}</b><small>${src.author}, ${src.year}</small><span class="go">Find a free copy</span></a>`;
+    };
+
+    const cards = [textCard('Start here: the founding text', top, true)];
+    cards.push(`<a href="https://en.wikipedia.org/w/index.php?search=${q(top.name)}" target="_blank" rel="noopener">
+      <span class="label">The short introduction</span><b>${top.name} in ten minutes</b><small>An encyclopedia overview to get your bearings</small><span class="go">Read the overview</span></a>`);
+    if (!top.restricted) {
+      cards.push(`<a href="https://www.youtube.com/results?search_query=${q(top.name + ' explained')}" target="_blank" rel="noopener">
+        <span class="label">Watch</span><b>${top.name} explained</b><small>Pick from the best videos people have made on this</small><span class="go">See the videos</span></a>`);
+    }
+    state.matches.slice(1).filter((m) => !m.ideology.restricted && !m.ideology.source.note).slice(0, 2)
+      .forEach((m) => cards.push(textCard('Close to you: ' + m.ideology.name, m.ideology, false)));
+    const far = state.matches.slice().reverse().find((m) => !m.ideology.restricted && !m.ideology.source.note);
+    if (far) cards.push(textCard('Know the other side: ' + far.ideology.name, far.ideology, false));
+    el.shelf.innerHTML = cards.join('');
+  }
+
+  /* --------------------------- Classic compass --------------------------- */
+
+  /** The familiar two axis compass: economic left to right, libertarian to authoritarian. */
+  function classicPoint(c) {
+    return {
+      x: 100 - (c.econ * 0.6 + c.own * 0.4),
+      y: c.rule * 0.45 + c.rights * 0.35 + c.struct * 0.2
+    };
+  }
+
+  function renderClassic(scores, matchIdeology) {
+    const you = classicPoint(scores);
+    const right = you.x >= 50;
+    const up = you.y >= 50;
+    const quads = [
+      { name: 'Authoritarian Left', color: '#F0867C', css: 'left:0;top:0', on: !right && up },
+      { name: 'Authoritarian Right', color: '#7FB2EA', css: 'right:0;top:0', on: right && up },
+      { name: 'Libertarian Left', color: '#8FD19E', css: 'left:0;bottom:0', on: !right && !up },
+      { name: 'Libertarian Right', color: '#C4A1E8', css: 'right:0;bottom:0', on: right && !up }
+    ];
+    const ghosts = IDEOLOGIES.map((ideo) => {
+      const p = classicPoint(ideo.coords);
+      return `<span class="ghost${ideo.id === matchIdeology.id ? ' is-match' : ''}" title="${ideo.name}" style="left:${p.x.toFixed(1)}%;top:${(100 - p.y).toFixed(1)}%"></span>`;
+    }).join('');
+    const friend = state.friend ? classicPoint(state.friend.scores) : null;
+    // Shown on the same scale the original test uses: minus ten to plus ten.
+    const tenX = ((you.x - 50) / 5).toFixed(1);
+    const tenY = ((you.y - 50) / 5).toFixed(1);
+
+    el.classic.innerHTML = `
+      <div class="edge">Authoritarian</div>
+      <div class="compass" style="--dot:#111111">
+        ${quads.map((qd) => `<span class="quad${qd.on ? ' is-you' : ''}" style="${qd.css};background:${qd.color}"></span>`).join('')}
+        <span class="axis-line" style="left:0;right:0;top:calc(50% - 1px);height:2px"></span>
+        <span class="axis-line" style="top:0;bottom:0;left:calc(50% - 1px);width:2px"></span>
+        ${ghosts}
+        ${friend ? `<span class="friend-dot" title="Your friend" style="left:${friend.x}%;top:${100 - friend.y}%"></span>` : ''}
+        <span class="user-dot" title="You" style="left:${you.x}%;top:${100 - you.y}%"></span>
+      </div>
+      <div class="lr"><span>Left</span><span>Libertarian</span><span>Right</span></div>
+      <p class="where">You are in <b>${quads.find((qd) => qd.on).name}</b>. Economic ${tenX}, social ${tenY}, on the usual scale of minus ten to ten.</p>`;
+  }
+
+  /* ------------------------------- Parties ------------------------------- */
+
+  function partyInitials(name) {
+    return name.replace(/\b(of|the|and|for)\b/gi, '').split(/\s+/).filter(Boolean).map((w) => w[0]).slice(0, 3).join('').toUpperCase();
+  }
+
+  function renderParties() {
+    const scores = state.scores;
+    el.partyTabs.innerHTML = PARTY_GROUPS.map((g) =>
+      `<button type="button" data-group="${g.id}" aria-pressed="${g.id === state.partyGroup}">${g.label}</button>`).join('');
+
+    const ranked = PARTIES
+      .filter((p) => state.partyGroup === 'all' || p.group === state.partyGroup)
+      .map((p) => {
+        const distance = Math.sqrt(AXIS_KEYS.reduce((acc, k) => acc + Math.pow(scores[k] - p.coords[k], 2), 0));
+        return { party: p, match: Math.max(0, 100 - distance / (2 * Math.sqrt(AXIS_KEYS.length / 6))) };
+      })
+      .sort((a, b) => b.match - a.match)
+      .slice(0, state.partyGroup === 'all' ? 8 : 99);
+
+    el.partyList.innerHTML = ranked.map((r, i) => {
+      const p = r.party;
+      const emblem = p.restricted
+        ? '<span class="em is-plain" aria-hidden="true"></span>'
+        : `<span class="em" style="background:${p.color}" aria-hidden="true">${partyInitials(p.name)}</span>`;
+      return `<div class="party"><span class="rk">${i + 1}</span>${emblem}
+        <span class="nm">${p.name}<small>${p.where}. Placed from ${p.doc}${p.year ? ` (${p.year})` : ''}</small></span>
+        <span class="pc num">${fmt(r.match)}%</span></div>`;
+    }).join('');
   }
 
   /* ----------------------------- 2D compasses ----------------------------- */
@@ -1577,6 +1863,8 @@
     state.matches = [];
     state.plotAxes = null;
     state.friend = null;
+    state.survey = null;
+    state.baseScores = null;
     stopSpin(false);
     spin.stopped = false;
     clearProgress();
@@ -1615,8 +1903,25 @@
     el.views = {
       landing: $('#view-landing'),
       quiz: $('#view-quiz'),
+      survey: $('#view-survey'),
       results: $('#view-results')
     };
+    el.termsBar = $('#terms-bar');
+    el.surveyForm = $('#survey-form');
+    el.surveyTitle = $('#survey-title');
+    el.surveyPitch = $('#survey-pitch');
+    el.surveyBeliefs = $('#survey-beliefs');
+    el.surveyAbout = $('#survey-about');
+    el.surveyWebsite = $('#survey-website');
+    el.surveyShare = $('#survey-share');
+    el.surveyKeep = $('#survey-keep');
+    el.surveySmall = $('#survey-small');
+    el.saidWrap = $('#said-wrap');
+    el.said = $('#said');
+    el.shelf = $('#shelf');
+    el.classic = $('#classic-compass');
+    el.partyTabs = $('#party-tabs');
+    el.partyList = $('#party-list');
     el.progress = $('#progress-track');
     el.axisChips = $('#axis-chips');
     el.catalog = $('#catalog');
@@ -1675,7 +1980,18 @@
     $('#compare-form').addEventListener('submit', (e) => {
       e.preventDefault();
       compareWithLink(el.compareInput.value);
+      renderClassic(state.scores, state.matches[0].ideology);
       renderPlot3D(state.scores);
+    });
+    $('#terms-ok').addEventListener('click', acceptTerms);
+    el.surveyForm.addEventListener('submit', (e) => { e.preventDefault(); completeSurvey(CONFIG.collectUrl ? 'share' : 'keep'); });
+    el.surveyKeep.addEventListener('click', () => completeSurvey('keep'));
+    $('#survey-skip').addEventListener('click', () => completeSurvey('skip'));
+    el.partyTabs.addEventListener('click', (e) => {
+      const btn = e.target.closest('button[data-group]');
+      if (!btn) return;
+      state.partyGroup = btn.dataset.group;
+      renderParties();
     });
     $('#btn-download').addEventListener('click', downloadResultCard);
     $('#btn-retake').addEventListener('click', retake);
@@ -1692,6 +2008,7 @@
     cacheElements();
     bindEvents();
     renderLanding();
+    el.termsBar.hidden = store(TERMS_KEY) === '1';
     route();
     // The portrait list loads in the background. Nothing waits on it, so a fast
     // key press can never be undone by it. Results just redraw once it arrives.
@@ -1712,6 +2029,7 @@
   // Small debug surface so you can poke at the engine from the browser console.
   window.AxiomValues = {
     state,
+    config: CONFIG,
     computeBounds,
     computeRawScores,
     normalizeScores,

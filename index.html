@@ -435,6 +435,80 @@
       *, *::before, *::after { transition-duration: 1ms !important; animation: none !important; }
       .board > .will-reveal { opacity: 1; transform: none; }
     }
+    /* ---------- Terms bar, survey, classic compass, shelf, parties ---------- */
+    .terms-note { margin-top: 14px; font-size: 13px; font-weight: 700; opacity: 0.85; max-width: 46ch; }
+    .terms-note a, #terms-bar a, .survey a { color: inherit; text-underline-offset: 3px; }
+    #terms-bar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 40; background: var(--ink); color: var(--paper); border-top: 4px solid var(--red); padding: 14px 20px; display: flex; gap: 16px; align-items: center; justify-content: center; flex-wrap: wrap; font-weight: 700; font-size: 14px; }
+    #terms-bar[hidden] { display: none; }
+    #terms-bar p { max-width: 70ch; }
+    #terms-bar .btn { --btn-shadow: var(--red); padding: 8px 18px; }
+
+    .survey-head h1 { font-size: clamp(52px, 9vw, 104px); margin: 8px 0 14px; }
+    .survey-head p { font-size: 18px; font-weight: 700; max-width: 62ch; }
+    .survey { padding: 22px; }
+    .survey-cols { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 28px; }
+    .survey fieldset { border: 0; margin: 0 0 18px; padding: 0; min-width: 0; }
+    .survey legend, .survey .field > span { font-weight: 900; font-size: 15px; padding: 0; margin-bottom: 8px; display: block; }
+    .opts { display: flex; flex-direction: column; gap: 4px; }
+    .opts label { display: flex; gap: 10px; align-items: flex-start; background: var(--paper); border: 3px solid var(--ink); padding: 8px 10px; font-weight: 700; font-size: 14px; cursor: pointer; }
+    .opts input { accent-color: var(--ink); margin-top: 3px; flex: none; }
+    .opts label:has(input:checked) { background: var(--ink); color: var(--paper); }
+    .opts label:focus-within { outline: 3px solid #1D3FBB; outline-offset: 2px; }
+    .about-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; border-top: var(--rule); padding-top: 18px; margin-top: 4px; }
+    .survey .field { display: block; min-width: 0; }
+    .survey select { width: 100%; font: inherit; font-weight: 700; font-size: 15px; background: var(--paper); color: var(--ink); border: 3px solid var(--ink); border-radius: 0; padding: 9px 8px; }
+    .survey [hidden] { display: none; }
+    .survey .hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+    .survey .actions { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; margin-top: 24px; }
+    .survey .link-btn { background: none; border: 0; padding: 6px 0; font-weight: 900; font-size: 14px; text-decoration: underline; text-underline-offset: 3px; }
+    .survey .small { font-size: 13px; font-weight: 700; opacity: 0.8; margin-top: 16px; max-width: 80ch; }
+
+    .said { padding: 18px 20px; }
+    .said p { font-size: 17px; font-weight: 700; }
+    .changes { list-style: none; margin: 14px 0 0; padding: 0; border: 3px solid var(--ink); }
+    .changes li { display: flex; justify-content: space-between; gap: 10px; padding: 8px 12px; border-bottom: 2px solid rgba(17,17,17,.15); font-weight: 700; font-size: 14px; font-variant-numeric: tabular-nums; }
+    .changes li:last-child { border-bottom: 0; }
+
+    .classic { padding: 18px; }
+    .classic .compass { flex: none; width: 100%; }
+    .classic .quad { position: absolute; width: 50%; height: 50%; opacity: 0.5; }
+    .classic .quad.is-you { opacity: 0.95; }
+    .classic .axis-line { position: absolute; background: var(--ink); z-index: 1; }
+    .classic .edge { text-align: center; font-weight: 900; font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; padding: 6px 0; }
+    .classic .lr { display: flex; justify-content: space-between; font-weight: 900; font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; padding-top: 6px; }
+    .classic .where { margin-top: 12px; font-weight: 700; font-size: 15px; }
+    .classic .where b { text-transform: uppercase; }
+
+    .shelf { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 4px; background: var(--ink); }
+    .shelf a, .shelf div.book { background: var(--paper-2); color: var(--ink); padding: 16px 18px 18px; text-decoration: none; display: block; min-width: 0; }
+    .shelf a:hover { background: var(--paper); }
+    .shelf a:focus-visible { outline: 4px solid var(--red); outline-offset: -4px; }
+    .shelf .label { color: var(--red); }
+    .shelf b { display: block; font-family: var(--display); font-weight: 400; text-transform: uppercase; font-size: 24px; line-height: 1.02; margin: 8px 0 6px; overflow-wrap: anywhere; }
+    .shelf small { display: block; font-size: 13px; font-weight: 700; opacity: 0.8; }
+    .shelf .go { display: inline-block; margin-top: 10px; font-weight: 900; font-size: 13px; text-decoration: underline; text-underline-offset: 3px; }
+    .shelf .first { background: var(--ink); color: var(--paper); }
+    .shelf a.first:hover { background: #000; }
+    .shelf .first .label { color: #F5B700; }
+
+    .tabs { display: flex; flex-wrap: wrap; border-bottom: var(--rule); }
+    .tabs button { font-weight: 900; font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; background: var(--paper-2); color: var(--ink); border: 0; border-right: var(--rule); padding: 12px 16px; }
+    .tabs button[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
+    .party { display: flex; align-items: center; gap: 12px; padding: 10px 14px; border-bottom: 2px solid rgba(17,17,17,.15); min-width: 0; }
+    .party:last-child { border-bottom: 0; }
+    .party .rk { font-family: var(--display); font-size: 22px; width: 24px; flex: none; line-height: 1; }
+    .party .em { width: 40px; height: 40px; flex: none; display: flex; align-items: center; justify-content: center; color: #EEE6D3; font-family: var(--display); font-size: 15px; letter-spacing: 0.02em; border: 3px solid var(--ink); }
+    .party .em.is-plain { background: var(--paper); }
+    .party .nm { flex: 1; min-width: 0; font-weight: 900; text-transform: uppercase; font-size: 14px; letter-spacing: 0.04em; line-height: 1.2; overflow-wrap: anywhere; }
+    .party .nm small { display: block; text-transform: none; letter-spacing: 0; font-weight: 700; font-size: 12px; opacity: 0.75; }
+    .party .pc { font-family: var(--display); font-size: 22px; width: 62px; text-align: right; flex: none; line-height: 1; font-variant-numeric: tabular-nums; }
+    .party:first-child { background: var(--red); color: var(--paper); }
+    .party:first-child .nm small { opacity: 0.95; }
+    .party-note { padding: 10px 14px; font-size: 12px; font-weight: 700; opacity: 0.75; border-top: var(--rule); }
+    @media (max-width: 760px) {
+      .survey-cols, .shelf { grid-template-columns: minmax(0, 1fr); }
+      .about-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
   </style>
 </head>
 
@@ -469,6 +543,7 @@
               <button id="btn-start" type="button" class="btn is-big" style="--btn-shadow: var(--paper)">Take the test</button>
               <div class="meta"><span id="duration-estimate">About 9 minutes</span><br /><span class="press">Press <kbd>Enter</kbd></span></div>
             </div>
+            <p class="terms-note">By starting you agree to the <a href="legal.html#terms">terms</a> and <a href="legal.html#privacy">privacy notice</a>.</p>
           </div>
 
           <div class="sample" aria-hidden="true">
@@ -528,6 +603,28 @@
       </div>
     </section>
 
+    <!-- ============================= SURVEY ============================= -->
+    <section id="view-survey" class="view is-hidden" aria-label="A few last questions">
+      <div class="wrap board">
+        <div class="survey-head">
+          <div class="label">Your result is ready</div>
+          <h1 class="display" id="survey-title">Want to help out?</h1>
+          <p id="survey-pitch"></p>
+        </div>
+        <form id="survey-form" class="panel survey" novalidate>
+          <div id="survey-beliefs" class="survey-cols"></div>
+          <div id="survey-about" class="about-grid"></div>
+          <input class="hp" type="text" name="website" id="survey-website" tabindex="-1" autocomplete="off" aria-hidden="true" />
+          <div class="actions">
+            <button id="survey-share" type="submit" class="btn is-red is-big">Share and see my result</button>
+            <button id="survey-keep" type="button" class="btn is-paper">See my result without sharing</button>
+            <button id="survey-skip" type="button" class="link-btn">Skip these questions</button>
+          </div>
+          <p class="small" id="survey-small"></p>
+        </form>
+      </div>
+    </section>
+
     <!-- ============================= RESULTS ============================ -->
     <section id="view-results" class="view is-hidden" aria-label="Results">
       <div class="verdict on-dark">
@@ -562,6 +659,16 @@
         <div>
           <h2 class="display">Your twelve scores</h2>
           <div class="panel" id="axis-bars"></div>
+        </div>
+
+        <div id="said-wrap" hidden>
+          <h2 class="display">What you said vs what you scored</h2>
+          <div class="panel said" id="said"></div>
+        </div>
+
+        <div>
+          <h2 class="display">Read and watch</h2>
+          <div class="panel"><div class="shelf" id="shelf"></div></div>
         </div>
 
         <div class="two even">
@@ -602,6 +709,21 @@
           </div>
         </div>
 
+        <div class="two even">
+          <div>
+            <h2 class="display">Classic compass</h2>
+            <div class="panel classic" id="classic-compass"></div>
+          </div>
+          <div>
+            <h2 class="display">Closest parties</h2>
+            <div class="panel">
+              <div class="tabs" id="party-tabs" role="group" aria-label="Party group"></div>
+              <div id="party-list"></div>
+              <p class="party-note">Each party is placed from the programme named under it. The placements are editorial estimates.</p>
+            </div>
+          </div>
+        </div>
+
         <div>
           <h2 class="display">Six compasses</h2>
           <div id="compass-grid"></div>
@@ -622,10 +744,15 @@
           <img id="card-preview" alt="Preview of your result card" />
         </div>
 
-        <p class="fine">This is a model, and every model is a simplification. Ideology positions are editorial estimates, not science. Listing an ideology describes it and does not endorse it.</p>
+        <p class="fine"><a href="legal.html">Terms, privacy and cookies</a>. This is a model, and every model is a simplification. Ideology positions are editorial estimates, not science. Listing an ideology describes it and does not endorse it.</p>
       </div>
     </section>
   </main>
+
+  <div id="terms-bar" role="region" aria-label="Terms and cookies" hidden>
+    <p>By using EthosScales you agree to the <a href="legal.html#terms">terms</a> and <a href="legal.html#privacy">privacy notice</a>. We set no tracking cookies. Your browser only saves your place in the test. <a href="legal.html#cookies">More</a></p>
+    <button id="terms-ok" type="button" class="btn is-paper">OK</button>
+  </div>
 
   <div id="toast" role="status" aria-live="polite"></div>
 
@@ -633,6 +760,7 @@
   <script src="questions.js"></script>
   <script src="ideologies.js"></script>
   <script src="symbols.js"></script>
+  <script src="extras.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
