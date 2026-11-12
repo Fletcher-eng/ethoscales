@@ -325,11 +325,11 @@
     box.hidden = !c.target && !c.vs;
     $('#btn-start').textContent = c.target ? 'Accept the dare' : c.vs ? 'Accept the challenge' : 'Take the test';
     if (c.target) {
-      box.innerHTML = `<b>You have been dared</b>Answer the way a true <em>${c.target.name}</em> would, and get as close to it as you can.${c.best !== null ? ` Score to beat: ${fmt(c.best)}%.` : ''}
-        <p class="what">${c.target.desc}</p><button type="button" data-drop>No thanks, just take the test</button>`;
+      box.innerHTML = `<b>Your friend dared you</b>Try answering the way a true believer in <em>${c.target.name}</em> would, and see how close you can get.${c.best !== null ? ` They got ${fmt(c.best)}%, so that is the number to beat.` : ''}
+        <p class="what">${c.target.desc}</p><button type="button" data-drop>I would rather just take the test</button>`;
     } else if (c.vs) {
-      box.innerHTML = `<b>A friend challenged you</b>They got <em>${matchIdeologies(c.vs)[0].ideology.name}</em>. Take the test and see how alike you two are.
-        <br /><button type="button" data-drop>No thanks, just take the test</button>`;
+      box.innerHTML = `<b>Your friend challenged you</b>They got <em>${matchIdeologies(c.vs)[0].ideology.name}</em>. Take the test yourself and you will see how alike the two of you really are.
+        <br /><button type="button" data-drop>I would rather just take the test</button>`;
     }
   }
 
@@ -540,7 +540,7 @@
       clearProgress();
       writeScoresToUrl(state.scores);
       showView('results');
-      renderResults('A dare, answered in character');
+      renderResults('You answered this one in character');
       return;
     }
     showView('survey');
@@ -580,8 +580,8 @@
     const collecting = Boolean(CONFIG.collectUrl);
     el.surveyTitle.textContent = collecting ? 'Want to help out?' : 'One last thing';
     el.surveyPitch.textContent = collecting
-      ? 'Answer a few optional questions and add your anonymous result to the EthosScales statistics. It helps us show how views differ by country, age and belief. No name, no email, no account.'
-      : 'A few optional questions before your result. What you say you believe counts a little toward where you land.';
+      ? 'Your result is ready. Before you see it, would you mind answering a few quick questions? They are all optional. If you share them, they go into our statistics with no name attached, and they help us see how views differ by country, age and belief.'
+      : 'Your result is ready. Before you see it, here are a few quick questions. They are all optional, and what you say you believe counts a little toward where you land.';
     el.surveyShare.hidden = !collecting;
     el.surveyKeep.textContent = collecting ? 'See my result without sharing' : 'See my result';
     el.surveyKeep.className = collecting ? 'btn is-paper' : 'btn is-red is-big';
@@ -896,13 +896,14 @@
       const place = state.matches.findIndex((m) => m.ideology.id === c.target.id) + 1;
       let verdict = '';
       if (c.best !== null) {
-        verdict = close > c.best ? ` The score to beat was ${fmt(c.best)}%. Beaten.` : ` The score to beat was ${fmt(c.best)}%. Not this time.`;
+        const who = mine ? 'you' : 'they';
+        verdict = close > c.best ? ` The number to beat was ${fmt(c.best)}%, so ${who} won this one.` : ` The number to beat was ${fmt(c.best)}%, so ${who} fell a little short.`;
       }
       box.innerHTML = `
         <div>
-          <div class="label">${mine ? 'The dare' : 'A dare, answered in character'}</div>
+          <div class="label">${mine ? 'How the dare went' : 'Someone tried a dare'}</div>
           <h2 class="display">Become ${c.target.name}</h2>
-          <p>${mine ? 'You' : 'They'} landed ${fmt(close)}% close. It came ${ordinal(place)} out of ${IDEOLOGIES.length}.${verdict}</p>
+          <p>${mine ? 'You' : 'They'} got ${fmt(close)}% of the way there. Out of ${IDEOLOGIES.length} ideologies it was ${mine ? 'your' : 'their'} ${ordinal(place)} closest.${verdict}</p>
         </div>
         <div class="big">${fmt(close)}%</div>
         <div class="acts">
@@ -913,12 +914,12 @@
       const alike = similarity(state.scores, state.friend.scores);
       box.innerHTML = `
         <div>
-          <div class="label">The challenge</div>
+          <div class="label">How alike you are</div>
           <h2 class="display">You and your friend</h2>
-          <p>They got ${state.friend.matches[0].ideology.name}. You got ${top.name}. Where you agree and clash is further down, and their dot is on the maps.</p>
+          <p>They got ${state.friend.matches[0].ideology.name} and you got ${top.name}. Scroll down to see what you agree on and where you clash. Their dot is on the maps too.</p>
         </div>
         <div class="big">${fmt(alike)}%</div>
-        <div class="acts"><button type="button" class="btn is-paper" data-ch="back">Send your result back</button></div>`;
+        <div class="acts"><button type="button" class="btn is-paper" data-ch="back">Show them your result</button></div>`;
     }
   }
 
@@ -942,7 +943,7 @@
 
   function sendCompareChallenge() {
     const url = pageBase() + '?vs=' + AXES.map((a) => state.scores[a.key]).join(',');
-    sendLink(url, `I got ${state.matches[0].ideology.name} on EthosScales. Take the test and see how alike we are.`);
+    sendLink(url, `I got ${state.matches[0].ideology.name} on EthosScales. Take it and let us see how alike we actually are.`);
   }
 
   function sendDare(id) {
@@ -951,7 +952,7 @@
     // The score to beat is how close the sender is. In a dare they answered, that is their attempt.
     const best = fmt(Math.max(similarity(state.scores, target.coords), state.challenge.target && state.challenge.target.id === id && state.challenge.best !== null ? state.challenge.best : 0));
     const url = `${pageBase()}?target=${target.id}&best=${best}`;
-    sendLink(url, `Can you answer like a true ${target.name}? I got ${best}% close. Beat it.`);
+    sendLink(url, `Bet you cannot answer like a true believer in ${target.name}. I got ${best}%. Think you can beat that?`);
   }
 
   function startDare(id, best) {
