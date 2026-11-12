@@ -5,6 +5,18 @@
   "license": "CC BY-SA 1.0",
   "source": "https://commons.wikimedia.org/wiki/File:Samuel_Edward_Konkin_III.png"
  },
+ "agrarianism": {
+  "author": "Guy Mendes",
+  "file": "File:A_New_Harvest,_with_Wendell_Berry,_Henry_County,_KY,_2011_-_photograph_by_Guy_Mendes_(cropped).jpg",
+  "license": "CC BY-SA 3.0",
+  "source": "https://commons.wikimedia.org/wiki/File:A_New_Harvest,_with_Wendell_Berry,_Henry_County,_KY,_2011_-_photograph_by_Guy_Mendes_(cropped).jpg"
+ },
+ "anarcha-feminism": {
+  "author": "Takuma Kajiwara",
+  "file": "File:Emma_Goldman_seated.jpg",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Emma_Goldman_seated.jpg"
+ },
  "anarcho-capitalism": {
   "author": "Ludwig von Mises Institute",
   "file": "File:Murray_Rothbard_Portrait.jpg",
@@ -35,11 +47,23 @@
   "license": "Public domain",
   "source": "https://commons.wikimedia.org/wiki/File:Rudolf_Rocker.jpg"
  },
+ "animal-liberation": {
+  "author": "Ula Zarosa",
+  "file": "File:Peter_Singer_2017_(cropped).jpg",
+  "license": "CC BY 2.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Peter_Singer_2017_(cropped).jpg"
+ },
  "archeofuturism": {
   "author": "Photo Claude TRUONG-NGOC",
   "file": "File:Guillaume_Faye_par_Claude_Truong-Ngoc_février_2015.jpg",
   "license": "CC BY-SA 3.0",
   "source": "https://commons.wikimedia.org/wiki/File:Guillaume_Faye_par_Claude_Truong-Ngoc_f%C3%A9vrier_2015.jpg"
+ },
+ "aristocratic-radicalism": {
+  "author": "Friedrich Hermann Hartmann",
+  "file": "File:Nietzsche187a.jpg",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Nietzsche187a.jpg"
  },
  "austrofascism": {
   "author": "Unknown author",
@@ -47,11 +71,23 @@
   "license": "Public domain",
   "source": "https://commons.wikimedia.org/wiki/File:Engelbert_Dollfuss_1-E-652.jpg"
  },
+ "austromarxism": {
+  "author": "Albert Hilscher",
+  "file": "File:Otto_Bauer_circa_1920.png",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Otto_Bauer_circa_1920.png"
+ },
  "baathism": {
   "author": "Basch, Fritz",
   "file": "File:Michel_Aflaq_1963.jpg",
   "license": "CC BY-SA 3.0 nl",
   "source": "https://commons.wikimedia.org/wiki/File:Michel_Aflaq_1963.jpg"
+ },
+ "benthamite-utilitarianism": {
+  "author": "Henry William Pickersgill",
+  "file": "File:Jeremy_Bentham_by_Henry_William_Pickersgill.jpg",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Jeremy_Bentham_by_Henry_William_Pickersgill.jpg"
  },
  "bioconservatism": {
   "author": "Unknown",
@@ -59,11 +95,47 @@
   "license": "Public domain",
   "source": "https://commons.wikimedia.org/wiki/File:KassPCOB.jpg"
  },
+ "bioregionalism": {
+  "author": "Jay Tanner/United Press International",
+  "file": "File:Kirkpatrick_Sale_1980.jpg",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Kirkpatrick_Sale_1980.jpg"
+ },
+ "black-anarchism": {
+  "author": "Brooklyn agit at English Wikipedia",
+  "file": "File:Lorenzokomboa.jpg",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Lorenzokomboa.jpg"
+ },
+ "black-feminism": {
+  "author": "MAKERS",
+  "file": "File:Barbara_Smith_Makers_(cropped).jpg",
+  "license": "CC BY-SA 4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Barbara_Smith_Makers_(cropped).jpg"
+ },
+ "blanquism": {
+  "author": "Appert, Eugène (Châteauroux, 13–03–1830), photographe",
+  "file": "File:Blanqui_Louis-Auguste_(1805-1881)._Révolutionnaire_et_activiste,_il_est_de_toutes_les_manifestations_qui_prône_l'_égal,_PH4142-49_(cropped).jpg",
+  "license": "CC0",
+  "source": "https://commons.wikimedia.org/wiki/File:Blanqui_Louis-Auguste_(1805-1881)._R%C3%A9volutionnaire_et_activiste,_il_est_de_toutes_les_manifestations_qui_pr%C3%B4ne_l%27_%C3%A9gal,_PH4142-49_(cropped).jpg"
+ },
+ "bolivarianism": {
+  "author": "Luis Enrique Toro Moreno (1897-1933)",
+  "file": "File:Simón_Bolívar._Toro_Moreno,_Luis._1922,_Legislative_Palace,_La_Paz.png",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Sim%C3%B3n_Bol%C3%ADvar._Toro_Moreno,_Luis._1922,_Legislative_Palace,_La_Paz.png"
+ },
  "bonapartism": {
   "author": "Alexandre Cabanel",
   "file": "File:Alexandre_Cabanel_002.jpg",
   "license": "Public domain",
   "source": "https://commons.wikimedia.org/wiki/File:Alexandre_Cabanel_002.jpg"
+ },
+ "bordigism": {
+  "author": "Unknown author",
+  "file": "File:Amadeo_Bordiga_Russian_Archives_Crop.png",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Amadeo_Bordiga_Russian_Archives_Crop.png"
  },
  "brazilian-integralism": {
   "author": "Unknown",
@@ -71,11 +143,59 @@
   "license": "Public domain",
   "source": "https://commons.wikimedia.org/wiki/File:Pl%C3%ADnio_Salgado,_1959.tif"
  },
+ "british-fascism": {
+  "author": "Bassano Ltd",
+  "file": "File:Oswald_Mosley_MP_(3x4_cropped).jpg",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Oswald_Mosley_MP_(3x4_cropped).jpg"
+ },
+ "bukharinism": {
+  "author": "Unknown author",
+  "file": "File:N.I._Bukharin_(1888-1938)_Crop.jpg",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:N.I._Bukharin_(1888-1938)_Crop.jpg"
+ },
  "burkean-conservatism": {
   "author": "Unknown",
   "file": "File:Sir_Joshua_Reynolds_-_Edmund_Burke,_1729_-_1797._Statesman,_orator_and_author_-_PG_2362_-_National_Galleries_of_Scotland_(cropped).jpg",
   "license": "Public domain",
   "source": "https://commons.wikimedia.org/wiki/File:Sir_Joshua_Reynolds_-_Edmund_Burke,_1729_-_1797._Statesman,_orator_and_author_-_PG_2362_-_National_Galleries_of_Scotland_(cropped).jpg"
+ },
+ "capabilities-approach": {
+  "author": "Amartya_Sen_20071128_cologne.jpg: Elke Wetzig (Elya) derivative work: ChaudhryAzan (talk)",
+  "file": "File:Amartya_Sen_20071128_cologne_cropped.jpg",
+  "license": "CC BY-SA 3.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Amartya_Sen_20071128_cologne_cropped.jpg"
+ },
+ "carlism": {
+  "author": "Unknown author",
+  "file": "File:Juan_Vazquez_de_Mella_1906.JPG",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Juan_Vazquez_de_Mella_1906.JPG"
+ },
+ "carlylean-hero-worship": {
+  "author": "Unknown",
+  "file": "File:Thomas_Carlyle._Photograph_by_Elliott_&_Fry._Wellcome_V0027634_(Cropped).jpg",
+  "license": "CC BY 4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Thomas_Carlyle._Photograph_by_Elliott_%26_Fry._Wellcome_V0027634_(Cropped).jpg"
+ },
+ "castroism": {
+  "author": "Unknown (Mondadori Publishers)",
+  "file": "File:Fidel_Castro_1950s.jpg",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Fidel_Castro_1950s.jpg"
+ },
+ "catholic-integralism": {
+  "author": "Unknown",
+  "file": "File:Pius_IX,_by_Adolphe_Braun,_1875.jpg",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Pius_IX,_by_Adolphe_Braun,_1875.jpg"
+ },
+ "catholic-social-teaching": {
+  "author": "Braun et Compagnie",
+  "file": "File:Papa_Leone_XIII_(3x4_cropped).jpeg",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Papa_Leone_XIII_(3x4_cropped).jpeg"
  },
  "christian-democracy": {
   "author": "Unknown author",
@@ -83,11 +203,47 @@
   "license": "Public domain",
   "source": "https://commons.wikimedia.org/wiki/File:Maritain_Jacques.jpg"
  },
+ "christian-socialism": {
+  "author": "Acabashi",
+  "file": "File:Frederick_Denison_Maurice._Portrait_c1865.jpg",
+  "license": "CC BY 3.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Frederick_Denison_Maurice._Portrait_c1865.jpg"
+ },
+ "civic-nationalism": {
+  "author": "Antoine Samuel Adam-Salomon",
+  "file": "File:Ernest_Renan_1876-84.jpg",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Ernest_Renan_1876-84.jpg"
+ },
+ "civic-republicanism": {
+  "author": "LF.Chile",
+  "file": "File:Philip_Pettit.jpg",
+  "license": "CC BY-SA 4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Philip_Pettit.jpg"
+ },
  "classical-liberalism": {
   "author": "London Stereoscopic Company",
   "file": "File:John_Stuart_Mill_by_London_Stereoscopic_Company,_c1870.jpg",
   "license": "Public domain",
   "source": "https://commons.wikimedia.org/wiki/File:John_Stuart_Mill_by_London_Stereoscopic_Company,_c1870.jpg"
+ },
+ "classical-marxism": {
+  "author": "John Jabez Edwin Mayall",
+  "file": "File:Karl_Marx_by_John_Jabez_Edwin_Mayall_1875_-_Restored.png",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Karl_Marx_by_John_Jabez_Edwin_Mayall_1875_-_Restored.png"
+ },
+ "collectivist-anarchism": {
+  "author": "Nadar",
+  "file": "File:Mikhail_Bakunin_Nader_(3x4_cropped).jpg",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Mikhail_Bakunin_Nader_(3x4_cropped).jpg"
+ },
+ "communization": {
+  "author": "Someoneacc",
+  "file": "File:Gilles-dauve.jpg",
+  "license": "CC BY-SA 4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Gilles-dauve.jpg"
  },
  "confucianism": {
   "author": "Anonymous Chinese painter of the Western Han period",
@@ -95,11 +251,47 @@
   "license": "Public domain",
   "source": "https://commons.wikimedia.org/wiki/File:Confucius,_fresco_from_a_Western_Han_tomb_of_Dongping_County,_Shandong_province,_China_(cropped).jpg"
  },
+ "conservative-liberalism": {
+  "author": "Théodore Chassériau",
+  "file": "File:Portrait_of_Alexis_de_Tocqueville.jpg",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Portrait_of_Alexis_de_Tocqueville.jpg"
+ },
+ "conservative-revolution": {
+  "author": "Bennorey",
+  "file": "File:Arthur_Moeller_van_den_Bruck.jpg",
+  "license": "CC BY-SA 4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Arthur_Moeller_van_den_Bruck.jpg"
+ },
+ "cooperativism": {
+  "author": "Unknown author",
+  "file": "File:Co-operator_Dr_William_King.jpg",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Co-operator_Dr_William_King.jpg"
+ },
  "council-communism": {
   "author": "Unknown photographer / onbekende fotograaf",
   "file": "File:Anton_Pannekoek.jpg",
   "license": "Public domain",
   "source": "https://commons.wikimedia.org/wiki/File:Anton_Pannekoek.jpg"
+ },
+ "crunchy-conservatism": {
+  "author": "Elekes Andor",
+  "file": "File:Rod_Dreher_(cropped).jpg",
+  "license": "CC BY-SA 4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Rod_Dreher_(cropped).jpg"
+ },
+ "cybernetic-socialism": {
+  "author": "Universitätsarchiv St.Gallen (HSG)",
+  "file": "File:Stafford_Beer_1990.png",
+  "license": "CC BY-SA 4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Stafford_Beer_1990.png"
+ },
+ "de-leonism": {
+  "author": "Bain News Service, publisher",
+  "file": "File:Dan._DeLeon,_portrait_bust_LCCN2014680961_Trim.jpg",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Dan._DeLeon,_portrait_bust_LCCN2014680961_Trim.jpg"
  },
  "deep-ecology": {
   "author": "Vindheim",
@@ -107,11 +299,23 @@
   "license": "CC BY-SA 3.0",
   "source": "https://commons.wikimedia.org/wiki/File:Arne_N%C3%A6ss,_2003_(cropped)_(cropped).jpg"
  },
+ "degrowth": {
+  "author": "Niccolò Caranti",
+  "file": "File:Serge_Latouche_-_Festival_Economia_2012_(3x4_cropped).JPG",
+  "license": "CC BY-SA 3.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Serge_Latouche_-_Festival_Economia_2012_(3x4_cropped).JPG"
+ },
  "democratic-confederalism": {
   "author": "Halil Uysal",
   "file": "File:Abdullah_Öcalan.png",
   "license": "CC BY-SA 3.0",
   "source": "https://commons.wikimedia.org/wiki/File:Abdullah_%C3%96calan.png"
+ },
+ "democratic-socialism": {
+  "author": "Howard Coster",
+  "file": "File:Aneurin_Bevan_(1943).jpg",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Aneurin_Bevan_(1943).jpg"
  },
  "democratic-transhumanism": {
   "author": "Knightcap",
@@ -131,6 +335,12 @@
   "license": "Public domain",
   "source": "https://commons.wikimedia.org/wiki/File:Gilbert_Chesterton.jpg"
  },
+ "divine-right-absolutism": {
+  "author": "Tomitoch",
+  "file": "File:Robert_Filmer_Portrait.jpg",
+  "license": "CC BY-SA 4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Robert_Filmer_Portrait.jpg"
+ },
  "eco-authoritarianism": {
   "author": "Soppakanuuna",
   "file": "File:Pentti_Linkola_2.jpg",
@@ -143,11 +353,29 @@
   "license": "CC BY-SA 4.0",
   "source": "https://commons.wikimedia.org/wiki/File:Michael_L%C3%B6wy.jpg"
  },
+ "ecofeminism": {
+  "author": "Unknown author",
+  "file": "File:Françoise_d'Eaubonne_wikipédia.jpg",
+  "license": "CC BY-SA 4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Fran%C3%A7oise_d%27Eaubonne_wikip%C3%A9dia.jpg"
+ },
+ "economic-nationalism": {
+  "author": "Josef Kriehuber",
+  "file": "File:Friedrich_List_1845_crop.jpg",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Friedrich_List_1845_crop.jpg"
+ },
  "egoist-anarchism": {
   "author": "Friedrich Engels",
   "file": "File:Friedrich_Engels_-_Die_Freien_(1842)-1.1_V01-1.2_raw_RGASPI_(Stirner_crop).jpg",
   "license": "Public domain",
   "source": "https://commons.wikimedia.org/wiki/File:Friedrich_Engels_-_Die_Freien_(1842)-1.1_V01-1.2_raw_RGASPI_(Stirner_crop).jpg"
+ },
+ "ethical-socialism": {
+  "author": "R._H._Tawney.jpg: Library of the London School of Economics and Political Science derivative work: nagualdesign (talk)",
+  "file": "File:R._H._Tawney.png",
+  "license": "No restrictions",
+  "source": "https://commons.wikimedia.org/wiki/File:R._H._Tawney.png"
  },
  "eurasianism": {
   "author": "Татьяна Мастерова",
@@ -155,11 +383,59 @@
   "license": "CC BY 4.0",
   "source": "https://commons.wikimedia.org/wiki/File:Aleksandr_Dugin_2023_(3x4_cropped).jpg"
  },
+ "eurocommunism": {
+  "author": "Nemo",
+  "file": "File:Santiago_Carrillo_003.jpg",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Santiago_Carrillo_003.jpg"
+ },
+ "european-federalism": {
+  "author": "European Commission",
+  "file": "File:Altiero_Spinelli_1970.jpg",
+  "license": "CC BY 4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Altiero_Spinelli_1970.jpg"
+ },
+ "extropianism": {
+  "author": "\"null0\"",
+  "file": "File:Max_More,_Stanford_2006_(square_crop).jpg",
+  "license": "CC BY-SA 2.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Max_More,_Stanford_2006_(square_crop).jpg"
+ },
+ "fabianism": {
+  "author": "W. & D. Downey",
+  "file": "File:Sidney_Webb_(cropped).jpg",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Sidney_Webb_(cropped).jpg"
+ },
  "falangism": {
   "author": "Unknown author",
   "file": "File:FOTOGRAFIA_DE_JOSE_ANTONIO_PRIMO_DE_RIVERA_2.jpg",
   "license": "CC0",
   "source": "https://commons.wikimedia.org/wiki/File:FOTOGRAFIA_DE_JOSE_ANTONIO_PRIMO_DE_RIVERA_2.jpg"
+ },
+ "fanonism": {
+  "author": "Unknown author",
+  "file": "File:Photograph_of_Frantz_Fanon_from_Black_Skin_White_Masks_(1967)_dust_jacket.webp",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Photograph_of_Frantz_Fanon_from_Black_Skin_White_Masks_(1967)_dust_jacket.webp"
+ },
+ "free-software-movement": {
+  "author": "Patafisik",
+  "file": "File:Richard_Stallman_Bologna_2024_abc1_(3x4,_rule_of_thirdscropped).jpg",
+  "license": "CC BY-SA 4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Richard_Stallman_Bologna_2024_abc1_(3x4,_rule_of_thirdscropped).jpg"
+ },
+ "fusionism": {
+  "author": "Unknown",
+  "file": "File:YoungFSM2.jpg",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:YoungFSM2.jpg"
+ },
+ "futarchy": {
+  "author": "KatjaGrace",
+  "file": "File:Robin_Hanson_in_a_field_2.jpg",
+  "license": "CC BY-SA 3.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Robin_Hanson_in_a_field_2.jpg"
  },
  "futurism": {
   "author": "Unknown author",
@@ -173,17 +449,53 @@
   "license": "Public domain",
   "source": "https://commons.wikimedia.org/wiki/File:Mahatma-Gandhi,_studio,_1931.jpg"
  },
+ "garveyism": {
+  "author": "Keystone View Company, restored by Creator:Adam Cuerden",
+  "file": "File:Marcus_Garvey,_\"Provisional_President_of_Africa\",_by_the_Keystone_View_Company.jpg",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Marcus_Garvey,_%22Provisional_President_of_Africa%22,_by_the_Keystone_View_Company.jpg"
+ },
+ "gaullism": {
+  "author": "Office of War Information, Overseas Picture Division. [1] The image prefix (LC-USW3) at the Library of Congress image pa",
+  "file": "File:De_Gaulle-OWI_(cropped)_(c)(2).jpg",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:De_Gaulle-OWI_(cropped)_(c)(2).jpg"
+ },
  "georgism": {
   "author": "Unknown author",
   "file": "File:Henry_George_c1885_retouched.jpg",
   "license": "Public domain",
   "source": "https://commons.wikimedia.org/wiki/File:Henry_George_c1885_retouched.jpg"
  },
+ "green-conservatism": {
+  "author": "Pete Helme",
+  "file": "File:Roger_Scruton_by_Pete_Helme.jpg",
+  "license": "CC BY-SA 3.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Roger_Scruton_by_Pete_Helme.jpg"
+ },
  "guevarism": {
   "author": "Alberto Korda, restored by Adam Cuerden",
   "file": "File:Che_Guevara_-_Guerrillero_Heroico_by_Alberto_Korda.jpg",
   "license": "Public domain",
   "source": "https://commons.wikimedia.org/wiki/File:Che_Guevara_-_Guerrillero_Heroico_by_Alberto_Korda.jpg"
+ },
+ "hamiltonianism": {
+  "author": "John Trumbull / Giuseppe Ceracchi",
+  "file": "File:Alexander_Hamilton_(NPG).jpg",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Alexander_Hamilton_(NPG).jpg"
+ },
+ "hayekian-liberalism": {
+  "author": "The original uploader was DickClarkMises at English Wikipedia.",
+  "file": "File:Friedrich_Hayek_portrait.jpg",
+  "license": "CC BY-SA 3.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Friedrich_Hayek_portrait.jpg"
+ },
+ "hegelian-constitutional-monarchism": {
+  "author": "Jakob Schlesinger",
+  "file": "File:Jakob_Schlesinger_-_Hegel_1831.jpg",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Jakob_Schlesinger_-_Hegel_1831.jpg"
  },
  "hindutva": {
   "author": "Unknown author",
@@ -196,6 +508,30 @@
   "file": "File:Hans-Hermann_Hoppe_2024_(cropped).jpg",
   "license": "CC BY 3.0",
   "source": "https://commons.wikimedia.org/wiki/File:Hans-Hermann_Hoppe_2024_(cropped).jpg"
+ },
+ "hoxhaism": {
+  "author": "Petrit Kumi",
+  "file": "File:Enver_Hoxha_portrait_(colour_correction).jpg",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Enver_Hoxha_portrait_(colour_correction).jpg"
+ },
+ "inclusive-democracy": {
+  "author": "Inclusive Democracy Network; Takis Fotopoulos' Archive's webmaster Nikos Panagos",
+  "file": "File:Takis_Fotopoulos.jpg",
+  "license": "CC BY 3.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Takis_Fotopoulos.jpg"
+ },
+ "individualist-anarchism": {
+  "author": "Unknown author",
+  "file": "File:Benjamin_Tucker.jpg",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Benjamin_Tucker.jpg"
+ },
+ "irish-republicanism": {
+  "author": "Unknown author",
+  "file": "File:Patrick_Pearse_cph.3b15294.jpg",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Patrick_Pearse_cph.3b15294.jpg"
  },
  "islamism": {
   "author": "The original uploader was أحمد.غامدي.24 at Arabic Wikipedia.",
@@ -215,6 +551,18 @@
   "license": "Public domain",
   "source": "https://commons.wikimedia.org/wiki/File:Kim_Il-sung_in_1950_(cropped).jpg"
  },
+ "kantian-republicanism": {
+  "author": "Johann Gottlieb Becker (1720-1782)",
+  "file": "File:Immanuel_Kant_-_Gemaelde_1.jpg",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Immanuel_Kant_-_Gemaelde_1.jpg"
+ },
+ "kautskyism": {
+  "author": "Unknown author",
+  "file": "File:Karl_Kautsky_High_Res.jpg",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Karl_Kautsky_High_Res.jpg"
+ },
  "kemalism": {
   "author": "Unknown author",
   "file": "File:Ataturk1930s.jpg",
@@ -233,11 +581,65 @@
   "license": "Public domain",
   "source": "https://commons.wikimedia.org/wiki/File:Ruhollah_Khomeini_by_Jamaran_1.jpg"
  },
+ "kokutai": {
+  "author": "Unknown author",
+  "file": "File:Aizawa_Seishisai_Portrait_Ibaraki_Prefectural_Museum_of_History.png",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Aizawa_Seishisai_Portrait_Ibaraki_Prefectural_Museum_of_History.png"
+ },
+ "labour-zionism": {
+  "author": "Atelier Bermann, Vienna, Austria",
+  "file": "File:Ber_Borochov.jpg",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Ber_Borochov.jpg"
+ },
+ "land-ethic-conservationism": {
+  "author": "Howard Zahniser",
+  "file": "File:Aldo_Leopold,_1946_(cropped).jpg",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Aldo_Leopold,_1946_(cropped).jpg"
+ },
+ "lassalleanism": {
+  "author": "Philipp Graff",
+  "file": "File:Ferdinand_Lassalle_(3x4_cropped).jpg",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Ferdinand_Lassalle_(3x4_cropped).jpg"
+ },
  "left-accelerationism": {
   "author": "UNCTAD",
   "file": "File:ECommerce_Week_of_UNCTAD_(41520003051)_(cropped).jpg",
   "license": "CC BY-SA 2.0",
   "source": "https://commons.wikimedia.org/wiki/File:ECommerce_Week_of_UNCTAD_(41520003051)_(cropped).jpg"
+ },
+ "liberal-feminism": {
+  "author": "John Opie",
+  "file": "File:Mary_Wollstonecraft_Portrait.jpg",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Mary_Wollstonecraft_Portrait.jpg"
+ },
+ "liberal-internationalism": {
+  "author": "Harris & Ewing, photographer",
+  "file": "File:President_Woodrow_Wilson_Harris_&_Ewing_(3x4_cropped_b).jpg",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:President_Woodrow_Wilson_Harris_%26_Ewing_(3x4_cropped_b).jpg"
+ },
+ "liberal-socialism": {
+  "author": "Unknown author",
+  "file": "File:Carlo_Rosselli_3.jpg",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Carlo_Rosselli_3.jpg"
+ },
+ "lockean-liberalism": {
+  "author": "Godfrey Kneller",
+  "file": "File:Godfrey_Kneller_-_Portrait_of_John_Locke_(Hermitage).jpg",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Godfrey_Kneller_-_Portrait_of_John_Locke_(Hermitage).jpg"
+ },
+ "longtermism": {
+  "author": "Sam Deere",
+  "file": "File:William_MacAskill_Portrait_2015_(cropped).jpg",
+  "license": "CC BY-SA 4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:William_MacAskill_Portrait_2015_(cropped).jpg"
  },
  "luxemburgism": {
   "author": "Unknown author",
@@ -250,6 +652,12 @@
   "file": "File:Aaron_Bastani_2021.png",
   "license": "CC BY 3.0",
   "source": "https://commons.wikimedia.org/wiki/File:Aaron_Bastani_2021.png"
+ },
+ "magonism": {
+  "author": "Bain News Service, publisher",
+  "file": "File:Ricardo_F._Magon_LCCN2014686092_Trim.jpg",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Ricardo_F._Magon_LCCN2014686092_Trim.jpg"
  },
  "maoism": {
   "author": "Chen Zhengqing (1917–1966)",
@@ -268,6 +676,18 @@
   "file": "File:Lenin_in_1920_(cropped).jpg",
   "license": "Public domain",
   "source": "https://commons.wikimedia.org/wiki/File:Lenin_in_1920_(cropped).jpg"
+ },
+ "marxist-feminism": {
+  "author": "Unknown (Sovfoto)",
+  "file": "File:Aleksandra_Kollontai.jpg",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Aleksandra_Kollontai.jpg"
+ },
+ "mazzinianism": {
+  "author": "Unknown author",
+  "file": "File:Giuseppe_Mazzini.jpg",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Giuseppe_Mazzini.jpg"
  },
  "minarchism": {
   "author": "Libertarian Review",
@@ -299,17 +719,41 @@
   "license": "Public domain",
   "source": "https://commons.wikimedia.org/wiki/File:Yoram_Hazony_wearing_a_kippa.jpg"
  },
+ "national-socialism": {
+  "author": "Heinrich Hoffmann",
+  "file": "File:Hitler_portrait_crop_(cropped)(2).jpg",
+  "license": "CC BY-SA 3.0 de",
+  "source": "https://commons.wikimedia.org/wiki/File:Hitler_portrait_crop_(cropped)(2).jpg"
+ },
  "national-syndicalism": {
   "author": "AnonymousUnknown author",
   "file": "File:Ramiro_Ledesma_(circa_1930).jpg",
   "license": "Public domain",
   "source": "https://commons.wikimedia.org/wiki/File:Ramiro_Ledesma_(circa_1930).jpg"
  },
+ "natural-law-anarchism": {
+  "author": "Amory Nelson Hardy / Adam Cuerden",
+  "file": "File:Lysander_Spooner_by_Hardy.jpg",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Lysander_Spooner_by_Hardy.jpg"
+ },
+ "nehruvian-nationalism": {
+  "author": "Harry Pot",
+  "file": "File:Nehru_in_the_Netherlands,_1957.jpg",
+  "license": "CC0",
+  "source": "https://commons.wikimedia.org/wiki/File:Nehru_in_the_Netherlands,_1957.jpg"
+ },
  "neo-cameralism": {
   "author": "Elekes Andor",
   "file": "File:Curtis_Yarvin_(4).jpg",
   "license": "CC BY 4.0",
   "source": "https://commons.wikimedia.org/wiki/File:Curtis_Yarvin_(4).jpg"
+ },
+ "neo-luddism": {
+  "author": "Pixal Images, 2010.",
+  "file": "File:CHELLIS_GLENDINNING.jpg",
+  "license": "CC BY-SA 4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:CHELLIS_GLENDINNING.jpg"
  },
  "neoconservatism": {
   "author": "Unknown author",
@@ -329,11 +773,53 @@
   "license": "CC BY-SA 4.0",
   "source": "https://commons.wikimedia.org/wiki/File:Balaji_Srinivasan_(cropped).png"
  },
+ "new-left": {
+  "author": "Copyright holder: Marcuse family, represented by Harold Marcuse",
+  "file": "File:Herbert_Marcuse_in_Newton,_Massachusetts_1955_(cropped).jpg",
+  "license": "CC BY-SA 3.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Herbert_Marcuse_in_Newton,_Massachusetts_1955_(cropped).jpg"
+ },
+ "new-liberalism": {
+  "author": "Unknown",
+  "file": "File:Leonard_Trelawny_Hobhouse,_c1910.jpg",
+  "license": "No restrictions",
+  "source": "https://commons.wikimedia.org/wiki/File:Leonard_Trelawny_Hobhouse,_c1910.jpg"
+ },
+ "nouvelle-droite": {
+  "author": "Simone Olla",
+  "file": "File:Alain_de_Benoist_(3x4_cropped).png",
+  "license": "CC BY 3.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Alain_de_Benoist_(3x4_cropped).png"
+ },
+ "oakeshottian-conservatism": {
+  "author": "Unknown",
+  "file": "File:Michael_Oakeshott.jpg",
+  "license": "No restrictions",
+  "source": "https://commons.wikimedia.org/wiki/File:Michael_Oakeshott.jpg"
+ },
  "objectivism": {
   "author": "Photo portrait credited to \"Talbot\" (though not on original dust jacket). Published by the Bobbs-Merrill Company.",
   "file": "File:Ayn_Rand_(1943_Talbot_portrait).jpg",
   "license": "Public domain",
   "source": "https://commons.wikimedia.org/wiki/File:Ayn_Rand_(1943_Talbot_portrait).jpg"
+ },
+ "one-nation-conservatism": {
+  "author": "Cornelius Jabez Hughes",
+  "file": "File:Benjamin_Disraeli,_Earl_of_Beaconsfield_(3x4_cropped).jpg",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Benjamin_Disraeli,_Earl_of_Beaconsfield_(3x4_cropped).jpg"
+ },
+ "open-society": {
+  "author": "Franz Barta",
+  "file": "File:Karl_Popper.jpg",
+  "license": "No restrictions",
+  "source": "https://commons.wikimedia.org/wiki/File:Karl_Popper.jpg"
+ },
+ "operaismo": {
+  "author": "Senato della Repubblica Italiana",
+  "file": "File:Mario_Tronti_datisenato_2013.jpg",
+  "license": "CC BY 3.0 it",
+  "source": "https://commons.wikimedia.org/wiki/File:Mario_Tronti_datisenato_2013.jpg"
  },
  "ordoliberalism": {
   "author": "Walter Eucken Institut",
@@ -341,17 +827,77 @@
   "license": "CC BY-SA 3.0",
   "source": "https://commons.wikimedia.org/wiki/File:Walter_Eucken2.jpg"
  },
+ "painite-radicalism": {
+  "author": "Laurent Dabos",
+  "file": "File:Laurent_Dabos_–_Thomas_Paine_–_Google_Art_Project.jpg",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Laurent_Dabos_%E2%80%93_Thomas_Paine_%E2%80%93_Google_Art_Project.jpg"
+ },
  "paleoconservatism": {
   "author": "Pete Souza",
   "file": "File:Pat_Buchanan_1985b_(cropped).jpg",
   "license": "Public domain",
   "source": "https://commons.wikimedia.org/wiki/File:Pat_Buchanan_1985b_(cropped).jpg"
  },
+ "paleolibertarianism": {
+  "author": "Gage Skidmore from Surprise, AZ, United States of America",
+  "file": "File:Lew_Rockwell_(3x4_cropped).jpg",
+  "license": "CC BY-SA 2.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Lew_Rockwell_(3x4_cropped).jpg"
+ },
+ "pan-slavism": {
+  "author": "Unknown",
+  "file": "File:Nikolay_Danilevski.jpg",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Nikolay_Danilevski.jpg"
+ },
+ "pan-turkism": {
+  "author": "Unknown author",
+  "file": "File:Akçuraoğlu_Yusuf_Bey.jpg",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Ak%C3%A7urao%C4%9Flu_Yusuf_Bey.jpg"
+ },
+ "pancasila": {
+  "author": "Onbekend/Anonymous",
+  "file": "File:Presiden_Sukarno.jpg",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Presiden_Sukarno.jpg"
+ },
+ "participatory-economics": {
+  "author": "Thomas Good",
+  "file": "File:NLN_Michael_Albert.jpg",
+  "license": "CC BY-SA 4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:NLN_Michael_Albert.jpg"
+ },
+ "perennialist-traditionalism": {
+  "author": "Unknown author",
+  "file": "File:Rene-guenon-1925.jpg",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Rene-guenon-1925.jpg"
+ },
  "peronism": {
   "author": "Unknown author",
   "file": "File:Juan_Domingo_Perón_(cropped).jpg",
   "license": "Public domain",
   "source": "https://commons.wikimedia.org/wiki/File:Juan_Domingo_Per%C3%B3n_(cropped).jpg"
+ },
+ "philosophical-anarchism": {
+  "author": "Henry William Pickersgill",
+  "file": "File:William_Godwin_by_Henry_William_Pickersgill.jpg",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:William_Godwin_by_Henry_William_Pickersgill.jpg"
+ },
+ "pirate-politics": {
+  "author": "Helena Augustsson",
+  "file": "File:Rick_Falkvinge_(publicity_photo_2013-1_portrait).jpg",
+  "license": "CC0",
+  "source": "https://commons.wikimedia.org/wiki/File:Rick_Falkvinge_(publicity_photo_2013-1_portrait).jpg"
+ },
+ "platformism": {
+  "author": "Unknown author",
+  "file": "File:1921._Нестор_Махно_в_лагере_для_перемещенных_лиц_в_Румынии.jpg",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:1921._%D0%9D%D0%B5%D1%81%D1%82%D0%BE%D1%80_%D0%9C%D0%B0%D1%85%D0%BD%D0%BE_%D0%B2_%D0%BB%D0%B0%D0%B3%D0%B5%D1%80%D0%B5_%D0%B4%D0%BB%D1%8F_%D0%BF%D0%B5%D1%80%D0%B5%D0%BC%D0%B5%D1%89%D0%B5%D0%BD%D0%BD%D1%8B%D1%85_%D0%BB%D0%B8%D1%86_%D0%B2_%D0%A0%D1%83%D0%BC%D1%8B%D0%BD%D0%B8%D0%B8.jpg"
  },
  "platonism": {
   "author": "Marie-Lan Nguyen",
@@ -365,6 +911,30 @@
   "license": "Public domain",
   "source": "https://commons.wikimedia.org/wiki/File:J._Posadas.jpg"
  },
+ "post-left-anarchism": {
+  "author": "Cast",
+  "file": "File:Bob_Black,_2011_BAAB,_cropped.jpg",
+  "license": "CC BY-SA 3.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Bob_Black,_2011_BAAB,_cropped.jpg"
+ },
+ "prussian-socialism": {
+  "author": "Unknown author",
+  "file": "File:Oswald_Spengler.jpg",
+  "license": "CC BY-SA 4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Oswald_Spengler.jpg"
+ },
+ "public-choice": {
+  "author": "Atlas Network Official website",
+  "file": "File:James_Buchanan_by_Atlas_network.jpg",
+  "license": "CC BY-SA 3.0",
+  "source": "https://commons.wikimedia.org/wiki/File:James_Buchanan_by_Atlas_network.jpg"
+ },
+ "radical-democracy": {
+  "author": "Cancillería Ecuador",
+  "file": "File:Presentación_del_Documental_CATASTROIKA_y_Presentación_de_la_Revista_Debates_y_Combates_(7215329954)_(cropped).jpg",
+  "license": "CC BY-SA 2.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Presentaci%C3%B3n_del_Documental_CATASTROIKA_y_Presentaci%C3%B3n_de_la_Revista_Debates_y_Combates_(7215329954)_(cropped).jpg"
+ },
  "radical-traditionalism": {
   "author": "Unknown author",
   "file": "File:Evola.jpg",
@@ -377,6 +947,18 @@
   "license": "Public domain",
   "source": "https://commons.wikimedia.org/wiki/File:Jmaistre.jpg"
  },
+ "red-toryism": {
+  "author": "Rwendland",
+  "file": "File:Phillip_Blond,_2018_(3x4_cropped).jpg",
+  "license": "CC BY-SA 4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Phillip_Blond,_2018_(3x4_cropped).jpg"
+ },
+ "revisionist-zionism": {
+  "author": "לשכת העיתונות הממשלתית",
+  "file": "File:PORTRAIT_OF_VLADIMIR_JABOTINSKY_TAKEN_BY_BRITT_IN_PARIS._פורטרט,_זאב_ז'בוטינסקי.D850-062_(cropped).jpg",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:PORTRAIT_OF_VLADIMIR_JABOTINSKY_TAKEN_BY_BRITT_IN_PARIS._%D7%A4%D7%95%D7%A8%D7%98%D7%A8%D7%98,_%D7%96%D7%90%D7%91_%D7%96%27%D7%91%D7%95%D7%98%D7%99%D7%A0%D7%A1%D7%A7%D7%99.D850-062_(cropped).jpg"
+ },
  "revolutionary-syndicalism": {
   "author": "Unknown author",
   "file": "File:Georges_Sorel.jpg",
@@ -388,6 +970,42 @@
   "file": "File:Nick_Land_October_2025_(1x1_cropped).jpg",
   "license": "CC BY-SA 4.0",
   "source": "https://commons.wikimedia.org/wiki/File:Nick_Land_October_2025_(1x1_cropped).jpg"
+ },
+ "romantic-nationalism": {
+  "author": "Unknown",
+  "file": "File:Johann_Gottlieb_Fichte.jpg",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Johann_Gottlieb_Fichte.jpg"
+ },
+ "salazarism": {
+  "author": "Manuel Alves de San Payo",
+  "file": "File:António_de_Oliveira_Salazar_portrait_(by_Manuel_Alves_San_Payo)_–_Lisboa.jpg",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Ant%C3%B3nio_de_Oliveira_Salazar_portrait_(by_Manuel_Alves_San_Payo)_%E2%80%93_Lisboa.jpg"
+ },
+ "sankarism": {
+  "author": "The Militant/ Ernest Harsch",
+  "file": "File:Thomas_Sankara_in_Harlem_(1984).png",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Thomas_Sankara_in_Harlem_(1984).png"
+ },
+ "seasteading": {
+  "author": "Hannu Makarainen",
+  "file": "File:Patri_Friedman_Portrait_(4x5_cropped).jpg",
+  "license": "CC BY-SA 2.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Patri_Friedman_Portrait_(4x5_cropped).jpg"
+ },
+ "showa-statism": {
+  "author": "Unknown",
+  "file": "File:Kita_Ikki.jpg",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Kita_Ikki.jpg"
+ },
+ "singularitarianism": {
+  "author": "Jay Dixit",
+  "file": "File:Ray-Kurzweil-at-SXSW_2024_7_(cropped).jpg",
+  "license": "CC BY 4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Ray-Kurzweil-at-SXSW_2024_7_(cropped).jpg"
  },
  "social-democracy": {
   "author": "Unknown author",
@@ -419,6 +1037,12 @@
   "license": "CC BY-SA 3.0",
   "source": "https://commons.wikimedia.org/wiki/File:Otto_Strasser.jpg"
  },
+ "straussianism": {
+  "author": "Monozigote",
+  "file": "File:Leo_Strauss_USA_1939.jpg",
+  "license": "CC BY-SA 4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Leo_Strauss_USA_1939.jpg"
+ },
  "third-international-theory": {
   "author": "Stevan Kragujević",
   "file": "File:Moamer_el_Gadafi_(cropped).jpg",
@@ -431,6 +1055,12 @@
   "license": "CC BY-SA 3.0",
   "source": "https://commons.wikimedia.org/wiki/File:Anthony_Giddens_at_the_Progressive_Governance_Converence,_Budapest,_Hungary,_2004_October.jpg"
  },
+ "three-principles-of-the-people": {
+  "author": "上海波尔照相馆",
+  "file": "File:孙中山肖像.jpg",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:%E5%AD%99%E4%B8%AD%E5%B1%B1%E8%82%96%E5%83%8F.jpg"
+ },
  "titoism": {
   "author": "Unknown photographer; Distributed by a Belgrade-based information service to interested outlets; here Svenska Dagbladet.",
   "file": "File:Edvard_Kardelj_in_1959.jpg",
@@ -442,6 +1072,12 @@
   "file": "File:Leo_Tolstoy_1908_Portrait_(3x4_cropped).jpg",
   "license": "Public domain",
   "source": "https://commons.wikimedia.org/wiki/File:Leo_Tolstoy_1908_Portrait_(3x4_cropped).jpg"
+ },
+ "traditionalist-conservatism": {
+  "author": "Unknown photographer",
+  "file": "File:Kirk_1962.jpg",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Kirk_1962.jpg"
  },
  "trotskyism": {
   "author": "Rijksmuseum",
@@ -460,6 +1096,12 @@
   "file": "File:Robert_Owen_by_William_Henry_Brooke.jpg",
   "license": "Public domain",
   "source": "https://commons.wikimedia.org/wiki/File:Robert_Owen_by_William_Henry_Brooke.jpg"
+ },
+ "voluntaryism": {
+  "author": "Frederick Hollyer",
+  "file": "File:Auberon_Herbert,_circa_1890s.png",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Auberon_Herbert,_circa_1890s.png"
  },
  "zapatismo": {
   "author": "(Jose Villa) at VillaPhotography",
