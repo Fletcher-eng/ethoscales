@@ -2,7 +2,7 @@
 
 A 12 axis political values test that runs entirely in your browser. Answer up to 120 statements, get your coordinates in twelve dimensional ideology space, and see which of 242 ideologies you sit closest to. Every ideology is defined from its own founding text, not from how the word gets used online.
 
-No backend. No accounts. No tracking.
+No accounts and no tracking. Nothing about you is saved unless you choose to share it at the end.
 
 **Live site:** https://fletcher-eng.github.io/ethoscales/
 
@@ -17,6 +17,10 @@ No backend. No accounts. No tracking.
 * **An emblem for every ideology**, drawn in the site's own style and shown large and faint behind your result
 * **3D chart** where you choose which three axes to view
 * **Six 2D compasses** that between them show all twelve axes
+* **A classic compass** with the familiar four coloured quadrants, worked out from your twelve scores
+* **Closest parties**: 25 current and historical parties, each placed from a named manifesto or programme
+* **Read and watch**: the founding text of your match, an overview, videos, and the texts of your nearest and furthest ideologies
+* **A short optional survey** before the result. Five belief questions nudge your scores slightly, and the page tells you whether the label you give yourself fits how you answered
 * **A catalogue of all 242 ideologies** on the start page, grouped by family, each with its definition and source
 * **You vs a friend**: paste a friend's result link to see where you agree and clash
 * **Share links**: your whole result lives in the URL
@@ -57,11 +61,14 @@ ethoscales/
 ├── index.html        Page layout and styles
 ├── questions.js      The 120 statements and their scoring vectors
 ├── ideologies.js     The 12 axis definitions and 242 ideologies
+├── extras.js         The survey questions and the party list
 ├── app.js            The engine: quiz flow, math, charts, sharing, card export
+├── legal.html        Terms, privacy and cookies
 ├── og.png            The preview image shown when the link is pasted into a chat
 ├── figures/          Portraits, plus credits.json and CREDITS.md
 └── tools/
-    └── fetch_figures.py   Downloads freely licensed portraits from Wikimedia Commons
+    ├── fetch_figures.py   Downloads freely licensed portraits from Wikimedia Commons
+    └── collector.gs       Google Apps Script that saves shared survey rows to a sheet
 ```
 
 ## How the math works
@@ -83,6 +90,22 @@ D = sqrt( (you.econ - a.econ)^2 + (you.own - a.own)^2 + ... )
 ```
 
 The smallest distance wins. The match score is `max(0, 100 - D / (2 * sqrt(axes / 6)))`. The square root term keeps the score on the same scale no matter how many axes there are.
+
+## The survey and the statistics
+
+After the last statement the site asks a few optional questions: five about belief, plus country, age group, gender and religion.
+
+The belief answers each add a few points to a few axes. The size of every nudge is listed in `SURVEY_BELIEFS` in `extras.js`. The other four questions never change a result.
+
+Sharing is off by default. While `collectUrl` in `app.js` is empty, nothing is ever sent anywhere. To switch it on, follow the steps at the top of `tools/collector.gs` and paste the web app address into `collectUrl`. From then on, a person who presses **Share and see my result** adds one anonymous row to your Google Sheet: the twelve scores from their statements, their closest ideology, and whatever survey answers they gave. No name, email or IP address is stored.
+
+To keep bots and junk out of the numbers, a row is only sent from the Share button, only for a test that was fully answered in that browser, only once per result, never for someone who says they are under 13, and never when a hidden field that only bots fill in has a value. The collector script repeats those checks and limits how many rows it accepts per minute.
+
+If you switch sharing on you are collecting political and religious views, which the law treats as sensitive. Keep `legal.html` accurate, keep the sheet private, and only publish totals.
+
+## Parties
+
+`PARTIES` in `extras.js` lists each party with the document it was placed from, such as a manifesto or founding programme. The twelve numbers are editorial estimates of what that document says, not of how the party governed. Party logos are trademarks, so the site shows a coloured square with the party's initials instead.
 
 ## Portraits
 
@@ -141,6 +164,7 @@ If all twelve are present and valid, the app skips the test and shows the result
 
 * **Change or add statements:** edit `QUESTION_BANK` in `questions.js`. Keep five per axis, with the lead axis listed first in `effects`. The scoring bounds recalculate on their own.
 * **Change or add ideologies:** edit `ideologies.js`. Give each one a name, twelve coordinates, a source text, a thinker, a tagline and a description.
+* **Change the survey or the parties:** edit `extras.js`.
 * **Change the address printed on the card:** edit `brandUrl` at the top of `app.js`.
 
 ## Disclaimer
