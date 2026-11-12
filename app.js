@@ -275,7 +275,7 @@
   function renderProgress(doneCount) {
     const total = state.questions.length;
     el.progress.innerHTML = state.questions.map((q, i) => {
-      if (i < doneCount) return `<span style="background:${leadAxis(q).color}"></span>`;
+      if (i < doneCount) return `<span${i === doneCount - 1 ? ' class="is-fresh"' : ''} style="background:${leadAxis(q).color}"></span>`;
       if (i === doneCount) return '<span class="is-now"></span>';
       return '<span></span>';
     }).join('');
@@ -490,7 +490,9 @@
 
     renderMatchCard(top);
     renderHighlights(scores);
+    countUpHighlights();
     revealVerdict();
+    revealSectionsOnScroll();
     renderFullRanking();
     renderCompare();
     renderFigure(top.ideology);
@@ -562,7 +564,7 @@
     el.matchDesc.textContent = top.ideology.desc;
 
     el.matchList.innerHTML = state.matches.slice(0, 5).map((m, i) => `
-      <li>
+      <li style="--i:${i}">
         <span class="rk">${i + 1}</span>
         <span class="sym">${SYMBOLS.svg(m.ideology)}</span>
         <span class="nm">${m.ideology.name}<small>${m.ideology.figure.name}</small></span>
@@ -587,10 +589,47 @@
         <div class="hl" style="--c:${a.color};--k:${a.ink}">
           <div class="shape shape-${a.shape}" aria-hidden="true"></div>
           <span class="label">${a.name}</span>
-          <b class="num">${Math.round(high ? v : 100 - v)}%</b>
+          <b class="num" data-to="${Math.round(high ? v : 100 - v)}">${Math.round(high ? v : 100 - v)}%</b>
           <strong>${pole.label}</strong>
         </div>`;
     }).join('');
+  }
+
+  /** Count the big numbers in the strongest positions strip up from zero. */
+  function countUpHighlights() {
+    if (REDUCED_MOTION || !window.requestAnimationFrame) return;
+    el.highlights.querySelectorAll('b[data-to]').forEach((node, n) => {
+      const target = Number(node.dataset.to);
+      const start = performance.now() + n * 90;
+      node.textContent = '0%';
+      (function frame(now) {
+        const t = Math.max(0, Math.min(1, (now - start) / 650));
+        node.textContent = Math.round(target * (1 - Math.pow(1 - t, 3))) + '%';
+        if (t < 1) requestAnimationFrame(frame);
+      })(performance.now());
+    });
+  }
+
+  /** Let each section of the results rise in once, the first time it scrolls into view. */
+  let revealObserver = null;
+  function revealSectionsOnScroll() {
+    const sections = Array.from(document.querySelectorAll('#view-results .board > *'));
+    sections.forEach((node) => node.classList.remove('will-reveal', 'is-in'));
+    if (REDUCED_MOTION || !('IntersectionObserver' in window)) return;
+    if (revealObserver) revealObserver.disconnect();
+    revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('is-in');
+        revealObserver.unobserve(entry.target);
+      });
+    }, { rootMargin: '0px 0px -8% 0px' });
+    sections.forEach((node) => { node.classList.add('will-reveal'); revealObserver.observe(node); });
+    // Safety net: never leave anything hidden if the observer does not fire.
+    setTimeout(() => sections.forEach((node) => {
+      const box = node.getBoundingClientRect();
+      if (box.top < window.innerHeight && box.bottom > 0) node.classList.add('is-in');
+    }), 1200);
   }
 
   /** Every ideology in order of closeness, tucked inside a fold out. */
