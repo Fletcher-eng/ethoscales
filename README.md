@@ -24,6 +24,7 @@ No accounts and no tracking. Nothing about you is saved unless you choose to sha
 * **A short optional survey** before the result. Five belief questions nudge your scores slightly, and the page tells you whether the label you give yourself fits how you answered
 * **A catalogue of all 242 ideologies** on the start page, grouped by family, each with its definition and source
 * **You vs a friend**: paste a friend's result link to see where you agree and clash
+* **Challenge a friend**: send a link and they are compared with you as soon as they finish, with no pasting. Or dare them to answer as another ideology and see who lands closest
 * **Share links**: your whole result lives in the URL
 * **Result card**: a 1080x1350 PNG with the thinker's portrait and a QR code that opens your result
 * **Keyboard controls**: `1` to `5` to answer, left arrow to go back, `Enter` to start
@@ -169,6 +170,8 @@ https://fletcher-eng.github.io/ethoscales/?e=49.3&o=50&r=61.5&d=58.6&s=48.5&n=44
 | `s` | Structure | `rl` | Religion |
 | `n` | Nation | `f` | Military |
 | `tr` | Trade | | |
+
+Two other kinds of link start a challenge. `?vs=` followed by thirteen scores separated by commas asks the visitor to take the test and then compares them with those scores. `?target=` followed by an ideology id, with an optional `&best=` score to beat, dares the visitor to answer in character. A dare skips the survey and never adds to the statistics.
 
 If they are all present and valid, the app skips the test and shows the results straight away. Links made before the Trade axis was added have no `tr` value. They still open, with Trade set to 50.
 

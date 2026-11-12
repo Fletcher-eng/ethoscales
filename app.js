@@ -82,6 +82,8 @@
     survey: null,        // { beliefs, about, changes } once the end survey is answered
     startedAt: 0,        // when this run of the test began
     partyGroup: 'all',   // which tab of the party list is open
+    // A challenge from a friend's link: their scores to compare with, or an ideology to imitate.
+    challenge: { vs: null, target: null, best: null },
     busy: false          // true while a question transition is animating
   };
 
@@ -223,6 +225,10 @@
   function writeScoresToUrl(scores) {
     const params = new URLSearchParams();
     AXES.forEach((a) => params.set(a.param, scores[a.key]));
+    if (state.challenge.target) {
+      params.set('target', state.challenge.target.id);
+      if (state.challenge.best !== null) params.set('best', state.challenge.best);
+    }
     try {
       window.history.pushState({}, '', '?' + params.toString());
     } catch (err) {
@@ -293,7 +299,51 @@
   }
 
   /** Decide what to show based on the URL. Runs on load and on back/forward. */
+  /** Hateful and violent extremist ideologies are described on the site but are never offered as a game. */
+  function canDare(ideology) {
+    return !ideology.restricted && ideology.id !== 'national-socialism';
+  }
+
+  /** Read a challenge out of the link: ?vs=their,scores or ?target=ideology-id&best=score. */
+  function readChallenge() {
+    const params = new URLSearchParams(window.location.search);
+    const target = IDEOLOGIES.find((i) => i.id === params.get('target') && canDare(i)) || null;
+    const best = Number(params.get('best'));
+    let vs = null;
+    const list = (params.get('vs') || '').split(',').map(Number);
+    if (params.get('vs') && list.length >= AXES.length - 1 && list.every((n) => Number.isFinite(n))) {
+      vs = {};
+      // Links made before Trade existed are one number short. Trade then sits at the midpoint.
+      AXES.forEach((a, i) => { vs[a.key] = round1(clamp(list[i] === undefined ? 50 : list[i], 0, 100)); });
+    }
+    return { vs, target, best: target && params.get('best') !== null && Number.isFinite(best) ? round1(clamp(best, 0, 100)) : null };
+  }
+
+  function renderChallengeBanner() {
+    const c = state.challenge;
+    const box = el.challengeBanner;
+    box.hidden = !c.target && !c.vs;
+    $('#btn-start').textContent = c.target ? 'Accept the dare' : c.vs ? 'Accept the challenge' : 'Take the test';
+    if (c.target) {
+      box.innerHTML = `<b>Your friend dared you</b>Try answering the way a true believer in <em>${c.target.name}</em> would, and see how close you can get.${c.best !== null ? ` They got ${fmt(c.best)}%, so that is the number to beat.` : ''}
+        <p class="what">${c.target.desc}</p><button type="button" data-drop>I would rather just take the test</button>`;
+    } else if (c.vs) {
+      box.innerHTML = `<b>Your friend challenged you</b>They got <em>${matchIdeologies(c.vs)[0].ideology.name}</em>. Take the test yourself and you will see how alike the two of you really are.
+        <br /><button type="button" data-drop>I would rather just take the test</button>`;
+    }
+  }
+
+  function dropChallenge() {
+    state.challenge = { vs: null, target: null, best: null };
+    clearUrl();
+    renderChallengeBanner();
+  }
+
   function route() {
+    const fromLink = readChallenge();
+    // A challenge already under way is kept when the link no longer carries it.
+    if (fromLink.target || fromLink.vs || !state.answers.length) state.challenge = fromLink;
+    renderChallengeBanner();
     const shared = readScoresFromUrl();
     if (shared) {
       state.scores = shared;
@@ -386,7 +436,8 @@
     state.answers = new Array(state.questions.length).fill(null);
     state.index = 0;
     state.friend = null;
-    const saved = loadProgress();
+    // A dare always starts fresh: answers saved from a real test must not leak into role play.
+    const saved = state.challenge.target ? null : loadProgress();
     if (saved && saved.mode === state.mode) {
       state.answers = saved.answers;
       state.index = saved.index;
@@ -397,7 +448,7 @@
     state.survey = null;
     state.startedAt = Date.now();
     acceptTerms();
-    el.quizModeLabel.textContent = MODES[state.mode].label;
+    el.quizModeLabel.textContent = state.challenge.target ? 'Dare: answer as ' + state.challenge.target.name : MODES[state.mode].label;
     showView('quiz');
     renderQuestion();
   }
@@ -483,6 +534,15 @@
     state.scores = state.baseScores;
     state.matches = matchIdeologies(state.scores);
     state.busy = false;
+    if (state.challenge.target) {
+      // A dare is role play, so there is no survey and nothing is ever added to the statistics.
+      state.survey = null;
+      clearProgress();
+      writeScoresToUrl(state.scores);
+      showView('results');
+      renderResults('You answered this one in character');
+      return;
+    }
     showView('survey');
     renderSurvey();
   }
@@ -520,8 +580,8 @@
     const collecting = Boolean(CONFIG.collectUrl);
     el.surveyTitle.textContent = collecting ? 'Want to help out?' : 'One last thing';
     el.surveyPitch.textContent = collecting
-      ? 'Answer a few optional questions and add your anonymous result to the EthosScales statistics. It helps us show how views differ by country, age and belief. No name, no email, no account.'
-      : 'A few optional questions before your result. What you say you believe counts a little toward where you land.';
+      ? 'Your result is ready. Before you see it, would you mind answering a few quick questions? They are all optional. If you share them, they go into our statistics with no name attached, and they help us see how views differ by country, age and belief.'
+      : 'Your result is ready. Before you see it, here are a few quick questions. They are all optional, and what you say you believe counts a little toward where you land.';
     el.surveyShare.hidden = !collecting;
     el.surveyKeep.textContent = collecting ? 'See my result without sharing' : 'See my result';
     el.surveyKeep.className = collecting ? 'btn is-paper' : 'btn is-red is-big';
@@ -638,6 +698,11 @@
     el.resultVector.textContent = AXES.map((a) => `${a.key} ${fmt(scores[a.key])}`).join(' / ');
     el.resultSource.textContent = sourceLabel || '';
     el.shareUrl.value = window.location.href;
+    // A friend who challenged you is added to the comparison without you pasting anything.
+    if (state.challenge.vs && !state.friend && state.answers.length) {
+      state.friend = { scores: state.challenge.vs, matches: matchIdeologies(state.challenge.vs) };
+    }
+    renderChallenge();
 
     renderMatchCard(top);
     renderHighlights(scores);
@@ -808,6 +873,105 @@
   /* ------------------------------- compare -------------------------------- */
 
   /** How alike two people are, on the same scale as the ideology match score. */
+  /* ------------------------------ Challenges ------------------------------ */
+
+  function ordinal(n) {
+    const tail = n % 100;
+    if (tail >= 11 && tail <= 13) return n + 'th';
+    return n + (['th', 'st', 'nd', 'rd'][n % 10] || 'th');
+  }
+
+  function renderChallenge() {
+    const c = state.challenge;
+    const mine = state.answers.length > 0;
+    const top = state.matches[0].ideology;
+    const options = IDEOLOGIES.filter(canDare).sort((a, b) => a.name.localeCompare(b.name));
+    const preset = c.target ? c.target.id : (canDare(top) ? top.id : options[0].id);
+    el.chIdeology.innerHTML = options.map((i) => `<option value="${i.id}"${i.id === preset ? ' selected' : ''}>${i.name}</option>`).join('');
+
+    const box = el.challengeResult;
+    box.hidden = !(c.target || (c.vs && state.friend && mine));
+    if (c.target) {
+      const close = similarity(state.scores, c.target.coords);
+      const place = state.matches.findIndex((m) => m.ideology.id === c.target.id) + 1;
+      let verdict = '';
+      if (c.best !== null) {
+        const who = mine ? 'you' : 'they';
+        verdict = close > c.best ? ` The number to beat was ${fmt(c.best)}%, so ${who} won this one.` : ` The number to beat was ${fmt(c.best)}%, so ${who} fell a little short.`;
+      }
+      box.innerHTML = `
+        <div>
+          <div class="label">${mine ? 'How the dare went' : 'Someone tried a dare'}</div>
+          <h2 class="display">Become ${c.target.name}</h2>
+          <p>${mine ? 'You' : 'They'} got ${fmt(close)}% of the way there. Out of ${IDEOLOGIES.length} ideologies it was ${mine ? 'your' : 'their'} ${ordinal(place)} closest.${verdict}</p>
+        </div>
+        <div class="big">${fmt(close)}%</div>
+        <div class="acts">
+          ${mine ? '<button type="button" class="btn is-paper" data-ch="pass">Pass the dare on</button><button type="button" class="btn is-paper" data-ch="again">Try again</button>'
+                 : '<button type="button" class="btn is-paper" data-ch="take">Try it yourself</button>'}
+        </div>`;
+    } else if (!box.hidden) {
+      const alike = similarity(state.scores, state.friend.scores);
+      box.innerHTML = `
+        <div>
+          <div class="label">How alike you are</div>
+          <h2 class="display">You and your friend</h2>
+          <p>They got ${state.friend.matches[0].ideology.name} and you got ${top.name}. Scroll down to see what you agree on and where you clash. Their dot is on the maps too.</p>
+        </div>
+        <div class="big">${fmt(alike)}%</div>
+        <div class="acts"><button type="button" class="btn is-paper" data-ch="back">Show them your result</button></div>`;
+    }
+  }
+
+  const pageBase = () => window.location.origin + window.location.pathname;
+
+  /** Hand a link to the phone's share sheet, or copy it where there is none. */
+  async function sendLink(url, text) {
+    try {
+      if (navigator.share) { await navigator.share({ title: 'EthosScales', text, url }); return; }
+    } catch (err) {
+      if (err && err.name === 'AbortError') return;
+    }
+    try {
+      if (navigator.clipboard && window.isSecureContext) await navigator.clipboard.writeText(url);
+      else legacyCopy(url);
+      toast('Challenge link copied');
+    } catch (err) {
+      toast('Copy failed. Try again.');
+    }
+  }
+
+  function sendCompareChallenge() {
+    const url = pageBase() + '?vs=' + AXES.map((a) => state.scores[a.key]).join(',');
+    sendLink(url, `I got ${state.matches[0].ideology.name} on EthosScales. Take it and let us see how alike we actually are.`);
+  }
+
+  function sendDare(id) {
+    const target = IDEOLOGIES.find((i) => i.id === id && canDare(i));
+    if (!target) return;
+    // The score to beat is how close the sender is. In a dare they answered, that is their attempt.
+    const best = fmt(Math.max(similarity(state.scores, target.coords), state.challenge.target && state.challenge.target.id === id && state.challenge.best !== null ? state.challenge.best : 0));
+    const url = `${pageBase()}?target=${target.id}&best=${best}`;
+    sendLink(url, `Bet you cannot answer like a true believer in ${target.name}. I got ${best}%. Think you can beat that?`);
+  }
+
+  function startDare(id, best) {
+    const target = IDEOLOGIES.find((i) => i.id === id && canDare(i));
+    if (!target) return;
+    retake();
+    state.challenge = { vs: null, target, best };
+    try { window.history.pushState({}, '', `${window.location.pathname}?target=${target.id}${best !== null ? '&best=' + best : ''}`); } catch (err) { /* ignore */ }
+    renderChallengeBanner();
+  }
+
+  function onChallengeAction(kind) {
+    const c = state.challenge;
+    if (kind === 'pass') sendDare(c.target.id);
+    else if (kind === 'again') startDare(c.target.id, c.best);
+    else if (kind === 'take') startDare(c.target.id, round1(similarity(state.scores, c.target.coords)));
+    else if (kind === 'back') sendLink(window.location.href, `I got ${state.matches[0].ideology.name} on EthosScales. Here is my result.`);
+  }
+
   function similarity(a, b) {
     const d = Math.sqrt(AXIS_KEYS.reduce((s, k) => s + Math.pow(a[k] - b[k], 2), 0));
     return Math.max(0, 100 - d / (2 * Math.sqrt(AXIS_KEYS.length / 6)));
@@ -1940,10 +2104,12 @@
     state.friend = null;
     state.survey = null;
     state.baseScores = null;
+    state.challenge = { vs: null, target: null, best: null };
     stopSpin(false);
     spin.stopped = false;
     clearProgress();
     clearUrl();
+    renderChallengeBanner();
     showView('landing');
   }
 
@@ -1982,6 +2148,9 @@
       results: $('#view-results')
     };
     el.termsBar = $('#terms-bar');
+    el.challengeBanner = $('#challenge-banner');
+    el.challengeResult = $('#challenge-result');
+    el.chIdeology = $('#ch-ideology');
     el.surveyForm = $('#survey-form');
     el.surveyTitle = $('#survey-title');
     el.surveyPitch = $('#survey-pitch');
@@ -2062,6 +2231,10 @@
       renderPlot3D(state.scores);
     });
     $('#terms-ok').addEventListener('click', acceptTerms);
+    el.challengeBanner.addEventListener('click', (e) => { if (e.target.closest('[data-drop]')) dropChallenge(); });
+    el.challengeResult.addEventListener('click', (e) => { const btn = e.target.closest('[data-ch]'); if (btn) onChallengeAction(btn.dataset.ch); });
+    $('#ch-compare').addEventListener('click', sendCompareChallenge);
+    $('#ch-dare').addEventListener('click', () => sendDare(el.chIdeology.value));
     el.surveyForm.addEventListener('submit', (e) => { e.preventDefault(); completeSurvey(CONFIG.collectUrl ? 'share' : 'keep'); });
     el.surveyKeep.addEventListener('click', () => completeSurvey('keep'));
     $('#survey-skip').addEventListener('click', () => completeSurvey('skip'));
