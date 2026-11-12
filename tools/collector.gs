@@ -15,7 +15,7 @@
 
 var COLUMNS = ['time', 'mode', 'match', 'country', 'age', 'gender', 'religion',
   'right', 'limits', 'nature', 'label', 'trust',
-  'econ', 'own', 'rights', 'rule', 'struct', 'nation', 'ident', 'cult', 'tech', 'eco', 'relig', 'force'];
+  'econ', 'own', 'rights', 'rule', 'struct', 'nation', 'ident', 'cult', 'tech', 'eco', 'relig', 'force', 'trade'];
 var AXES = COLUMNS.slice(12);
 var MAX_ROWS_PER_MINUTE = 60;
 

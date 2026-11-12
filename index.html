@@ -4,16 +4,16 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>EthosScales : Where do you stand?</title>
-  <meta name="description" content="A 12 axis political values test. Up to 120 questions and over 240 ideologies, each defined from its founding text. No tracking." />
+  <meta name="description" content="A 13 axis political values test. Up to 130 questions and over 240 ideologies, each defined from its founding text. No tracking." />
   <meta property="og:title" content="EthosScales : Where do you stand?" />
-  <meta property="og:description" content="12 axes. Over 240 ideologies. No sitting on the fence." />
+  <meta property="og:description" content="13 axes. Over 240 ideologies. No sitting on the fence." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://fletcher-eng.github.io/ethoscales/" />
   <meta property="og:site_name" content="EthosScales" />
   <meta property="og:image" content="https://fletcher-eng.github.io/ethoscales/og.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-  <meta property="og:image:alt" content="EthosScales: Where do you stand? 12 axes, over 240 ideologies." />
+  <meta property="og:image:alt" content="EthosScales: Where do you stand? 13 axes, over 240 ideologies." />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:image" content="https://fletcher-eng.github.io/ethoscales/og.png" />
   <meta name="theme-color" content="#C42318" />
@@ -117,6 +117,7 @@
 
     .axes { padding-top: 44px; padding-bottom: 48px; }
     .axes h2 { font-size: clamp(40px, 6vw, 68px); margin-bottom: 20px; }
+    #axis-chips > :last-child:nth-child(odd) { grid-column: 1 / -1; }
     #axis-chips { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 4px; background: var(--ink); border: var(--rule); box-shadow: var(--shadow); }
     .axis-tile { background: var(--c); color: var(--k); padding: 18px 18px 20px; position: relative; overflow: hidden; min-height: 132px; padding-bottom: 70px; }
     .axis-tile h3 { font-family: var(--display); font-weight: 400; font-size: 30px; text-transform: uppercase; line-height: 1; position: relative; z-index: 1; }
@@ -161,6 +162,7 @@
     .shape-chevron { clip-path: polygon(0 0, 50% 0, 100% 50%, 50% 100%, 0 100%, 50% 50%); }
     .shape-steps { clip-path: polygon(0 66%, 33% 66%, 33% 33%, 66% 33%, 66% 0, 100% 0, 100% 100%, 0 100%); }
     .shape-shield { clip-path: polygon(0 0, 100% 0, 100% 60%, 50% 100%, 0 60%); }
+    .shape-arrow { clip-path: polygon(0 28%, 58% 28%, 58% 0, 100% 50%, 58% 100%, 58% 72%, 0 72%); }
     .shape-star { clip-path: polygon(50% 0, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%); }
 
     /* ------------------------------ QUIZ ------------------------------ */
@@ -516,7 +518,7 @@
   <header class="topbar on-dark">
     <div class="wrap">
       <a href="./" id="brand-link"><i></i>EthosScales</a>
-      <span class="label" id="site-count">12 axes / 242 ideologies</span>
+      <span class="label" id="site-count">13 axes / 242 ideologies</span>
     </div>
   </header>
 
@@ -531,12 +533,12 @@
           <div>
             <div class="label">Political values test</div>
             <h1 class="display">Where do <em>you</em> stand?</h1>
-            <p class="lede">Left and right are not enough. Answer hard questions and find your place across twelve axes, matched to ideologies as their own founders defined them.</p>
+            <p class="lede">Left and right are not enough. Answer hard questions and find your place across thirteen axes, matched to ideologies as their own founders defined them.</p>
 
             <div class="modes" role="radiogroup" aria-label="Test length">
-              <button type="button" class="mode-btn" data-mode="quick" role="radio" aria-checked="false">Quick 24<small>Fast snapshot</small></button>
-              <button type="button" class="mode-btn is-active" data-mode="full" role="radio" aria-checked="true">Full 60<small>Sharper result</small></button>
-              <button type="button" class="mode-btn" data-mode="deep" role="radio" aria-checked="false">Deep 120<small>Most precise</small></button>
+              <button type="button" class="mode-btn" data-mode="quick" role="radio" aria-checked="false">Quick 26<small>Fast snapshot</small></button>
+              <button type="button" class="mode-btn is-active" data-mode="full" role="radio" aria-checked="true">Full 65<small>Sharper result</small></button>
+              <button type="button" class="mode-btn" data-mode="deep" role="radio" aria-checked="false">Deep 130<small>Most precise</small></button>
             </div>
 
             <div class="start-row">
@@ -568,7 +570,7 @@
       </div>
 
       <div class="wrap axes">
-        <h2 class="display">Twelve axes. No fence sitting.</h2>
+        <h2 class="display">Thirteen axes. No fence sitting.</h2>
         <div id="axis-chips"></div>
       </div>
 
@@ -586,7 +588,7 @@
           <div class="q-shapes" aria-hidden="true"><div class="s1" id="q-shape-1"></div><div class="s2" id="q-shape-2"></div><div class="s3" id="q-shape-3"></div></div>
           <div class="q-top">
             <div class="q-meta">
-              <span id="question-counter">01 / 60</span>
+              <span id="question-counter">01 / 65</span>
               <span id="question-axis" class="label">Economic</span>
               <span id="quiz-mode-label" class="label"></span>
             </div>
@@ -657,7 +659,7 @@
         </div>
 
         <div>
-          <h2 class="display">Your twelve scores</h2>
+          <h2 class="display">Your thirteen scores</h2>
           <div class="panel" id="axis-bars"></div>
         </div>
 
@@ -725,7 +727,7 @@
         </div>
 
         <div>
-          <h2 class="display">Six compasses</h2>
+          <h2 class="display">Seven compasses</h2>
           <div id="compass-grid"></div>
         </div>
 

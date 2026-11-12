@@ -48,7 +48,10 @@ const AXES = [
     about: 'The place of faith in public life: kept private, or the foundation of law and morals.' },
   { key: 'force', param: 'f', name: 'Military', color: '#9A9A8E', ink: '#111111', shape: 'square',
     low: { label: 'Pacifist', short: 'Pacifist' }, high: { label: 'Militarist', short: 'Militarist' },
-    about: 'The role of armed force: a last resort to be minimised, or a source of strength.' }
+    about: 'The role of armed force: a last resort to be minimised, or a source of strength.' },
+  { key: 'trade', param: 'tr', name: 'Trade', color: '#7A4A21', ink: '#EEE6D3', shape: 'arrow',
+    low: { label: 'Free Trade', short: 'Free Trade' }, high: { label: 'Protectionist', short: 'Protectionist' },
+    about: 'How goods cross borders: freely, with open markets, or behind tariffs that shield industry at home.' }
 ];
 
 /* Coordinates are listed in axis order:
@@ -66,7 +69,7 @@ const IDEOLOGIES = [
   /* ---------------------- THIRD POSITION MOVEMENTS ---------------------- */
   {
     id: 'italian-fascism', name: 'Italian Fascism', family: 'Third Position',
-    coords: coords(65, 35, 95, 95, 95, 95, 90, 75, 30, 20, 55, 100),
+    coords: coords(65, 35, 95, 95, 95, 95, 90, 75, 30, 20, 55, 100, 85),
     figure: { name: 'Giovanni Gentile', years: '1875 to 1944' },
     source: { author: 'Giovanni Gentile and Benito Mussolini', work: 'The Doctrine of Fascism', year: 1932 },
     tagline: 'Everything within the state, nothing outside the state, nothing against the state.',
@@ -74,7 +77,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'falangism', name: 'Falangism', family: 'Third Position',
-    coords: coords(70, 50, 90, 90, 90, 95, 90, 90, 50, 35, 90, 85),
+    coords: coords(70, 50, 90, 90, 90, 95, 90, 90, 50, 35, 90, 85, 85),
     figure: { name: 'José Antonio Primo de Rivera', years: '1903 to 1936' },
     source: { author: 'José Antonio Primo de Rivera, Falange Española de las JONS', work: 'The Twenty Seven Points', year: 1934 },
     tagline: 'National syndicalism on a Catholic foundation.',
@@ -82,7 +85,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'peronism', name: 'Peronism (Justicialism)', family: 'Third Position',
-    coords: coords(65, 45, 65, 60, 75, 85, 65, 65, 40, 30, 65, 55),
+    coords: coords(65, 45, 65, 60, 75, 85, 65, 65, 40, 30, 65, 55, 85),
     figure: { name: 'Juan Perón', years: '1895 to 1974' },
     source: { author: 'Juan Domingo Perón', work: 'The Organised Community and the Twenty Truths', year: '1949 and 1950' },
     tagline: 'Social justice, economic independence, political sovereignty.',
@@ -90,7 +93,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'strasserism', name: 'Strasserism', family: 'Third Position',
-    coords: coords(80, 70, 85, 85, 45, 95, 95, 75, 55, 45, 50, 75),
+    coords: coords(80, 70, 85, 85, 45, 95, 95, 75, 55, 45, 50, 75, 90),
     figure: { name: 'Otto Strasser', years: '1897 to 1974' },
     source: { author: 'Otto Strasser', work: 'Germany Tomorrow', year: 1940 },
     tagline: 'A national socialism turned against big capital.',
@@ -98,7 +101,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'national-bolshevism', name: 'National Bolshevism', family: 'Third Position',
-    coords: coords(95, 90, 95, 95, 95, 90, 85, 65, 30, 20, 15, 95),
+    coords: coords(95, 90, 95, 95, 95, 90, 85, 65, 30, 20, 15, 95, 90),
     figure: { name: 'Ernst Niekisch', years: '1889 to 1967' },
     source: { author: 'Ernst Niekisch', work: 'Widerstand essays and Hitler: A German Fate', year: 1932 },
     tagline: 'Soviet style planning in the service of the nation.',
@@ -106,7 +109,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'eurasianism', name: 'Neo Eurasianism (Fourth Political Theory)', family: 'Third Position',
-    coords: coords(65, 50, 85, 90, 65, 80, 40, 95, 80, 55, 90, 90),
+    coords: coords(65, 50, 85, 90, 65, 80, 40, 95, 80, 55, 90, 90, 85),
     figure: { name: 'Aleksandr Dugin', years: 'born 1962' },
     source: { author: 'Aleksandr Dugin', work: 'The Fourth Political Theory', year: 2009 },
     tagline: 'Against liberalism, communism and fascism alike.',
@@ -114,7 +117,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'baathism', name: 'Ba\'athism', family: 'Nationalist',
-    coords: coords(75, 65, 85, 85, 90, 95, 85, 50, 35, 20, 35, 80),
+    coords: coords(75, 65, 85, 85, 90, 95, 85, 50, 35, 20, 35, 80, 75),
     figure: { name: 'Michel Aflaq', years: '1910 to 1989' },
     source: { author: 'Michel Aflaq', work: 'On the Way of Resurrection (collected essays)', year: 1959 },
     tagline: 'Unity, freedom, socialism.',
@@ -124,7 +127,7 @@ const IDEOLOGIES = [
   /* ----------------------------- COMMUNIST ------------------------------ */
   {
     id: 'marxism-leninism', name: 'Marxism Leninism', family: 'Radical Left',
-    coords: coords(100, 100, 90, 85, 95, 30, 45, 30, 15, 15, 0, 75),
+    coords: coords(100, 100, 90, 85, 95, 30, 45, 30, 15, 15, 0, 75, 85),
     figure: { name: 'Vladimir Lenin', years: '1870 to 1924' },
     source: { author: 'V. I. Lenin', work: 'What Is to Be Done? (1902) and The State and Revolution', year: 1918 },
     tagline: 'A vanguard party leads the workers to state power.',
@@ -132,7 +135,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'maoism', name: 'Maoism', family: 'Radical Left',
-    coords: coords(95, 100, 95, 85, 75, 60, 60, 15, 45, 15, 0, 90),
+    coords: coords(95, 100, 95, 85, 75, 60, 60, 15, 45, 15, 0, 90, 92),
     figure: { name: 'Mao Zedong', years: '1893 to 1976' },
     source: { author: 'Mao Zedong', work: 'On New Democracy', year: 1940 },
     tagline: 'Peasant revolution, the mass line, protracted people\'s war.',
@@ -140,7 +143,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'juche', name: 'Juche', family: 'Radical Left',
-    coords: coords(100, 95, 100, 100, 100, 100, 100, 70, 35, 15, 10, 100),
+    coords: coords(100, 95, 100, 100, 100, 100, 100, 70, 35, 15, 10, 100, 100),
     figure: { name: 'Kim Il Sung', years: '1912 to 1994' },
     source: { author: 'Kim Jong Il', work: 'On the Juche Idea', year: 1982 },
     tagline: 'Self reliance in ideology, politics, economy and defence.',
@@ -148,7 +151,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'council-communism', name: 'Council Communism', family: 'Radical Left',
-    coords: coords(80, 100, 30, 5, 15, 5, 30, 20, 30, 35, 5, 40),
+    coords: coords(80, 100, 30, 5, 15, 5, 30, 20, 30, 35, 5, 40, 40),
     figure: { name: 'Anton Pannekoek', years: '1873 to 1960' },
     source: { author: 'Anton Pannekoek', work: 'Workers\' Councils', year: 1946 },
     tagline: 'All power to the workers\' councils, none to the party.',
@@ -158,7 +161,7 @@ const IDEOLOGIES = [
   /* ----------------------------- ANARCHIST ------------------------------ */
   {
     id: 'anarcho-communism', name: 'Anarcho Communism', family: 'Anarchist',
-    coords: coords(70, 100, 0, 0, 0, 0, 20, 15, 40, 60, 10, 30),
+    coords: coords(70, 100, 0, 0, 0, 0, 20, 15, 40, 60, 10, 30, 40),
     figure: { name: 'Peter Kropotkin', years: '1842 to 1921' },
     source: { author: 'Peter Kropotkin', work: 'The Conquest of Bread', year: 1892 },
     tagline: 'All is for all.',
@@ -166,7 +169,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'anarcho-syndicalism', name: 'Anarcho Syndicalism', family: 'Anarchist',
-    coords: coords(70, 95, 5, 0, 10, 0, 20, 20, 35, 45, 5, 35),
+    coords: coords(70, 95, 5, 0, 10, 0, 20, 20, 35, 45, 5, 35, 35),
     figure: { name: 'Rudolf Rocker', years: '1873 to 1958' },
     source: { author: 'Rudolf Rocker', work: 'Anarcho Syndicalism: Theory and Practice', year: 1938 },
     tagline: 'The union is both the weapon and the future society.',
@@ -174,7 +177,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'mutualism', name: 'Mutualism', family: 'Anarchist',
-    coords: coords(15, 65, 5, 5, 0, 15, 35, 45, 45, 50, 15, 25),
+    coords: coords(15, 65, 5, 5, 0, 15, 35, 45, 45, 50, 15, 25, 30),
     figure: { name: 'Pierre-Joseph Proudhon', years: '1809 to 1865' },
     source: { author: 'Pierre-Joseph Proudhon', work: 'What Is Property? (1840) and The Principle of Federation', year: 1863 },
     tagline: 'Markets without landlords, bosses or bankers.',
@@ -182,7 +185,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'egoist-anarchism', name: 'Egoist Anarchism', family: 'Anarchist',
-    coords: coords(30, 40, 0, 0, 0, 0, 30, 5, 50, 50, 0, 30),
+    coords: coords(30, 40, 0, 0, 0, 0, 30, 5, 50, 50, 0, 30, 25),
     figure: { name: 'Max Stirner', years: '1806 to 1856' },
     source: { author: 'Max Stirner', work: 'The Ego and Its Own', year: 1844 },
     tagline: 'No god, no state, no cause above the individual.',
@@ -190,7 +193,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'tolstoyanism', name: 'Tolstoyan Anarcho Pacifism', family: 'Anarchist',
-    coords: coords(50, 80, 0, 0, 0, 0, 30, 70, 85, 80, 95, 0),
+    coords: coords(50, 80, 0, 0, 0, 0, 30, 70, 85, 80, 95, 0, 35),
     figure: { name: 'Leo Tolstoy', years: '1828 to 1910' },
     source: { author: 'Leo Tolstoy', work: 'The Kingdom of God Is Within You', year: 1894 },
     tagline: 'Resist not evil by force.',
@@ -198,7 +201,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'social-ecology', name: 'Social Ecology (Communalism)', family: 'Anarchist',
-    coords: coords(60, 90, 5, 0, 0, 5, 20, 15, 35, 90, 5, 25),
+    coords: coords(60, 90, 5, 0, 0, 5, 20, 15, 35, 90, 5, 25, 70),
     figure: { name: 'Murray Bookchin', years: '1921 to 2006' },
     source: { author: 'Murray Bookchin', work: 'The Ecology of Freedom', year: 1982 },
     tagline: 'The domination of nature begins with the domination of people.',
@@ -206,7 +209,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'anarcho-primitivism', name: 'Anarcho Primitivism', family: 'Anarchist',
-    coords: coords(50, 90, 0, 0, 0, 0, 30, 40, 100, 100, 20, 30),
+    coords: coords(50, 90, 0, 0, 0, 0, 30, 40, 100, 100, 20, 30, 95),
     figure: { name: 'John Zerzan', years: 'born 1943' },
     source: { author: 'John Zerzan', work: 'Future Primitive', year: 1994 },
     tagline: 'Civilisation itself is the problem.',
@@ -214,7 +217,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'agorism', name: 'Agorism', family: 'Libertarian',
-    coords: coords(0, 5, 0, 10, 0, 0, 35, 30, 20, 25, 10, 10),
+    coords: coords(0, 5, 0, 10, 0, 0, 35, 30, 20, 25, 10, 10, 0),
     figure: { name: 'Samuel Edward Konkin III', years: '1947 to 2004' },
     source: { author: 'Samuel Edward Konkin III', work: 'New Libertarian Manifesto', year: 1980 },
     tagline: 'Starve the state through the counter economy.',
@@ -222,7 +225,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'crypto-anarchism', name: 'Crypto Anarchism', family: 'Libertarian',
-    coords: coords(0, 0, 0, 20, 0, 0, 40, 35, 0, 15, 5, 15),
+    coords: coords(0, 0, 0, 20, 0, 0, 40, 35, 0, 15, 5, 15, 0),
     figure: { name: 'Timothy C. May', years: '1951 to 2018' },
     source: { author: 'Timothy C. May', work: 'The Crypto Anarchist Manifesto', year: 1988 },
     tagline: 'Strong cryptography makes the state unable to see or tax.',
@@ -232,7 +235,7 @@ const IDEOLOGIES = [
   /* ---------------------- SOCIALIST AND SOCIAL DEMOCRATIC ---------------------- */
   {
     id: 'social-democracy', name: 'Social Democracy', family: 'Left',
-    coords: coords(60, 55, 35, 10, 60, 35, 30, 30, 35, 50, 20, 30),
+    coords: coords(60, 55, 35, 10, 60, 35, 30, 30, 35, 50, 20, 30, 40),
     figure: { name: 'Eduard Bernstein', years: '1850 to 1932' },
     source: { author: 'Eduard Bernstein', work: 'Evolutionary Socialism', year: 1899 },
     tagline: 'The movement is everything, the final goal is nothing.',
@@ -240,7 +243,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'market-socialism', name: 'Market Socialism', family: 'Left',
-    coords: coords(55, 85, 35, 15, 60, 30, 35, 30, 30, 40, 15, 35),
+    coords: coords(55, 85, 35, 15, 60, 30, 35, 30, 30, 40, 15, 35, 45),
     figure: { name: 'Oskar Lange', years: '1904 to 1965' },
     source: { author: 'Oskar Lange', work: 'On the Economic Theory of Socialism', year: 1936 },
     tagline: 'Public ownership, with prices doing the work.',
@@ -248,7 +251,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'georgism', name: 'Georgism', family: 'Liberal',
-    coords: coords(25, 35, 20, 15, 40, 30, 35, 40, 35, 55, 35, 30),
+    coords: coords(25, 35, 20, 15, 40, 30, 35, 40, 35, 55, 35, 30, 5),
     figure: { name: 'Henry George', years: '1839 to 1897' },
     source: { author: 'Henry George', work: 'Progress and Poverty', year: 1879 },
     tagline: 'Tax land, not labour.',
@@ -256,7 +259,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'left-accelerationism', name: 'Left Accelerationism', family: 'Left',
-    coords: coords(85, 85, 35, 20, 55, 5, 20, 5, 0, 30, 0, 30),
+    coords: coords(85, 85, 35, 20, 55, 5, 20, 5, 0, 30, 0, 30, 40),
     figure: { name: 'Nick Srnicek', years: 'born 1982' },
     source: { author: 'Nick Srnicek and Alex Williams', work: '#Accelerate Manifesto (2013) and Inventing the Future', year: 2015 },
     tagline: 'Demand full automation.',
@@ -264,7 +267,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'democratic-transhumanism', name: 'Democratic Transhumanism', family: 'Left',
-    coords: coords(55, 45, 15, 5, 55, 10, 15, 5, 0, 40, 5, 25),
+    coords: coords(55, 45, 15, 5, 55, 10, 15, 5, 0, 40, 5, 25, 35),
     figure: { name: 'James Hughes', years: 'born 1961' },
     source: { author: 'James Hughes', work: 'Citizen Cyborg', year: 2004 },
     tagline: 'The right to enhance, with fair access for all.',
@@ -274,7 +277,7 @@ const IDEOLOGIES = [
   /* ------------------------------ LIBERAL ------------------------------- */
   {
     id: 'classical-liberalism', name: 'Classical Liberalism', family: 'Liberal',
-    coords: coords(25, 25, 5, 20, 35, 30, 35, 30, 30, 35, 15, 35),
+    coords: coords(25, 25, 5, 20, 35, 30, 35, 30, 30, 35, 15, 35, 5),
     figure: { name: 'John Stuart Mill', years: '1806 to 1873' },
     source: { author: 'John Stuart Mill', work: 'On Liberty', year: 1859 },
     tagline: 'Power may only be used over someone to prevent harm to others.',
@@ -282,7 +285,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'social-liberalism', name: 'Social Liberalism', family: 'Liberal',
-    coords: coords(45, 35, 15, 5, 50, 25, 20, 20, 35, 50, 10, 30),
+    coords: coords(45, 35, 15, 5, 50, 25, 20, 20, 35, 50, 10, 30, 20),
     figure: { name: 'John Rawls', years: '1921 to 2002' },
     source: { author: 'John Rawls', work: 'A Theory of Justice', year: 1971 },
     tagline: 'Justice as fairness.',
@@ -290,7 +293,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'ordoliberalism', name: 'Ordoliberalism', family: 'Liberal',
-    coords: coords(30, 15, 35, 20, 55, 40, 50, 55, 40, 35, 50, 40),
+    coords: coords(30, 15, 35, 20, 55, 40, 50, 55, 40, 35, 50, 40, 15),
     figure: { name: 'Walter Eucken', years: '1891 to 1950' },
     source: { author: 'Walter Eucken', work: 'Principles of Economic Policy', year: 1952 },
     tagline: 'A strong state to keep markets competitive.',
@@ -298,7 +301,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'minarchism', name: 'Minarchist Libertarianism', family: 'Libertarian',
-    coords: coords(5, 0, 10, 25, 25, 20, 40, 40, 20, 15, 15, 30),
+    coords: coords(5, 0, 10, 25, 25, 20, 40, 40, 20, 15, 15, 30, 3),
     figure: { name: 'Robert Nozick', years: '1938 to 2002' },
     source: { author: 'Robert Nozick', work: 'Anarchy, State, and Utopia', year: 1974 },
     tagline: 'The night watchman state, and nothing more.',
@@ -306,7 +309,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'anarcho-capitalism', name: 'Anarcho Capitalism', family: 'Libertarian',
-    coords: coords(0, 0, 0, 30, 0, 15, 45, 55, 20, 10, 25, 15),
+    coords: coords(0, 0, 0, 30, 0, 15, 45, 55, 20, 10, 25, 15, 0),
     figure: { name: 'Murray Rothbard', years: '1926 to 1995' },
     source: { author: 'Murray Rothbard', work: 'For a New Liberty', year: 1973 },
     tagline: 'Even law and defence should be supplied by the market.',
@@ -316,7 +319,7 @@ const IDEOLOGIES = [
   /* ---------------------------- CONSERVATIVE ---------------------------- */
   {
     id: 'burkean-conservatism', name: 'Burkean Conservatism', family: 'Conservative',
-    coords: coords(30, 15, 50, 50, 40, 65, 70, 95, 65, 50, 80, 55),
+    coords: coords(30, 15, 50, 50, 40, 65, 70, 95, 65, 50, 80, 55, 30),
     figure: { name: 'Edmund Burke', years: '1729 to 1797' },
     source: { author: 'Edmund Burke', work: 'Reflections on the Revolution in France', year: 1790 },
     tagline: 'Society is a partnership of the dead, the living and the unborn.',
@@ -324,7 +327,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'reactionary-monarchism', name: 'Reactionary Monarchism', family: 'Reactionary',
-    coords: coords(45, 25, 90, 100, 85, 60, 85, 100, 80, 45, 100, 70),
+    coords: coords(45, 25, 90, 100, 85, 60, 85, 100, 80, 45, 100, 70, 50),
     figure: { name: 'Joseph de Maistre', years: '1753 to 1821' },
     source: { author: 'Joseph de Maistre', work: 'Considerations on France (1797) and The Pope', year: 1819 },
     tagline: 'Throne and altar.',
@@ -332,7 +335,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'christian-democracy', name: 'Christian Democracy', family: 'Conservative',
-    coords: coords(45, 30, 40, 15, 35, 35, 45, 75, 55, 50, 85, 35),
+    coords: coords(45, 30, 40, 15, 35, 35, 45, 75, 55, 50, 85, 35, 35),
     figure: { name: 'Jacques Maritain', years: '1882 to 1973' },
     source: { author: 'Jacques Maritain', work: 'Integral Humanism (1936) and Christianity and Democracy', year: 1943 },
     tagline: 'The dignity of the person, in a pluralist democracy.',
@@ -340,7 +343,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'distributism', name: 'Distributism', family: 'Conservative',
-    coords: coords(30, 30, 30, 25, 10, 55, 60, 90, 75, 65, 95, 35),
+    coords: coords(30, 30, 30, 25, 10, 55, 60, 90, 75, 65, 95, 35, 70),
     figure: { name: 'G. K. Chesterton', years: '1874 to 1936' },
     source: { author: 'Hilaire Belloc and G. K. Chesterton', work: 'The Servile State (1912) and The Outline of Sanity', year: 1926 },
     tagline: 'Three acres and a cow.',
@@ -348,7 +351,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'national-conservatism', name: 'National Conservatism', family: 'Conservative',
-    coords: coords(40, 20, 60, 35, 60, 95, 85, 85, 55, 30, 80, 65),
+    coords: coords(40, 20, 60, 35, 60, 95, 85, 85, 55, 30, 80, 65, 75),
     figure: { name: 'Yoram Hazony', years: 'born 1964' },
     source: { author: 'Yoram Hazony', work: 'The Virtue of Nationalism', year: 2018 },
     tagline: 'A world of independent nations, not a universal order.',
@@ -358,7 +361,7 @@ const IDEOLOGIES = [
   /* --------------------------- NEOREACTIONARY --------------------------- */
   {
     id: 'neo-cameralism', name: 'Neo Cameralism', family: 'Reactionary',
-    coords: coords(10, 0, 60, 100, 30, 30, 60, 75, 15, 15, 35, 50),
+    coords: coords(10, 0, 60, 100, 30, 30, 60, 75, 15, 15, 35, 50, 15),
     figure: { name: 'Curtis Yarvin', years: 'born 1973' },
     source: { author: 'Curtis Yarvin, writing as Mencius Moldbug', work: 'Patchwork: A Political System for the 21st Century', year: 2008 },
     tagline: 'The state as a company, the ruler as its chief executive.',
@@ -366,7 +369,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'right-accelerationism', name: 'Right Accelerationism', family: 'Reactionary',
-    coords: coords(0, 0, 40, 85, 15, 10, 55, 50, 0, 0, 10, 45),
+    coords: coords(0, 0, 40, 85, 15, 10, 55, 50, 0, 0, 10, 45, 5),
     figure: { name: 'Nick Land', years: 'born 1962' },
     source: { author: 'Nick Land', work: 'Fanged Noumena (2011) and The Dark Enlightenment', year: 2012 },
     tagline: 'Capital and technology are an intelligence to be unleashed.',
@@ -374,7 +377,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'network-state', name: 'Network State', family: 'Technological',
-    coords: coords(10, 10, 20, 45, 5, 5, 45, 45, 0, 25, 25, 20),
+    coords: coords(10, 10, 20, 45, 5, 5, 45, 45, 0, 25, 25, 20, 3),
     figure: { name: 'Balaji Srinivasan', years: 'born 1980' },
     source: { author: 'Balaji Srinivasan', work: 'The Network State', year: 2022 },
     tagline: 'Cloud first, land last.',
@@ -384,7 +387,7 @@ const IDEOLOGIES = [
   /* ------------------------ GREEN AND TECHNOCRATIC ----------------------- */
   {
     id: 'deep-ecology', name: 'Deep Ecology', family: 'Green',
-    coords: coords(55, 60, 30, 15, 15, 15, 25, 40, 85, 100, 40, 5),
+    coords: coords(55, 60, 30, 15, 15, 15, 25, 40, 85, 100, 40, 5, 80),
     figure: { name: 'Arne Næss', years: '1912 to 2009' },
     source: { author: 'Arne Næss, with George Sessions', work: 'The Shallow and the Deep (1973) and the Deep Ecology Platform', year: 1984 },
     tagline: 'All life has value in itself.',
@@ -392,7 +395,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'eco-authoritarianism', name: 'Eco Authoritarianism', family: 'Green',
-    coords: coords(85, 70, 100, 95, 90, 70, 75, 65, 95, 100, 20, 80),
+    coords: coords(85, 70, 100, 95, 90, 70, 75, 65, 95, 100, 20, 80, 80),
     figure: { name: 'Pentti Linkola', years: '1932 to 2020' },
     source: { author: 'Pentti Linkola', work: 'Voisiko elämä voittaa (in English: Can Life Prevail?)', year: 2004 },
     tagline: 'Only a firm hand can stop the ecological collapse.',
@@ -400,7 +403,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'technocracy', name: 'Technocracy', family: 'Technological',
-    coords: coords(100, 85, 60, 85, 100, 50, 60, 40, 5, 35, 5, 40),
+    coords: coords(100, 85, 60, 85, 100, 50, 60, 40, 5, 35, 5, 40, 70),
     figure: { name: 'Howard Scott', years: '1890 to 1970' },
     source: { author: 'Technocracy Inc., written chiefly by M. King Hubbert', work: 'Technocracy Study Course', year: 1934 },
     tagline: 'Government by engineers, accounting in energy.',
@@ -410,7 +413,7 @@ const IDEOLOGIES = [
   /* ------------------------- MORE THIRD POSITION ------------------------- */
   {
     id: 'national-socialism', name: 'National Socialism', family: 'Third Position',
-    coords: coords(70, 40, 100, 100, 100, 100, 100, 80, 30, 45, 35, 100),
+    coords: coords(70, 40, 100, 100, 100, 100, 100, 80, 30, 45, 35, 100, 92),
     figure: { name: 'Adolf Hitler', years: '1889 to 1945' },
     source: { author: 'NSDAP and Adolf Hitler', work: 'The Twenty Five Point Programme (1920) and Mein Kampf', year: 1925 },
     tagline: 'Race above state, class and individual.',
@@ -418,7 +421,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'national-syndicalism', name: 'National Syndicalism', family: 'Third Position',
-    coords: coords(80, 65, 90, 90, 90, 95, 90, 60, 35, 30, 35, 95),
+    coords: coords(80, 65, 90, 90, 90, 95, 90, 60, 35, 30, 35, 95, 75),
     figure: { name: 'Ramiro Ledesma Ramos', years: '1905 to 1936' },
     source: { author: 'Ramiro Ledesma Ramos', work: 'La Conquista del Estado manifesto', year: 1931 },
     tagline: 'The syndicates of the left, the nation of the right.',
@@ -426,7 +429,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'brazilian-integralism', name: 'Brazilian Integralism', family: 'Third Position',
-    coords: coords(65, 40, 85, 90, 85, 90, 70, 90, 50, 35, 95, 70),
+    coords: coords(65, 40, 85, 90, 85, 90, 70, 90, 50, 35, 95, 70, 70),
     figure: { name: 'Plínio Salgado', years: '1895 to 1975' },
     source: { author: 'Plínio Salgado', work: 'The October Manifesto', year: 1932 },
     tagline: 'God, fatherland, family.',
@@ -434,7 +437,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'austrofascism', name: 'Austrofascism', family: 'Third Position',
-    coords: coords(60, 30, 85, 90, 60, 70, 80, 95, 60, 40, 100, 60),
+    coords: coords(60, 30, 85, 90, 60, 70, 80, 95, 60, 40, 100, 60, 75),
     figure: { name: 'Engelbert Dollfuss', years: '1892 to 1934' },
     source: { author: 'Engelbert Dollfuss', work: 'The Trabrennplatz Address', year: 1933 },
     tagline: 'A Christian, German state of estates under authoritarian leadership.',
@@ -442,7 +445,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'third-international-theory', name: 'Third International Theory', family: 'Third Position',
-    coords: coords(75, 85, 70, 25, 35, 85, 80, 85, 50, 40, 80, 65),
+    coords: coords(75, 85, 70, 25, 35, 85, 80, 85, 50, 40, 80, 65, 70),
     figure: { name: 'Muammar Gaddafi', years: '1942 to 2011' },
     source: { author: 'Muammar Gaddafi', work: 'The Green Book', year: '1975 to 1979' },
     tagline: 'Neither capitalism nor communism, but the state of the masses.',
@@ -450,7 +453,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'nasserism', name: 'Nasserism', family: 'Nationalist',
-    coords: coords(75, 65, 80, 85, 90, 95, 85, 50, 25, 15, 40, 80),
+    coords: coords(75, 65, 80, 85, 90, 95, 85, 50, 25, 15, 40, 80, 80),
     figure: { name: 'Gamal Abdel Nasser', years: '1918 to 1970' },
     source: { author: 'Gamal Abdel Nasser', work: 'The Philosophy of the Revolution (1954) and the National Charter', year: 1962 },
     tagline: 'Arab unity, socialism, and no alignment with either bloc.',
@@ -458,7 +461,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'futurism', name: 'Futurism', family: 'Third Position',
-    coords: coords(55, 40, 70, 75, 75, 95, 80, 0, 0, 0, 0, 100),
+    coords: coords(55, 40, 70, 75, 75, 95, 80, 0, 0, 0, 0, 100, 60),
     figure: { name: 'Filippo Tommaso Marinetti', years: '1876 to 1944' },
     source: { author: 'F. T. Marinetti', work: 'The Founding and Manifesto of Futurism', year: 1909 },
     tagline: 'A racing car is more beautiful than the Victory of Samothrace.',
@@ -466,7 +469,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'radical-traditionalism', name: 'Radical Traditionalism', family: 'Reactionary',
-    coords: coords(45, 30, 90, 100, 70, 45, 80, 100, 95, 50, 90, 90),
+    coords: coords(45, 30, 90, 100, 70, 45, 80, 100, 95, 50, 90, 90, 45),
     figure: { name: 'Julius Evola', years: '1898 to 1974' },
     source: { author: 'Julius Evola', work: 'Revolt Against the Modern World', year: 1934 },
     tagline: 'Against the modern world, for hierarchy and the sacred.',
@@ -474,7 +477,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'archeofuturism', name: 'Archeofuturism', family: 'Reactionary',
-    coords: coords(45, 30, 85, 90, 65, 80, 95, 85, 5, 45, 35, 85),
+    coords: coords(45, 30, 85, 90, 65, 80, 95, 85, 5, 45, 35, 85, 60),
     figure: { name: 'Guillaume Faye', years: '1949 to 2019' },
     source: { author: 'Guillaume Faye', work: 'Archeofuturism', year: 1998 },
     tagline: 'Archaic values, futuristic technology.',
@@ -484,7 +487,7 @@ const IDEOLOGIES = [
   /* --------------------------- MORE COMMUNIST --------------------------- */
   {
     id: 'trotskyism', name: 'Trotskyism', family: 'Radical Left',
-    coords: coords(95, 100, 70, 60, 80, 0, 30, 20, 15, 15, 0, 80),
+    coords: coords(95, 100, 70, 60, 80, 0, 30, 20, 15, 15, 0, 80, 70),
     figure: { name: 'Leon Trotsky', years: '1879 to 1940' },
     source: { author: 'Leon Trotsky', work: 'The Permanent Revolution', year: 1930 },
     tagline: 'The revolution cannot stop at one country.',
@@ -492,7 +495,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'stalinism', name: 'Stalinism', family: 'Radical Left',
-    coords: coords(100, 100, 100, 100, 100, 65, 65, 55, 10, 5, 0, 90),
+    coords: coords(100, 100, 100, 100, 100, 65, 65, 55, 10, 5, 0, 90, 92),
     figure: { name: 'Joseph Stalin', years: '1878 to 1953' },
     source: { author: 'J. V. Stalin', work: 'Concerning Questions of Leninism', year: 1926 },
     tagline: 'Socialism in one country.',
@@ -500,7 +503,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'luxemburgism', name: 'Luxemburgism', family: 'Radical Left',
-    coords: coords(85, 100, 35, 15, 45, 0, 25, 20, 25, 25, 0, 50),
+    coords: coords(85, 100, 35, 15, 45, 0, 25, 20, 25, 25, 0, 50, 50),
     figure: { name: 'Rosa Luxemburg', years: '1871 to 1919' },
     source: { author: 'Rosa Luxemburg', work: 'The Russian Revolution', year: 'written 1918, published 1922' },
     tagline: 'Freedom is always the freedom of the one who thinks differently.',
@@ -508,7 +511,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'titoism', name: 'Titoism (Self Management)', family: 'Radical Left',
-    coords: coords(60, 90, 65, 70, 35, 45, 25, 30, 30, 25, 5, 55),
+    coords: coords(60, 90, 65, 70, 35, 45, 25, 30, 30, 25, 5, 55, 60),
     figure: { name: 'Edvard Kardelj', years: '1910 to 1979' },
     source: { author: 'Edvard Kardelj', work: 'Directions of the Development of the Political System of Socialist Self Management', year: 1977 },
     tagline: 'Factories to the workers, and no orders from Moscow.',
@@ -516,7 +519,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'dengism', name: 'Dengism', family: 'Radical Left',
-    coords: coords(45, 60, 85, 90, 85, 70, 60, 45, 10, 10, 0, 60),
+    coords: coords(45, 60, 85, 90, 85, 70, 60, 45, 10, 10, 0, 60, 40),
     figure: { name: 'Deng Xiaoping', years: '1904 to 1997' },
     source: { author: 'Deng Xiaoping', work: 'Emancipate the Mind, Seek Truth from Facts and Unite as One in Looking to the Future', year: 1978 },
     tagline: 'Yellow cat or black cat, the one that catches mice is a good cat.',
@@ -524,7 +527,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'guevarism', name: 'Guevarism', family: 'Radical Left',
-    coords: coords(100, 100, 80, 80, 85, 25, 35, 25, 30, 20, 0, 95),
+    coords: coords(100, 100, 80, 80, 85, 25, 35, 25, 30, 20, 0, 95, 55),
     figure: { name: 'Che Guevara', years: '1928 to 1967' },
     source: { author: 'Ernesto Che Guevara', work: 'Guerrilla Warfare (1960) and Socialism and Man in Cuba', year: 1965 },
     tagline: 'Create two, three, many Vietnams.',
@@ -534,7 +537,7 @@ const IDEOLOGIES = [
   /* --------------------------- MORE SOCIALIST --------------------------- */
   {
     id: 'utopian-socialism', name: 'Utopian Socialism', family: 'Left',
-    coords: coords(60, 85, 20, 25, 10, 10, 25, 20, 35, 50, 20, 5),
+    coords: coords(60, 85, 20, 25, 10, 10, 25, 20, 35, 50, 20, 5, 40),
     figure: { name: 'Robert Owen', years: '1771 to 1858' },
     source: { author: 'Robert Owen', work: 'A New View of Society and the Report to the County of Lanark', year: '1813 to 1820' },
     tagline: 'Change the surroundings and you change the person.',
@@ -542,7 +545,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'revolutionary-syndicalism', name: 'Revolutionary Syndicalism', family: 'Left',
-    coords: coords(60, 90, 25, 15, 15, 20, 35, 45, 40, 30, 10, 85),
+    coords: coords(60, 90, 25, 15, 15, 20, 35, 45, 40, 30, 10, 85, 40),
     figure: { name: 'Georges Sorel', years: '1847 to 1922' },
     source: { author: 'Georges Sorel', work: 'Reflections on Violence', year: 1908 },
     tagline: 'The myth of the general strike.',
@@ -550,7 +553,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'ujamaa', name: 'Ujamaa (African Socialism)', family: 'Left',
-    coords: coords(80, 90, 65, 75, 60, 65, 50, 60, 60, 55, 35, 35),
+    coords: coords(80, 90, 65, 75, 60, 65, 50, 60, 60, 55, 35, 35, 85),
     figure: { name: 'Julius Nyerere', years: '1922 to 1999' },
     source: { author: 'Julius Nyerere', work: 'Ujamaa: The Basis of African Socialism (1962) and the Arusha Declaration', year: 1967 },
     tagline: 'Socialism as the extended family.',
@@ -558,7 +561,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'eco-socialism', name: 'Eco Socialism', family: 'Green',
-    coords: coords(80, 85, 30, 10, 45, 5, 20, 15, 65, 90, 5, 25),
+    coords: coords(80, 85, 30, 10, 45, 5, 20, 15, 65, 90, 5, 25, 70),
     figure: { name: 'Michael Löwy', years: 'born 1938' },
     source: { author: 'Joel Kovel and Michael Löwy', work: 'An Ecosocialist Manifesto', year: 2001 },
     tagline: 'Capitalism cannot be made green.',
@@ -568,7 +571,7 @@ const IDEOLOGIES = [
   /* --------------------------- MORE ANARCHIST --------------------------- */
   {
     id: 'democratic-confederalism', name: 'Democratic Confederalism', family: 'Autonomist',
-    coords: coords(60, 85, 10, 0, 0, 5, 5, 10, 45, 85, 10, 45),
+    coords: coords(60, 85, 10, 0, 0, 5, 5, 10, 45, 85, 10, 45, 40),
     figure: { name: 'Abdullah Öcalan', years: 'born 1949' },
     source: { author: 'Abdullah Öcalan', work: 'Democratic Confederalism', year: 2011 },
     tagline: 'Democracy without the state.',
@@ -576,7 +579,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'zapatismo', name: 'Zapatismo', family: 'Autonomist',
-    coords: coords(60, 85, 10, 0, 5, 25, 5, 35, 60, 75, 25, 45),
+    coords: coords(60, 85, 10, 0, 5, 25, 5, 35, 60, 75, 25, 45, 85),
     figure: { name: 'Subcomandante Marcos', years: 'EZLN spokesman' },
     source: { author: 'Zapatista Army of National Liberation', work: 'Sixth Declaration of the Lacandon Jungle', year: 2005 },
     tagline: 'To lead by obeying.',
@@ -586,7 +589,7 @@ const IDEOLOGIES = [
   /* ---------------------------- MORE LIBERAL ---------------------------- */
   {
     id: 'keynesian-liberalism', name: 'Keynesian Liberalism', family: 'Liberal',
-    coords: coords(50, 30, 25, 10, 60, 35, 30, 25, 30, 35, 15, 35),
+    coords: coords(50, 30, 25, 10, 60, 35, 30, 25, 30, 35, 15, 35, 35),
     figure: { name: 'John Maynard Keynes', years: '1883 to 1946' },
     source: { author: 'John Maynard Keynes', work: 'The General Theory of Employment, Interest and Money', year: 1936 },
     tagline: 'Markets can get stuck, and the state can unstick them.',
@@ -594,7 +597,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'neoliberalism', name: 'Neoliberalism', family: 'Liberal',
-    coords: coords(10, 5, 30, 25, 45, 15, 35, 40, 20, 15, 20, 40),
+    coords: coords(10, 5, 30, 25, 45, 15, 35, 40, 20, 15, 20, 40, 3),
     figure: { name: 'Milton Friedman', years: '1912 to 2006' },
     source: { author: 'Milton Friedman', work: 'Capitalism and Freedom', year: 1962 },
     tagline: 'Economic freedom is a condition of political freedom.',
@@ -602,7 +605,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'third-way', name: 'Third Way', family: 'Liberal',
-    coords: coords(35, 25, 40, 10, 50, 25, 25, 25, 25, 40, 15, 45),
+    coords: coords(35, 25, 40, 10, 50, 25, 25, 25, 25, 40, 15, 45, 15),
     figure: { name: 'Anthony Giddens', years: 'born 1938' },
     source: { author: 'Anthony Giddens', work: 'The Third Way: The Renewal of Social Democracy', year: 1998 },
     tagline: 'No rights without responsibilities.',
@@ -610,7 +613,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'objectivism', name: 'Objectivism', family: 'Libertarian',
-    coords: coords(0, 0, 5, 25, 30, 25, 45, 25, 5, 0, 0, 40),
+    coords: coords(0, 0, 5, 25, 30, 25, 45, 25, 5, 0, 0, 40, 0),
     figure: { name: 'Ayn Rand', years: '1905 to 1982' },
     source: { author: 'Ayn Rand, with essays by Nathaniel Branden', work: 'The Virtue of Selfishness', year: 1964 },
     tagline: 'Rational self interest is the moral ideal.',
@@ -618,7 +621,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'hoppeanism', name: 'Hoppean Libertarianism', family: 'Libertarian',
-    coords: coords(0, 0, 20, 70, 0, 35, 80, 90, 35, 15, 45, 25),
+    coords: coords(0, 0, 20, 70, 0, 35, 80, 90, 35, 15, 45, 25, 2),
     figure: { name: 'Hans-Hermann Hoppe', years: 'born 1949' },
     source: { author: 'Hans-Hermann Hoppe', work: 'Democracy: The God That Failed', year: 2001 },
     tagline: 'A private law society of covenant communities.',
@@ -628,7 +631,7 @@ const IDEOLOGIES = [
   /* ---------------------------- TECHNOLOGICAL ---------------------------- */
   {
     id: 'effective-accelerationism', name: 'Effective Accelerationism', family: 'Technological',
-    coords: coords(5, 5, 15, 35, 15, 10, 40, 30, 0, 0, 10, 30),
+    coords: coords(5, 5, 15, 35, 15, 10, 40, 30, 0, 0, 10, 30, 5),
     figure: { name: 'Guillaume Verdon', years: 'writing as Beff Jezos' },
     source: { author: 'Beff Jezos and bayeslord', work: 'Notes on e/acc Principles and Tenets', year: 2022 },
     tagline: 'Accelerate, and climb the Kardashev scale.',
@@ -636,7 +639,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'bioconservatism', name: 'Bioconservatism', family: 'Technological',
-    coords: coords(40, 30, 50, 20, 50, 40, 45, 75, 95, 60, 55, 35),
+    coords: coords(40, 30, 50, 20, 50, 40, 45, 75, 95, 60, 55, 35, 45),
     figure: { name: 'Leon Kass', years: 'born 1939' },
     source: { author: 'Leon R. Kass', work: 'Life, Liberty, and the Defense of Dignity', year: 2002 },
     tagline: 'Human nature is not ours to redesign.',
@@ -646,7 +649,7 @@ const IDEOLOGIES = [
   /* ---------------------------- CONSERVATIVE ---------------------------- */
   {
     id: 'neoconservatism', name: 'Neoconservatism', family: 'Conservative',
-    coords: coords(25, 15, 60, 25, 60, 60, 60, 65, 30, 15, 55, 95),
+    coords: coords(25, 15, 60, 25, 60, 60, 60, 65, 30, 15, 55, 95, 25),
     figure: { name: 'Irving Kristol', years: '1920 to 2009' },
     source: { author: 'Irving Kristol', work: 'Neoconservatism: The Autobiography of an Idea', year: 1995 },
     tagline: 'A liberal who has been mugged by reality.',
@@ -654,7 +657,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'paleoconservatism', name: 'Paleoconservatism', family: 'Conservative',
-    coords: coords(35, 15, 50, 35, 25, 95, 95, 95, 65, 40, 80, 25),
+    coords: coords(35, 15, 50, 35, 25, 95, 95, 95, 65, 40, 80, 25, 85),
     figure: { name: 'Pat Buchanan', years: 'born 1938' },
     source: { author: 'Patrick J. Buchanan', work: 'A Republic, Not an Empire', year: 1999 },
     tagline: 'A republic, not an empire.',
@@ -662,7 +665,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'communitarianism', name: 'Communitarianism', family: 'Conservative',
-    coords: coords(45, 35, 50, 15, 30, 45, 50, 65, 50, 50, 45, 35),
+    coords: coords(45, 35, 50, 15, 30, 45, 50, 65, 50, 50, 45, 35, 45),
     figure: { name: 'Amitai Etzioni', years: '1929 to 2023' },
     source: { author: 'Amitai Etzioni', work: 'The Spirit of Community', year: 1993 },
     tagline: 'Strong rights presume strong responsibilities.',
@@ -672,7 +675,7 @@ const IDEOLOGIES = [
   /* ----------------------------- NATIONALIST ----------------------------- */
   {
     id: 'kemalism', name: 'Kemalism', family: 'Nationalist',
-    coords: coords(65, 45, 75, 75, 95, 95, 100, 20, 15, 15, 5, 75),
+    coords: coords(65, 45, 75, 75, 95, 95, 100, 20, 15, 15, 5, 75, 75),
     figure: { name: 'Mustafa Kemal Atatürk', years: '1881 to 1938' },
     source: { author: 'Mustafa Kemal Atatürk', work: 'Nutuk (The Speech, 1927) and the Six Arrows', year: 1931 },
     tagline: 'Republicanism, nationalism, populism, statism, secularism, reformism.',
@@ -680,7 +683,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'bonapartism', name: 'Bonapartism', family: 'Nationalist',
-    coords: coords(50, 25, 80, 90, 100, 85, 80, 55, 30, 20, 40, 95),
+    coords: coords(50, 25, 80, 90, 100, 85, 80, 55, 30, 20, 40, 95, 65),
     figure: { name: 'Louis-Napoléon Bonaparte', years: '1808 to 1873' },
     source: { author: 'Louis-Napoléon Bonaparte', work: 'Napoleonic Ideas', year: 1839 },
     tagline: 'One leader, chosen directly by the people.',
@@ -688,7 +691,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'zionism', name: 'Political Zionism', family: 'Nationalist',
-    coords: coords(45, 40, 45, 20, 60, 95, 75, 50, 25, 30, 45, 70),
+    coords: coords(45, 40, 45, 20, 60, 95, 75, 50, 25, 30, 45, 70, 65),
     figure: { name: 'Theodor Herzl', years: '1860 to 1904' },
     source: { author: 'Theodor Herzl', work: 'The Jewish State', year: 1896 },
     tagline: 'We are a people, one people.',
@@ -696,7 +699,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'hindutva', name: 'Hindutva', family: 'Nationalist',
-    coords: coords(45, 25, 70, 45, 75, 100, 95, 85, 40, 30, 80, 80),
+    coords: coords(45, 25, 70, 45, 75, 100, 95, 85, 40, 30, 80, 80, 70),
     figure: { name: 'Vinayak Damodar Savarkar', years: '1883 to 1966' },
     source: { author: 'V. D. Savarkar', work: 'Essentials of Hindutva', year: 1923 },
     tagline: 'A common nation, a common race, a common civilisation.',
@@ -706,7 +709,7 @@ const IDEOLOGIES = [
   /* ------------------------------ RELIGIOUS ------------------------------ */
   {
     id: 'islamism', name: 'Islamism (Qutbism)', family: 'Religious',
-    coords: coords(55, 40, 90, 85, 80, 20, 90, 95, 60, 35, 100, 90),
+    coords: coords(55, 40, 90, 85, 80, 20, 90, 95, 60, 35, 100, 90, 65),
     figure: { name: 'Sayyid Qutb', years: '1906 to 1966' },
     source: { author: 'Sayyid Qutb', work: 'Milestones', year: 1964 },
     tagline: 'Sovereignty belongs to God alone.',
@@ -714,7 +717,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'khomeinism', name: 'Khomeinism', family: 'Religious',
-    coords: coords(60, 45, 90, 90, 90, 55, 85, 95, 50, 30, 100, 80),
+    coords: coords(60, 45, 90, 90, 90, 55, 85, 95, 50, 30, 100, 80, 80),
     figure: { name: 'Ruhollah Khomeini', years: '1900 or 1902 to 1989' },
     source: { author: 'Ruhollah Khomeini', work: 'Islamic Government: Governance of the Jurist', year: 1970 },
     tagline: 'Guardianship of the jurist.',
@@ -722,7 +725,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'gandhism', name: 'Gandhism', family: 'Religious',
-    coords: coords(35, 60, 5, 10, 0, 55, 10, 75, 95, 85, 90, 0),
+    coords: coords(35, 60, 5, 10, 0, 55, 10, 75, 95, 85, 90, 0, 90),
     figure: { name: 'Mohandas Gandhi', years: '1869 to 1948' },
     source: { author: 'M. K. Gandhi', work: 'Hind Swaraj', year: 1909 },
     tagline: 'Self rule through truth and non violence.',
@@ -732,7 +735,7 @@ const IDEOLOGIES = [
   /* ------------------------------ CLASSICAL ------------------------------ */
   {
     id: 'platonism', name: 'Platonic Guardianship', family: 'Classical',
-    coords: coords(80, 75, 90, 95, 90, 60, 85, 80, 75, 45, 60, 70),
+    coords: coords(80, 75, 90, 95, 90, 60, 85, 80, 75, 45, 60, 70, 85),
     figure: { name: 'Plato', years: 'c. 428 to 348 BC' },
     source: { author: 'Plato', work: 'The Republic', year: 'c. 375 BC' },
     tagline: 'Until philosophers are kings, cities will have no rest from evils.',
@@ -740,7 +743,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'confucianism', name: 'Confucianism', family: 'Classical',
-    coords: coords(50, 35, 65, 80, 70, 50, 75, 95, 60, 50, 45, 30),
+    coords: coords(50, 35, 65, 80, 70, 50, 75, 95, 60, 50, 45, 30, 70),
     figure: { name: 'Confucius', years: '551 to 479 BC' },
     source: { author: 'Confucius', work: 'The Analects', year: 'compiled after 479 BC' },
     tagline: 'Govern by virtue, and the people will have a sense of shame.',
@@ -753,7 +756,7 @@ const IDEOLOGIES = [
      violent extremist ideologies, which get no emblem and no portrait. */
   {
     id: 'classical-marxism', name: 'Classical Marxism', family: 'Radical Left',
-    coords: coords(90, 100, 50, 30, 80, 0, 30, 10, 10, 15, 0, 65),
+    coords: coords(90, 100, 50, 30, 80, 0, 30, 10, 10, 15, 0, 65, 40),
     figure: { name: 'Karl Marx', years: '1818 to 1883' },
     source: { author: 'Karl Marx and Friedrich Engels', work: 'Manifesto of the Communist Party', year: 1848 },
     tagline: 'Workers of all countries, unite!',
@@ -762,7 +765,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'hoxhaism', name: 'Hoxhaism', family: 'Radical Left',
-    coords: coords(100, 100, 100, 95, 100, 45, 55, 50, 25, 10, 0, 85),
+    coords: coords(100, 100, 100, 95, 100, 45, 55, 50, 25, 10, 0, 85, 100),
     figure: { name: 'Enver Hoxha', years: '1908 to 1985' },
     source: { author: 'Enver Hoxha', work: 'Imperialism and the Revolution', year: 1978 },
     tagline: 'Marxism Leninism defended against every revision, Soviet, Yugoslav and Chinese alike.',
@@ -771,7 +774,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'de-leonism', name: 'De Leonism', family: 'Radical Left',
-    coords: coords(85, 100, 25, 10, 50, 5, 30, 25, 15, 20, 5, 20),
+    coords: coords(85, 100, 25, 10, 50, 5, 30, 25, 15, 20, 5, 20, 40),
     figure: { name: 'Daniel De Leon', years: '1852 to 1914' },
     source: { author: 'Daniel De Leon', work: 'Socialist Reconstruction of Society', year: 1905 },
     tagline: 'Socialist industrial unionism: the union as the government of the future.',
@@ -780,7 +783,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'bordigism', name: 'Bordigism (Italian Left Communism)', family: 'Radical Left',
-    coords: coords(100, 100, 75, 80, 95, 0, 35, 25, 20, 20, 0, 75),
+    coords: coords(100, 100, 75, 80, 95, 0, 35, 25, 20, 20, 0, 75, 45),
     figure: { name: 'Amadeo Bordiga', years: '1889 to 1970' },
     source: { author: 'Amadeo Bordiga', work: 'The Democratic Principle', year: 1922 },
     tagline: 'The programme decides, not the count of votes.',
@@ -789,7 +792,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'operaismo', name: 'Operaismo (Autonomist Marxism)', family: 'Radical Left',
-    coords: coords(75, 100, 25, 15, 25, 0, 25, 10, 20, 25, 0, 55),
+    coords: coords(75, 100, 25, 15, 25, 0, 25, 10, 20, 25, 0, 55, 35),
     figure: { name: 'Mario Tronti', years: '1931 to 2023' },
     source: { author: 'Mario Tronti', work: 'Workers and Capital', year: 1966 },
     tagline: 'Workers\' struggle comes first, and capital reorganises itself in response.',
@@ -798,7 +801,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'situationism', name: 'Situationism', family: 'Radical Left',
-    coords: coords(70, 100, 5, 0, 10, 0, 20, 0, 30, 35, 0, 40),
+    coords: coords(70, 100, 5, 0, 10, 0, 20, 0, 30, 35, 0, 40, 35),
     figure: { name: 'Guy Debord', years: '1931 to 1994' },
     source: { author: 'Guy Debord', work: 'The Society of the Spectacle', year: 1967 },
     tagline: 'Life itself has been replaced by its image, and must be taken back.',
@@ -807,7 +810,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'blanquism', name: 'Blanquism', family: 'Radical Left',
-    coords: coords(70, 90, 70, 80, 85, 40, 45, 20, 35, 30, 0, 90),
+    coords: coords(70, 90, 70, 80, 85, 40, 45, 20, 35, 30, 0, 90, 50),
     figure: { name: 'Louis Auguste Blanqui', years: '1805 to 1881' },
     source: { author: 'Louis Auguste Blanqui', work: 'Instructions for an Armed Uprising', year: 'written 1868' },
     tagline: 'Revolution as the work of a small, disciplined and prepared organisation.',
@@ -816,7 +819,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'gonzalo-thought', name: 'Gonzalo Thought', family: 'Radical Left',
-    coords: coords(100, 100, 100, 100, 100, 35, 65, 35, 45, 15, 0, 100),
+    coords: coords(100, 100, 100, 100, 100, 35, 65, 35, 45, 15, 0, 100, 55),
     figure: { name: 'Abimael Guzmán', years: '1934 to 2021' },
     source: { author: 'Abimael Guzmán (Chairman Gonzalo)', work: 'Interview with Chairman Gonzalo, published in El Diario', year: 1988 },
     tagline: 'Maoism declared a third and higher stage of Marxism, applied through total people\'s war.',
@@ -825,7 +828,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'castroism', name: 'Castroism', family: 'Radical Left',
-    coords: coords(90, 90, 75, 80, 85, 60, 40, 30, 30, 25, 5, 85),
+    coords: coords(90, 90, 75, 80, 85, 60, 40, 30, 30, 25, 5, 85, 65),
     figure: { name: 'Fidel Castro', years: '1926 to 2016' },
     source: { author: 'Fidel Castro', work: 'History Will Absolve Me (1953) and the Second Declaration of Havana', year: 1962 },
     tagline: 'National liberation that becomes socialist revolution.',
@@ -834,7 +837,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'kautskyism', name: 'Orthodox Marxism (Kautskyism)', family: 'Radical Left',
-    coords: coords(85, 95, 30, 10, 70, 10, 30, 25, 10, 20, 5, 30),
+    coords: coords(85, 95, 30, 10, 70, 10, 30, 25, 10, 20, 5, 30, 35),
     figure: { name: 'Karl Kautsky', years: '1854 to 1938' },
     source: { author: 'Karl Kautsky', work: 'The Class Struggle (1892) and The Road to Power', year: 1909 },
     tagline: 'A revolutionary party, but not a party that makes revolutions.',
@@ -843,7 +846,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'austromarxism', name: 'Austromarxism', family: 'Radical Left',
-    coords: coords(75, 85, 35, 10, 45, 40, 10, 30, 20, 25, 5, 35),
+    coords: coords(75, 85, 35, 10, 45, 40, 10, 30, 20, 25, 5, 35, 50),
     figure: { name: 'Otto Bauer', years: '1881 to 1938' },
     source: { author: 'Otto Bauer', work: 'The Question of Nationalities and Social Democracy', year: 1907 },
     tagline: 'Socialism joined to cultural autonomy for every nation.',
@@ -852,7 +855,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'eurocommunism', name: 'Eurocommunism', family: 'Radical Left',
-    coords: coords(65, 75, 30, 10, 55, 30, 25, 20, 25, 35, 5, 25),
+    coords: coords(65, 75, 30, 10, 55, 30, 25, 20, 25, 35, 5, 25, 45),
     figure: { name: 'Santiago Carrillo', years: '1915 to 2012' },
     source: { author: 'Santiago Carrillo', work: 'Eurocommunism and the State', year: 1977 },
     tagline: 'A democratic road to socialism, independent of Moscow.',
@@ -861,7 +864,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'sankarism', name: 'Sankarism', family: 'Radical Left',
-    coords: coords(85, 85, 70, 80, 70, 65, 45, 15, 35, 50, 5, 65),
+    coords: coords(85, 85, 70, 80, 70, 65, 45, 15, 35, 50, 5, 65, 90),
     figure: { name: 'Thomas Sankara', years: '1949 to 1987' },
     source: { author: 'Thomas Sankara, National Council of the Revolution', work: 'Political Orientation Speech', year: 1983 },
     tagline: 'Homeland or death, we shall overcome!',
@@ -870,7 +873,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'bukharinism', name: 'Bukharinism (Right Opposition)', family: 'Radical Left',
-    coords: coords(60, 75, 80, 85, 85, 50, 45, 35, 25, 20, 0, 55),
+    coords: coords(60, 75, 80, 85, 85, 50, 45, 35, 25, 20, 0, 55, 75),
     figure: { name: 'Nikolai Bukharin', years: '1888 to 1938' },
     source: { author: 'Nikolai Bukharin', work: 'Notes of an Economist', year: 1928 },
     tagline: 'Socialism built gradually, in alliance with the peasantry.',
@@ -879,7 +882,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'collectivist-anarchism', name: 'Collectivist Anarchism', family: 'Anarchist',
-    coords: coords(55, 95, 0, 0, 0, 10, 25, 15, 45, 45, 0, 55),
+    coords: coords(55, 95, 0, 0, 0, 10, 25, 15, 45, 45, 0, 55, 35),
     figure: { name: 'Mikhail Bakunin', years: '1814 to 1876' },
     source: { author: 'Mikhail Bakunin', work: 'Statism and Anarchy', year: 1873 },
     tagline: 'No state can free the people, not even a workers\' state.',
@@ -888,7 +891,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'individualist-anarchism', name: 'Individualist Anarchism', family: 'Anarchist',
-    coords: coords(0, 35, 0, 0, 0, 5, 30, 20, 40, 45, 5, 15),
+    coords: coords(0, 35, 0, 0, 0, 5, 30, 20, 40, 45, 5, 15, 15),
     figure: { name: 'Benjamin Tucker', years: '1854 to 1939' },
     source: { author: 'Benjamin R. Tucker', work: 'State Socialism and Anarchism: How Far They Agree, and Wherein They Differ', year: 1888 },
     tagline: 'Liberty and free competition as the cure for monopoly.',
@@ -897,7 +900,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'insurrectionary-anarchism', name: 'Insurrectionary Anarchism', family: 'Anarchist',
-    coords: coords(60, 95, 0, 0, 0, 0, 20, 5, 55, 50, 0, 75),
+    coords: coords(60, 95, 0, 0, 0, 0, 20, 5, 55, 50, 0, 75, 35),
     figure: { name: 'Alfredo M. Bonanno', years: '1937 to 2023' },
     source: { author: 'Alfredo M. Bonanno', work: 'Armed Joy', year: 1977 },
     tagline: 'Attack now, in small informal groups, without waiting for the right moment.',
@@ -906,7 +909,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'platformism', name: 'Platformism', family: 'Anarchist',
-    coords: coords(75, 100, 10, 5, 25, 0, 20, 15, 35, 45, 5, 55),
+    coords: coords(75, 100, 10, 5, 25, 0, 20, 15, 35, 45, 5, 55, 40),
     figure: { name: 'Nestor Makhno', years: '1888 to 1934' },
     source: { author: 'Dielo Truda group (Nestor Makhno, Peter Arshinov, Ida Mett and others)', work: 'Organisational Platform of the General Union of Anarchists (Draft)', year: 1926 },
     tagline: 'Anarchist communism with a disciplined organisation of its own.',
@@ -915,7 +918,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'anarcha-feminism', name: 'Anarcha Feminism', family: 'Anarchist',
-    coords: coords(65, 95, 0, 0, 0, 0, 10, 0, 40, 50, 0, 35),
+    coords: coords(65, 95, 0, 0, 0, 0, 10, 0, 40, 50, 0, 35, 35),
     figure: { name: 'Emma Goldman', years: '1869 to 1940' },
     source: { author: 'Emma Goldman', work: 'Anarchism and Other Essays', year: 1910 },
     tagline: 'No emancipation of women without the end of state, church and marriage as institutions.',
@@ -924,7 +927,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'philosophical-anarchism', name: 'Philosophical Anarchism', family: 'Anarchist',
-    coords: coords(40, 65, 0, 5, 0, 0, 25, 10, 20, 45, 10, 5),
+    coords: coords(40, 65, 0, 5, 0, 0, 25, 10, 20, 45, 10, 5, 25),
     figure: { name: 'William Godwin', years: '1756 to 1836' },
     source: { author: 'William Godwin', work: 'An Enquiry Concerning Political Justice', year: 1793 },
     tagline: 'Government will wither as reason grows.',
@@ -933,7 +936,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'post-left-anarchism', name: 'Post Left Anarchism', family: 'Anarchist',
-    coords: coords(45, 70, 0, 5, 0, 0, 25, 5, 65, 65, 5, 30),
+    coords: coords(45, 70, 0, 5, 0, 0, 25, 5, 65, 65, 5, 30, 30),
     figure: { name: 'Bob Black', years: 'born 1951' },
     source: { author: 'Bob Black', work: 'The Abolition of Work (1985) and Anarchy after Leftism', year: 1997 },
     tagline: 'Anarchy without the Left, without ideology and without work.',
@@ -942,7 +945,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'black-anarchism', name: 'Black Anarchism', family: 'Anarchist',
-    coords: coords(65, 95, 5, 0, 5, 25, 5, 15, 40, 50, 10, 55),
+    coords: coords(65, 95, 5, 0, 5, 25, 5, 15, 40, 50, 10, 55, 45),
     figure: { name: 'Lorenzo Kom\'boa Ervin', years: 'born 1947' },
     source: { author: 'Lorenzo Kom\'boa Ervin', work: 'Anarchism and the Black Revolution', year: 1979 },
     tagline: 'Black self determination without a state or a vanguard party.',
@@ -951,7 +954,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'magonism', name: 'Magonism', family: 'Anarchist',
-    coords: coords(65, 100, 0, 0, 5, 10, 25, 20, 45, 60, 0, 70),
+    coords: coords(65, 100, 0, 0, 5, 10, 25, 20, 45, 60, 0, 70, 40),
     figure: { name: 'Ricardo Flores Magón', years: '1874 to 1922' },
     source: { author: 'Ricardo Flores Magón and the Organising Junta of the Mexican Liberal Party', work: 'Manifesto of 23 September 1911', year: 1911 },
     tagline: 'Land and Liberty!',
@@ -960,7 +963,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'communization', name: 'Communization Theory', family: 'Autonomist',
-    coords: coords(65, 100, 5, 15, 5, 0, 20, 10, 45, 45, 0, 55),
+    coords: coords(65, 100, 5, 15, 5, 0, 20, 10, 45, 45, 0, 55, 35),
     figure: { name: 'Gilles Dauvé', years: 'born 1947' },
     source: { author: 'Gilles Dauvé (as Jean Barrot) and François Martin', work: 'Eclipse and Re-emergence of the Communist Movement', year: 1974 },
     tagline: 'Communism as the immediate act of revolution, not a stage that follows it.',
@@ -969,7 +972,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'indigenous-resurgence', name: 'Indigenous Resurgence', family: 'Autonomist',
-    coords: coords(45, 75, 15, 10, 0, 60, 10, 75, 65, 85, 60, 25),
+    coords: coords(45, 75, 15, 10, 0, 60, 10, 75, 65, 85, 60, 25, 60),
     figure: { name: 'Taiaiake Alfred', years: 'born 1964' },
     source: { author: 'Taiaiake Alfred', work: 'Peace, Power, Righteousness: An Indigenous Manifesto', year: 1999 },
     tagline: 'Self government on indigenous terms, drawn from tradition and not from the state.',
@@ -978,7 +981,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'inclusive-democracy', name: 'Inclusive Democracy', family: 'Autonomist',
-    coords: coords(75, 95, 10, 0, 5, 5, 15, 15, 45, 75, 5, 20),
+    coords: coords(75, 95, 10, 0, 5, 5, 15, 15, 45, 75, 5, 20, 45),
     figure: { name: 'Takis Fotopoulos', years: 'born 1940' },
     source: { author: 'Takis Fotopoulos', work: 'Towards an Inclusive Democracy', year: 1997 },
     tagline: 'Direct democracy extended to politics, the economy, society and nature.',
@@ -987,7 +990,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'democratic-socialism', name: 'Democratic Socialism', family: 'Left',
-    coords: coords(70, 75, 30, 5, 65, 35, 30, 25, 30, 35, 15, 35),
+    coords: coords(70, 75, 30, 5, 65, 35, 30, 25, 30, 35, 15, 35, 50),
     figure: { name: 'Aneurin Bevan', years: '1897 to 1960' },
     source: { author: 'Aneurin Bevan', work: 'In Place of Fear', year: 1952 },
     tagline: 'Public ownership of the main levers of the economy, won and kept through parliament.',
@@ -996,7 +999,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'fabianism', name: 'Fabianism', family: 'Left',
-    coords: coords(70, 70, 45, 20, 75, 45, 45, 35, 25, 35, 20, 40),
+    coords: coords(70, 70, 45, 20, 75, 45, 45, 35, 25, 35, 20, 40, 50),
     figure: { name: 'Sidney Webb', years: '1859 to 1947' },
     source: { author: 'George Bernard Shaw (editor), Sidney Webb and five other Fabian essayists', work: 'Fabian Essays in Socialism', year: 1889 },
     tagline: 'Socialism by gradual, constitutional steps, guided by research and administration.',
@@ -1005,7 +1008,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'guild-socialism', name: 'Guild Socialism', family: 'Left',
-    coords: coords(60, 90, 20, 5, 25, 30, 30, 30, 45, 40, 15, 25),
+    coords: coords(60, 90, 20, 5, 25, 30, 30, 30, 45, 40, 15, 25, 45),
     figure: { name: 'G. D. H. Cole', years: '1889 to 1959' },
     source: { author: 'G. D. H. Cole', work: 'Guild Socialism Restated', year: 1920 },
     tagline: 'Industry owned in common and run by self governing guilds of its workers.',
@@ -1014,7 +1017,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'christian-socialism', name: 'Christian Socialism', family: 'Left',
-    coords: coords(50, 65, 40, 35, 30, 40, 45, 65, 50, 50, 90, 15),
+    coords: coords(50, 65, 40, 35, 30, 40, 45, 65, 50, 50, 90, 15, 45),
     figure: { name: 'F. D. Maurice', years: '1805 to 1872' },
     source: { author: 'F. D. Maurice, with John Ludlow and Charles Kingsley', work: 'Tracts on Christian Socialism', year: 1850 },
     tagline: 'Cooperation, not competition, as the Christian law of social life.',
@@ -1023,7 +1026,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'ethical-socialism', name: 'Ethical Socialism', family: 'Left',
-    coords: coords(60, 60, 25, 5, 50, 30, 30, 40, 40, 45, 45, 25),
+    coords: coords(60, 60, 25, 5, 50, 30, 30, 40, 40, 45, 45, 25, 45),
     figure: { name: 'R. H. Tawney', years: '1880 to 1962' },
     source: { author: 'R. H. Tawney', work: 'The Acquisitive Society (1920) and Equality', year: 1931 },
     tagline: 'Socialism as a moral case for equality and fellowship.',
@@ -1032,7 +1035,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'liberal-socialism', name: 'Liberal Socialism', family: 'Left',
-    coords: coords(45, 50, 10, 5, 35, 25, 25, 20, 35, 45, 10, 40),
+    coords: coords(45, 50, 10, 5, 35, 25, 25, 20, 35, 45, 10, 40, 30),
     figure: { name: 'Carlo Rosselli', years: '1899 to 1937' },
     source: { author: 'Carlo Rosselli', work: 'Liberal Socialism (Socialismo liberale)', year: 1930 },
     tagline: 'Socialism as liberty carried through to the lives of the poor.',
@@ -1041,7 +1044,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'lassalleanism', name: 'Lassalleanism', family: 'Left',
-    coords: coords(60, 80, 45, 25, 80, 65, 50, 40, 35, 30, 20, 40),
+    coords: coords(60, 80, 45, 25, 80, 65, 50, 40, 35, 30, 20, 40, 55),
     figure: { name: 'Ferdinand Lassalle', years: '1825 to 1864' },
     source: { author: 'Ferdinand Lassalle', work: 'Open Letter of Reply (Offenes Antwortschreiben)', year: 1863 },
     tagline: 'Universal suffrage and state aid for workers\' own cooperatives.',
@@ -1050,7 +1053,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'participatory-economics', name: 'Participatory Economics', family: 'Left',
-    coords: coords(85, 100, 15, 0, 10, 10, 20, 15, 40, 55, 5, 20),
+    coords: coords(85, 100, 15, 0, 10, 10, 20, 15, 40, 55, 5, 20, 45),
     figure: { name: 'Michael Albert', years: 'born 1947' },
     source: { author: 'Michael Albert and Robin Hahnel', work: 'The Political Economy of Participatory Economics', year: 1991 },
     tagline: 'An economy planned from below by councils of workers and consumers.',
@@ -1059,7 +1062,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'marxist-feminism', name: 'Marxist Feminism', family: 'Left',
-    coords: coords(90, 100, 45, 35, 65, 0, 20, 0, 25, 25, 0, 50),
+    coords: coords(90, 100, 45, 35, 65, 0, 20, 0, 25, 25, 0, 50, 40),
     figure: { name: 'Alexandra Kollontai', years: '1872 to 1952' },
     source: { author: 'Alexandra Kollontai', work: 'The Social Basis of the Woman Question', year: 1909 },
     tagline: 'Women\'s liberation through the liberation of labour.',
@@ -1068,7 +1071,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'black-feminism', name: 'Black Feminism', family: 'Left',
-    coords: coords(70, 80, 15, 5, 15, 10, 0, 0, 45, 50, 10, 25),
+    coords: coords(70, 80, 15, 5, 15, 10, 0, 0, 45, 50, 10, 25, 40),
     figure: { name: 'Barbara Smith', years: 'born 1946' },
     source: { author: 'Combahee River Collective (Demita Frazier, Beverly Smith and Barbara Smith)', work: 'The Combahee River Collective Statement', year: 1977 },
     tagline: 'Race, sex, sexuality and class oppression interlock and must be fought together.',
@@ -1077,7 +1080,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'nkrumaism', name: 'Nkrumaism', family: 'Left',
-    coords: coords(85, 85, 70, 80, 90, 60, 50, 40, 20, 25, 20, 60),
+    coords: coords(85, 85, 70, 80, 90, 60, 50, 40, 20, 25, 20, 60, 80),
     figure: { name: 'Kwame Nkrumah', years: '1909 to 1972' },
     source: { author: 'Kwame Nkrumah', work: 'Africa Must Unite (1963) and Consciencism', year: 1964 },
     tagline: 'A united socialist Africa under one continental government.',
@@ -1086,7 +1089,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'labour-zionism', name: 'Labour Zionism', family: 'Left',
-    coords: coords(75, 90, 40, 20, 50, 80, 60, 20, 30, 30, 5, 50),
+    coords: coords(75, 90, 40, 20, 50, 80, 60, 20, 30, 30, 5, 50, 70),
     figure: { name: 'Ber Borochov', years: '1881 to 1917' },
     source: { author: 'Ber Borochov', work: 'The National Question and the Class Struggle (1905) and Our Platform', year: 1906 },
     tagline: 'A Jewish homeland built by Jewish workers as the ground for socialism.',
@@ -1095,7 +1098,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'cooperativism', name: 'Cooperativism', family: 'Left',
-    coords: coords(25, 75, 20, 10, 15, 25, 35, 45, 45, 45, 50, 5),
+    coords: coords(25, 75, 20, 10, 15, 25, 35, 45, 45, 45, 50, 5, 30),
     figure: { name: 'William King', years: '1786 to 1865' },
     source: { author: 'William King', work: 'The Co-operator', year: '1828 to 1830' },
     tagline: 'Working people pooling small savings to become their own employers.',
@@ -1104,7 +1107,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'fanonism', name: 'Fanonism', family: 'Left',
-    coords: coords(75, 85, 40, 30, 30, 55, 30, 20, 35, 30, 5, 90),
+    coords: coords(75, 85, 40, 30, 30, 55, 30, 20, 35, 30, 5, 90, 60),
     figure: { name: 'Frantz Fanon', years: '1925 to 1961' },
     source: { author: 'Frantz Fanon', work: 'The Wretched of the Earth', year: 1961 },
     tagline: 'Decolonisation as the remaking of a people through their own struggle.',
@@ -1113,7 +1116,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'new-left', name: 'New Left', family: 'Left',
-    coords: coords(65, 80, 5, 5, 25, 5, 15, 0, 60, 55, 0, 25),
+    coords: coords(65, 80, 5, 5, 25, 5, 15, 0, 60, 55, 0, 25, 40),
     figure: { name: 'Herbert Marcuse', years: '1898 to 1979' },
     source: { author: 'Herbert Marcuse', work: 'One-Dimensional Man', year: 1964 },
     tagline: 'A refusal of the comfortable unfreedom of affluent industrial society.',
@@ -1122,7 +1125,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'radical-democracy', name: 'Radical Democracy', family: 'Left',
-    coords: coords(55, 55, 10, 0, 35, 15, 5, 5, 40, 50, 5, 25),
+    coords: coords(55, 55, 10, 0, 35, 15, 5, 5, 40, 50, 5, 25, 40),
     figure: { name: 'Ernesto Laclau', years: '1935 to 2014' },
     source: { author: 'Ernesto Laclau and Chantal Mouffe', work: 'Hegemony and Socialist Strategy', year: 1985 },
     tagline: 'Deepen liberal democracy by linking many struggles for equality.',
@@ -1131,7 +1134,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'degrowth', name: 'Degrowth', family: 'Green',
-    coords: coords(55, 55, 25, 10, 10, 20, 25, 40, 80, 85, 10, 10),
+    coords: coords(55, 55, 25, 10, 10, 20, 25, 40, 80, 85, 10, 10, 80),
     figure: { name: 'Serge Latouche', years: 'born 1940' },
     source: { author: 'Serge Latouche', work: 'Farewell to Growth (Petit traité de la décroissance sereine)', year: 2007 },
     tagline: 'Leave the growth society and live better with less.',
@@ -1140,7 +1143,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'ecomodernism', name: 'Ecomodernism', family: 'Green',
-    coords: coords(35, 30, 25, 15, 55, 20, 25, 20, 5, 45, 5, 30),
+    coords: coords(35, 30, 25, 15, 55, 20, 25, 20, 5, 45, 5, 30, 25),
     figure: { name: 'Ted Nordhaus', years: 'born 1965' },
     source: { author: 'Ted Nordhaus, Michael Shellenberger and sixteen co-authors', work: 'An Ecomodernist Manifesto', year: 2015 },
     tagline: 'Use technology to decouple human wellbeing from damage to nature.',
@@ -1149,7 +1152,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'ecofeminism', name: 'Ecofeminism', family: 'Green',
-    coords: coords(65, 80, 10, 0, 10, 0, 15, 0, 70, 85, 0, 15),
+    coords: coords(65, 80, 10, 0, 10, 0, 15, 0, 70, 85, 0, 15, 40),
     figure: { name: 'Françoise d\'Eaubonne', years: '1920 to 2005' },
     source: { author: 'Françoise d\'Eaubonne', work: 'Feminism or Death (Le Féminisme ou la mort)', year: 1974 },
     tagline: 'The domination of women and the destruction of nature share one root.',
@@ -1158,7 +1161,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'bioregionalism', name: 'Bioregionalism', family: 'Green',
-    coords: coords(45, 60, 25, 25, 0, 30, 40, 55, 85, 90, 35, 10),
+    coords: coords(45, 60, 25, 25, 0, 30, 40, 55, 85, 90, 35, 10, 90),
     figure: { name: 'Kirkpatrick Sale', years: 'born 1937' },
     source: { author: 'Kirkpatrick Sale', work: 'Dwellers in the Land: The Bioregional Vision', year: 1985 },
     tagline: 'Political and economic life rescaled to fit natural regions.',
@@ -1167,7 +1170,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'animal-liberation', name: 'Animal Liberation', family: 'Green',
-    coords: coords(45, 40, 25, 10, 50, 5, 25, 5, 45, 70, 0, 5),
+    coords: coords(45, 40, 25, 10, 50, 5, 25, 5, 45, 70, 0, 5, 35),
     figure: { name: 'Peter Singer', years: 'born 1946' },
     source: { author: 'Peter Singer', work: 'Animal Liberation', year: 1975 },
     tagline: 'Equal consideration for the interests of every being that can suffer.',
@@ -1176,7 +1179,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'land-ethic-conservationism', name: 'Conservationism (Land Ethic)', family: 'Green',
-    coords: coords(40, 35, 35, 20, 25, 40, 45, 60, 70, 90, 25, 20),
+    coords: coords(40, 35, 35, 20, 25, 40, 45, 60, 70, 90, 25, 20, 50),
     figure: { name: 'Aldo Leopold', years: '1887 to 1948' },
     source: { author: 'Aldo Leopold', work: 'A Sand County Almanac', year: 1949 },
     tagline: 'Humans as plain members of the land community, not its conquerors.',
@@ -1185,7 +1188,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'steady-state-economics', name: 'Steady State Economics', family: 'Green',
-    coords: coords(50, 35, 50, 20, 65, 35, 40, 45, 75, 80, 30, 15),
+    coords: coords(50, 35, 50, 20, 65, 35, 40, 45, 75, 80, 30, 15, 70),
     figure: { name: 'Herman Daly', years: '1938 to 2022' },
     source: { author: 'Herman Daly', work: 'Steady-State Economics', year: 1977 },
     tagline: 'A constant population and stock of goods, kept within the limits of the biosphere.',
@@ -1194,7 +1197,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'green-conservatism', name: 'Green Conservatism', family: 'Green',
-    coords: coords(25, 20, 35, 20, 15, 70, 60, 80, 55, 65, 45, 35),
+    coords: coords(25, 20, 35, 20, 15, 70, 60, 80, 55, 65, 45, 35, 50),
     figure: { name: 'Roger Scruton', years: '1944 to 2020' },
     source: { author: 'Roger Scruton', work: 'Green Philosophy: How to Think Seriously About the Planet', year: 2012 },
     tagline: 'Care for the environment grows from love of home.',
@@ -1203,7 +1206,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'lockean-liberalism', name: 'Lockean Liberalism', family: 'Liberal',
-    coords: coords(20, 10, 15, 30, 35, 40, 50, 55, 40, 30, 60, 45),
+    coords: coords(20, 10, 15, 30, 35, 40, 50, 55, 40, 30, 60, 45, 20),
     figure: { name: 'John Locke', years: '1632 to 1704' },
     source: { author: 'John Locke', work: 'Two Treatises of Government', year: 1689 },
     tagline: 'Government rests on the consent of the governed and exists to protect life, liberty and property.',
@@ -1212,7 +1215,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'benthamite-utilitarianism', name: 'Benthamite Utilitarianism', family: 'Liberal',
-    coords: coords(30, 25, 30, 30, 60, 25, 40, 10, 25, 45, 0, 30),
+    coords: coords(30, 25, 30, 30, 60, 25, 40, 10, 25, 45, 0, 30, 8),
     figure: { name: 'Jeremy Bentham', years: '1748 to 1832' },
     source: { author: 'Jeremy Bentham', work: 'An Introduction to the Principles of Morals and Legislation', year: 1789 },
     tagline: 'Laws are to be judged only by the happiness and suffering they produce.',
@@ -1221,7 +1224,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'kantian-republicanism', name: 'Kantian Republicanism', family: 'Liberal',
-    coords: coords(30, 25, 15, 30, 30, 10, 35, 40, 40, 40, 30, 5),
+    coords: coords(30, 25, 15, 30, 30, 10, 35, 40, 40, 40, 30, 5, 15),
     figure: { name: 'Immanuel Kant', years: '1724 to 1804' },
     source: { author: 'Immanuel Kant', work: 'Perpetual Peace: A Philosophical Sketch', year: 1795 },
     tagline: 'Republics joined in a federation of free states can end war.',
@@ -1230,7 +1233,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'civic-republicanism', name: 'Civic Republicanism', family: 'Liberal',
-    coords: coords(45, 35, 30, 10, 30, 30, 15, 25, 40, 55, 10, 30),
+    coords: coords(45, 35, 30, 10, 30, 30, 15, 25, 40, 55, 10, 30, 40),
     figure: { name: 'Philip Pettit', years: 'born 1945' },
     source: { author: 'Philip Pettit', work: 'Republicanism: A Theory of Freedom and Government', year: 1997 },
     tagline: 'Freedom is not being left alone but having no master.',
@@ -1239,7 +1242,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'painite-radicalism', name: 'Radicalism', family: 'Liberal',
-    coords: coords(30, 25, 10, 0, 35, 25, 35, 5, 25, 30, 20, 35),
+    coords: coords(30, 25, 10, 0, 35, 25, 35, 5, 25, 30, 20, 35, 10),
     figure: { name: 'Thomas Paine', years: '1737 to 1809' },
     source: { author: 'Thomas Paine', work: 'Rights of Man (two parts, 1791 and 1792)', year: 1792 },
     tagline: 'Every generation has the right to govern itself.',
@@ -1248,7 +1251,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'new-liberalism', name: 'New Liberalism', family: 'Liberal',
-    coords: coords(50, 40, 25, 10, 50, 25, 30, 25, 35, 40, 20, 20),
+    coords: coords(50, 40, 25, 10, 50, 25, 30, 25, 35, 40, 20, 20, 15),
     figure: { name: 'Leonard Hobhouse', years: '1864 to 1929' },
     source: { author: 'L. T. Hobhouse', work: 'Liberalism', year: 1911 },
     tagline: 'Liberty without equality is a name of noble sound and squalid result.',
@@ -1257,7 +1260,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'liberal-internationalism', name: 'Liberal Internationalism', family: 'Liberal',
-    coords: coords(25, 25, 40, 20, 55, 20, 45, 50, 40, 40, 45, 40),
+    coords: coords(25, 25, 40, 20, 55, 20, 45, 50, 40, 40, 45, 40, 10),
     figure: { name: 'Woodrow Wilson', years: '1856 to 1924' },
     source: { author: 'Woodrow Wilson', work: 'Fourteen Points (address to the United States Congress)', year: 1918 },
     tagline: 'Peace through open diplomacy, free trade and a league of nations.',
@@ -1266,7 +1269,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'capabilities-approach', name: 'Capabilities Approach', family: 'Liberal',
-    coords: coords(40, 30, 15, 0, 45, 5, 10, 20, 35, 45, 10, 20),
+    coords: coords(40, 30, 15, 0, 45, 5, 10, 20, 35, 45, 10, 20, 30),
     figure: { name: 'Amartya Sen', years: 'born 1933' },
     source: { author: 'Amartya Sen', work: 'Development as Freedom', year: 1999 },
     tagline: 'A society succeeds by what its people are actually able to do and to be.',
@@ -1275,7 +1278,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'liberal-feminism', name: 'Liberal Feminism', family: 'Liberal',
-    coords: coords(30, 25, 15, 10, 45, 35, 40, 15, 35, 35, 40, 25),
+    coords: coords(30, 25, 15, 10, 45, 35, 40, 15, 35, 35, 40, 25, 35),
     figure: { name: 'Mary Wollstonecraft', years: '1759 to 1797' },
     source: { author: 'Mary Wollstonecraft', work: 'A Vindication of the Rights of Woman', year: 1792 },
     tagline: 'Reason has no sex, so rights and education should have none either.',
@@ -1284,7 +1287,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'open-society', name: 'Open Society Liberalism', family: 'Liberal',
-    coords: coords(40, 30, 20, 5, 45, 10, 30, 10, 20, 30, 5, 40),
+    coords: coords(40, 30, 20, 5, 45, 10, 30, 10, 20, 30, 5, 40, 12),
     figure: { name: 'Karl Popper', years: '1902 to 1994' },
     source: { author: 'Karl Popper', work: 'The Open Society and Its Enemies', year: 1945 },
     tagline: 'Reform piece by piece, and keep the power to dismiss your rulers.',
@@ -1293,7 +1296,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'hayekian-liberalism', name: 'Hayekian Liberalism', family: 'Liberal',
-    coords: coords(10, 5, 15, 35, 25, 25, 40, 55, 30, 20, 30, 35),
+    coords: coords(10, 5, 15, 35, 25, 25, 40, 55, 30, 20, 30, 35, 3),
     figure: { name: 'Friedrich Hayek', years: '1899 to 1992' },
     source: { author: 'F. A. Hayek', work: 'The Constitution of Liberty', year: 1960 },
     tagline: 'No mind can plan a society, so freedom under general rules must be left to do the work.',
@@ -1302,7 +1305,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'public-choice', name: 'Public Choice Constitutionalism', family: 'Liberal',
-    coords: coords(15, 10, 20, 20, 15, 35, 45, 35, 40, 30, 10, 35),
+    coords: coords(15, 10, 20, 20, 15, 35, 45, 35, 40, 30, 10, 35, 8),
     figure: { name: 'James M. Buchanan', years: '1919 to 2013' },
     source: { author: 'James M. Buchanan and Gordon Tullock', work: 'The Calculus of Consent', year: 1962 },
     tagline: 'Voters and officials pursue their own interests, so the rules matter more than the rulers.',
@@ -1311,7 +1314,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'european-federalism', name: 'European Federalism', family: 'Liberal',
-    coords: coords(60, 55, 30, 30, 70, 0, 30, 15, 30, 35, 5, 45),
+    coords: coords(60, 55, 30, 30, 70, 0, 30, 15, 30, 35, 5, 45, 25),
     figure: { name: 'Altiero Spinelli', years: '1907 to 1986' },
     source: { author: 'Altiero Spinelli and Ernesto Rossi', work: 'For a Free and United Europe: A Draft Manifesto (the Ventotene Manifesto)', year: 1941 },
     tagline: 'End the sovereign nation state in Europe and build a federation in its place.',
@@ -1320,7 +1323,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'left-libertarianism', name: 'Left Libertarianism', family: 'Libertarian',
-    coords: coords(10, 40, 5, 20, 20, 0, 30, 25, 25, 40, 5, 20),
+    coords: coords(10, 40, 5, 20, 20, 0, 30, 25, 25, 40, 5, 20, 10),
     figure: { name: 'Hillel Steiner', years: 'born 1942' },
     source: { author: 'Hillel Steiner', work: 'An Essay on Rights', year: 1994 },
     tagline: 'You own yourself, but the earth belongs equally to everyone.',
@@ -1329,7 +1332,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'paleolibertarianism', name: 'Paleolibertarianism', family: 'Libertarian',
-    coords: coords(0, 0, 15, 30, 5, 40, 65, 85, 30, 15, 70, 15),
+    coords: coords(0, 0, 15, 30, 5, 40, 65, 85, 30, 15, 70, 15, 15),
     figure: { name: 'Lew Rockwell', years: 'born 1944' },
     source: { author: 'Llewellyn H. Rockwell Jr.', work: 'The Case for Paleo-Libertarianism', year: 1990 },
     tagline: 'Against the state, and for the family, the church and inherited culture.',
@@ -1338,7 +1341,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'voluntaryism', name: 'Voluntaryism', family: 'Libertarian',
-    coords: coords(0, 0, 0, 25, 10, 20, 40, 45, 30, 30, 30, 5),
+    coords: coords(0, 0, 0, 25, 10, 20, 40, 45, 30, 30, 30, 5, 0),
     figure: { name: 'Auberon Herbert', years: '1838 to 1906' },
     source: { author: 'Auberon Herbert', work: 'The Right and Wrong of Compulsion by the State', year: 1885 },
     tagline: 'A state may defend people against force, but must itself be paid for by choice.',
@@ -1347,7 +1350,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'natural-law-anarchism', name: 'Natural Law Anarchism', family: 'Libertarian',
-    coords: coords(5, 10, 0, 20, 0, 10, 30, 20, 35, 30, 25, 25),
+    coords: coords(5, 10, 0, 20, 0, 10, 30, 20, 35, 30, 25, 25, 15),
     figure: { name: 'Lysander Spooner', years: '1808 to 1887' },
     source: { author: 'Lysander Spooner', work: 'No Treason, No. VI: The Constitution of No Authority', year: 1870 },
     tagline: 'A constitution that nobody signed binds nobody.',
@@ -1356,7 +1359,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'panarchism', name: 'Panarchism', family: 'Libertarian',
-    coords: coords(10, 20, 5, 50, 10, 5, 15, 50, 40, 40, 40, 10),
+    coords: coords(10, 20, 5, 50, 10, 5, 15, 50, 40, 40, 40, 10, 15),
     figure: { name: 'Paul Émile de Puydt', years: '1810 to 1891' },
     source: { author: 'Paul Émile de Puydt', work: 'Panarchy', year: 1860 },
     tagline: 'Choose your government as you choose your church, without moving house.',
@@ -1365,7 +1368,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'seasteading', name: 'Seasteading', family: 'Libertarian',
-    coords: coords(5, 5, 5, 40, 0, 5, 35, 35, 5, 45, 10, 5),
+    coords: coords(5, 5, 5, 40, 0, 5, 35, 35, 5, 45, 10, 5, 0),
     figure: { name: 'Patri Friedman', years: 'born 1976' },
     source: { author: 'Joe Quirk with Patri Friedman', work: 'Seasteading: How Floating Nations Will Restore the Environment, Enrich the Poor, Cure the Sick, and Liberate Humanity from Politicians', year: 2017 },
     tagline: 'Build new societies on the ocean and let governments compete for citizens.',
@@ -1374,7 +1377,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'extropianism', name: 'Extropianism', family: 'Technological',
-    coords: coords(10, 10, 5, 25, 10, 5, 30, 5, 0, 15, 0, 15),
+    coords: coords(10, 10, 5, 25, 10, 5, 30, 5, 0, 15, 0, 15, 15),
     figure: { name: 'Max More', years: 'born 1964' },
     source: { author: 'Max More', work: 'The Extropian Principles (1990), revised as Principles of Extropy', year: 2003 },
     tagline: 'No limits on life, intelligence or self transformation.',
@@ -1383,7 +1386,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'singularitarianism', name: 'Singularitarianism', family: 'Technological',
-    coords: coords(20, 20, 30, 35, 40, 15, 40, 20, 5, 10, 25, 35),
+    coords: coords(20, 20, 30, 35, 40, 15, 40, 20, 5, 10, 25, 35, 20),
     figure: { name: 'Ray Kurzweil', years: 'born 1948' },
     source: { author: 'Ray Kurzweil', work: 'The Singularity Is Near', year: 2005 },
     tagline: 'Exponential technology will merge human and machine intelligence within decades.',
@@ -1392,7 +1395,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'longtermism', name: 'Longtermism', family: 'Technological',
-    coords: coords(40, 35, 40, 20, 55, 0, 25, 15, 65, 60, 10, 15),
+    coords: coords(40, 35, 40, 20, 55, 0, 25, 15, 65, 60, 10, 15, 30),
     figure: { name: 'William MacAskill', years: 'born 1987' },
     source: { author: 'William MacAskill', work: 'What We Owe the Future', year: 2022 },
     tagline: 'Future people count, and there could be a great many of them.',
@@ -1401,7 +1404,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'neo-luddism', name: 'Neo Luddism', family: 'Technological',
-    coords: coords(55, 60, 35, 15, 10, 25, 30, 55, 100, 85, 45, 5),
+    coords: coords(55, 60, 35, 15, 10, 25, 30, 55, 100, 85, 45, 5, 45),
     figure: { name: 'Chellis Glendinning', years: 'born 1947' },
     source: { author: 'Chellis Glendinning', work: 'Notes toward a Neo-Luddite Manifesto', year: 1990 },
     tagline: 'No technology is neutral, and some should be taken apart.',
@@ -1410,7 +1413,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'cybernetic-socialism', name: 'Cybernetic Socialism', family: 'Technological',
-    coords: coords(80, 80, 35, 30, 50, 35, 40, 20, 10, 40, 10, 15),
+    coords: coords(80, 80, 35, 30, 50, 35, 40, 20, 10, 40, 10, 15, 55),
     figure: { name: 'Stafford Beer', years: '1926 to 2002' },
     source: { author: 'Stafford Beer', work: 'Designing Freedom', year: 1974 },
     tagline: 'Run the economy as a living nervous system, in real time.',
@@ -1419,7 +1422,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'free-software-movement', name: 'Free Software Movement', family: 'Technological',
-    coords: coords(35, 65, 5, 15, 10, 5, 30, 20, 15, 40, 5, 15),
+    coords: coords(35, 65, 5, 15, 10, 5, 30, 20, 15, 40, 5, 15, 20),
     figure: { name: 'Richard Stallman', years: 'born 1953' },
     source: { author: 'Richard Stallman', work: 'The GNU Manifesto', year: 1985 },
     tagline: 'Software should be free to use, study, share and change.',
@@ -1428,7 +1431,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'pirate-politics', name: 'Pirate Politics', family: 'Technological',
-    coords: coords(25, 45, 0, 5, 20, 10, 30, 15, 10, 40, 5, 20),
+    coords: coords(25, 45, 0, 5, 20, 10, 30, 15, 10, 40, 5, 20, 25),
     figure: { name: 'Rick Falkvinge', years: 'born 1972' },
     source: { author: 'Christian Engström and Rick Falkvinge', work: 'The Case for Copyright Reform', year: 2012 },
     tagline: 'Free the sharing of culture and protect private communication.',
@@ -1437,7 +1440,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'futarchy', name: 'Futarchy', family: 'Technological',
-    coords: coords(15, 15, 30, 25, 50, 40, 45, 40, 15, 25, 10, 35),
+    coords: coords(15, 15, 30, 25, 50, 40, 45, 40, 15, 25, 10, 35, 30),
     figure: { name: 'Robin Hanson', years: 'born 1959' },
     source: { author: 'Robin Hanson', work: 'Shall We Vote on Values, But Bet on Beliefs?', year: 2013 },
     tagline: 'Vote on values, but bet on beliefs.',
@@ -1446,7 +1449,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'one-nation-conservatism', name: 'One Nation Conservatism', family: 'Conservative',
-    coords: coords(45, 20, 50, 45, 55, 75, 65, 80, 45, 40, 65, 60),
+    coords: coords(45, 20, 50, 45, 55, 75, 65, 80, 45, 40, 65, 60, 55),
     figure: { name: 'Benjamin Disraeli', years: '1804 to 1881' },
     source: { author: 'Benjamin Disraeli', work: 'Sybil, or The Two Nations', year: 1845 },
     tagline: 'The rich and the poor must not become two nations.',
@@ -1455,7 +1458,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'traditionalist-conservatism', name: 'Traditionalist Conservatism', family: 'Conservative',
-    coords: coords(30, 10, 45, 45, 25, 55, 65, 95, 75, 55, 90, 40),
+    coords: coords(30, 10, 45, 45, 25, 55, 65, 95, 75, 55, 90, 40, 45),
     figure: { name: 'Russell Kirk', years: '1918 to 1994' },
     source: { author: 'Russell Kirk', work: 'The Conservative Mind', year: 1953 },
     tagline: 'A transcendent moral order, and the permanent things that rest on it.',
@@ -1464,7 +1467,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'fusionism', name: 'Fusionism', family: 'Conservative',
-    coords: coords(10, 5, 20, 30, 25, 60, 55, 80, 45, 30, 65, 75),
+    coords: coords(10, 5, 20, 30, 25, 60, 55, 80, 45, 30, 65, 75, 12),
     figure: { name: 'Frank Meyer', years: '1909 to 1972' },
     source: { author: 'Frank S. Meyer', work: 'In Defense of Freedom: A Conservative Credo', year: 1962 },
     tagline: 'Freedom is the end of politics, virtue the end of man.',
@@ -1473,7 +1476,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'conservative-liberalism', name: 'Conservative Liberalism', family: 'Conservative',
-    coords: coords(25, 15, 20, 25, 10, 45, 50, 60, 50, 50, 60, 45),
+    coords: coords(25, 15, 20, 25, 10, 45, 50, 60, 50, 50, 60, 45, 15),
     figure: { name: 'Alexis de Tocqueville', years: '1805 to 1859' },
     source: { author: 'Alexis de Tocqueville', work: 'Democracy in America', year: '1835 and 1840' },
     tagline: 'Liberty in a democratic age depends on local self government, associations and mores.',
@@ -1482,7 +1485,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'gaullism', name: 'Gaullism', family: 'Conservative',
-    coords: coords(50, 35, 55, 45, 80, 85, 65, 60, 40, 35, 45, 65),
+    coords: coords(50, 35, 55, 45, 80, 85, 65, 60, 40, 35, 45, 65, 70),
     figure: { name: 'Charles de Gaulle', years: '1890 to 1970' },
     source: { author: 'Charles de Gaulle', work: 'The Bayeux Speech', year: 1946 },
     tagline: 'A strong head of state above the parties, and an independent France.',
@@ -1491,7 +1494,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'compassionate-conservatism', name: 'Compassionate Conservatism', family: 'Conservative',
-    coords: coords(20, 10, 45, 25, 20, 50, 55, 80, 50, 40, 85, 40),
+    coords: coords(20, 10, 45, 25, 20, 50, 55, 80, 50, 40, 85, 40, 40),
     figure: { name: 'Marvin Olasky', years: 'born 1950' },
     source: { author: 'Marvin Olasky', work: 'The Tragedy of American Compassion', year: 1992 },
     tagline: 'Help for the poor should be personal, challenging and spiritual.',
@@ -1500,7 +1503,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'catholic-social-teaching', name: 'Catholic Social Teaching', family: 'Conservative',
-    coords: coords(45, 20, 50, 50, 40, 35, 50, 90, 55, 50, 100, 35),
+    coords: coords(45, 20, 50, 50, 40, 35, 50, 90, 55, 50, 100, 35, 40),
     figure: { name: 'Pope Leo XIII', years: '1810 to 1903' },
     source: { author: 'Pope Leo XIII', work: 'Rerum Novarum', year: 1891 },
     tagline: 'Capital cannot do without labour, nor labour without capital.',
@@ -1509,7 +1512,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'postliberalism', name: 'Postliberalism', family: 'Conservative',
-    coords: coords(40, 25, 45, 25, 10, 55, 60, 85, 75, 65, 75, 30),
+    coords: coords(40, 25, 45, 25, 10, 55, 60, 85, 75, 65, 75, 30, 50),
     figure: { name: 'Patrick Deneen', years: 'born 1964' },
     source: { author: 'Patrick J. Deneen', work: 'Why Liberalism Failed', year: 2018 },
     tagline: 'Liberalism has failed because it has succeeded.',
@@ -1518,7 +1521,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'red-toryism', name: 'Red Toryism', family: 'Conservative',
-    coords: coords(45, 45, 40, 20, 15, 50, 55, 70, 50, 50, 60, 35),
+    coords: coords(45, 45, 40, 20, 15, 50, 55, 70, 50, 50, 60, 35, 50),
     figure: { name: 'Phillip Blond', years: 'born 1966' },
     source: { author: 'Phillip Blond', work: 'Red Tory: How Left and Right Have Broken Britain and How We Can Fix It', year: 2010 },
     tagline: 'Against the monopoly of the state and the monopoly of the market.',
@@ -1527,7 +1530,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'crunchy-conservatism', name: 'Crunchy Conservatism', family: 'Conservative',
-    coords: coords(35, 15, 35, 30, 15, 50, 55, 90, 70, 85, 90, 30),
+    coords: coords(35, 15, 35, 30, 15, 50, 55, 90, 70, 85, 90, 30, 65),
     figure: { name: 'Rod Dreher', years: 'born 1967' },
     source: { author: 'Rod Dreher', work: 'Crunchy Cons', year: 2006 },
     tagline: 'Small, local, old and particular over big, global, new and abstract.',
@@ -1536,7 +1539,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'agrarianism', name: 'Agrarianism', family: 'Conservative',
-    coords: coords(35, 25, 30, 20, 5, 35, 45, 80, 90, 90, 60, 30),
+    coords: coords(35, 25, 30, 20, 5, 35, 45, 80, 90, 90, 60, 30, 70),
     figure: { name: 'Wendell Berry', years: '1934 to 2026' },
     source: { author: 'Wendell Berry', work: 'The Unsettling of America: Culture and Agriculture', year: 1977 },
     tagline: 'Good farming, settled households and local economies are the basis of culture.',
@@ -1545,7 +1548,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'oakeshottian-conservatism', name: 'Oakeshottian Conservatism', family: 'Conservative',
-    coords: coords(25, 15, 30, 35, 35, 50, 50, 75, 65, 50, 40, 35),
+    coords: coords(25, 15, 30, 35, 35, 50, 50, 75, 65, 50, 40, 35, 40),
     figure: { name: 'Michael Oakeshott', years: '1901 to 1990' },
     source: { author: 'Michael Oakeshott', work: 'Rationalism in Politics and Other Essays', year: 1962 },
     tagline: 'Conservatism as a disposition, not a doctrine.',
@@ -1554,7 +1557,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'hamiltonianism', name: 'Hamiltonianism', family: 'Conservative',
-    coords: coords(45, 15, 55, 45, 85, 75, 60, 55, 20, 10, 45, 65),
+    coords: coords(45, 15, 55, 45, 85, 75, 60, 55, 20, 10, 45, 65, 90),
     figure: { name: 'Alexander Hamilton', years: '1755 or 1757 to 1804' },
     source: { author: 'Alexander Hamilton', work: 'Report on the Subject of Manufactures', year: 1791 },
     tagline: 'A strong national government that builds national industry.',
@@ -1563,7 +1566,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'straussianism', name: 'Straussianism', family: 'Conservative',
-    coords: coords(35, 20, 50, 50, 50, 55, 60, 80, 60, 50, 55, 55),
+    coords: coords(35, 20, 50, 50, 50, 55, 60, 80, 60, 50, 55, 55, 45),
     figure: { name: 'Leo Strauss', years: '1899 to 1973' },
     source: { author: 'Leo Strauss', work: 'Natural Right and History', year: 1953 },
     tagline: 'A return to classical natural right against relativism.',
@@ -1572,7 +1575,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'hegelian-constitutional-monarchism', name: 'Hegelian Constitutional Monarchism', family: 'Conservative',
-    coords: coords(40, 20, 60, 65, 75, 70, 65, 65, 45, 35, 50, 70),
+    coords: coords(40, 20, 60, 65, 75, 70, 65, 65, 45, 35, 50, 70, 50),
     figure: { name: 'Georg Wilhelm Friedrich Hegel', years: '1770 to 1831' },
     source: { author: 'G. W. F. Hegel', work: 'Elements of the Philosophy of Right', year: 1820 },
     tagline: 'Freedom made actual in the family, civil society and the state.',
@@ -1581,7 +1584,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'carlism', name: 'Carlism', family: 'Reactionary',
-    coords: coords(50, 30, 70, 80, 20, 70, 45, 100, 75, 50, 100, 65),
+    coords: coords(50, 30, 70, 80, 20, 70, 45, 100, 75, 50, 100, 65, 60),
     figure: { name: 'Juan Vázquez de Mella', years: '1861 to 1928' },
     source: { author: 'Carlos VII and his counsellors, among them Juan Vázquez de Mella', work: 'The Loredan Act (Acta de Loredán)', year: 1897 },
     tagline: 'God, Fatherland, Fueros, King.',
@@ -1590,7 +1593,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'integral-nationalism', name: 'Integral Nationalism', family: 'Reactionary',
-    coords: coords(45, 25, 85, 95, 30, 100, 95, 95, 60, 40, 70, 75),
+    coords: coords(45, 25, 85, 95, 30, 100, 95, 95, 60, 40, 70, 75, 65),
     figure: { name: 'Charles Maurras', years: '1868 to 1952' },
     source: { author: 'Charles Maurras', work: 'Enquête sur la monarchie (Inquiry into the Monarchy)', year: 1900 },
     tagline: 'The nation above all, and monarchy as the only way to secure it.',
@@ -1599,7 +1602,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'prussian-socialism', name: 'Prussian Socialism', family: 'Reactionary',
-    coords: coords(75, 45, 85, 85, 90, 90, 80, 75, 35, 20, 40, 90),
+    coords: coords(75, 45, 85, 85, 90, 90, 80, 75, 35, 20, 40, 90, 85),
     figure: { name: 'Oswald Spengler', years: '1880 to 1936' },
     source: { author: 'Oswald Spengler', work: 'Prussianism and Socialism', year: 1919 },
     tagline: 'Socialism as duty and service to the state, not as class struggle.',
@@ -1608,7 +1611,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'conservative-revolution', name: 'Conservative Revolution', family: 'Reactionary',
-    coords: coords(60, 40, 85, 90, 70, 100, 90, 80, 50, 40, 50, 85),
+    coords: coords(60, 40, 85, 90, 70, 100, 90, 80, 50, 40, 50, 85, 70),
     figure: { name: 'Arthur Moeller van den Bruck', years: '1876 to 1925' },
     source: { author: 'Arthur Moeller van den Bruck', work: 'Das Dritte Reich (The Third Reich)', year: 1923 },
     tagline: 'Against liberalism and party rule, a new Reich above the parties.',
@@ -1617,7 +1620,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'nouvelle-droite', name: 'Nouvelle Droite (European New Right)', family: 'Reactionary',
-    coords: coords(55, 45, 50, 35, 15, 55, 45, 75, 60, 75, 30, 50),
+    coords: coords(55, 45, 50, 35, 15, 55, 45, 75, 60, 75, 30, 50, 60),
     figure: { name: 'Alain de Benoist', years: 'born 1943' },
     source: { author: 'Alain de Benoist and Charles Champetier', work: 'Manifesto for a European Renaissance', year: 1999 },
     tagline: 'The right to difference, against a single world culture.',
@@ -1626,7 +1629,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'perennialist-traditionalism', name: 'Perennialist Traditionalism', family: 'Reactionary',
-    coords: coords(50, 40, 70, 90, 50, 20, 50, 100, 95, 55, 100, 25),
+    coords: coords(50, 40, 70, 90, 50, 20, 50, 100, 95, 55, 100, 25, 40),
     figure: { name: 'René Guénon', years: '1886 to 1951' },
     source: { author: 'René Guénon', work: 'The Crisis of the Modern World (1927) and Spiritual Authority and Temporal Power', year: 1929 },
     tagline: 'Spiritual authority above temporal power.',
@@ -1635,7 +1638,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'divine-right-absolutism', name: 'Divine Right Absolutism', family: 'Reactionary',
-    coords: coords(50, 30, 95, 100, 95, 50, 70, 95, 50, 50, 85, 50),
+    coords: coords(50, 30, 95, 100, 95, 50, 70, 95, 50, 50, 85, 50, 50),
     figure: { name: 'Robert Filmer', years: 'c. 1588 to 1653' },
     source: { author: 'Sir Robert Filmer', work: 'Patriarcha, or The Natural Power of Kings', year: 1680 },
     tagline: 'Kings rule as fathers, by the authority God gave Adam.',
@@ -1644,7 +1647,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'aristocratic-radicalism', name: 'Aristocratic Radicalism', family: 'Reactionary',
-    coords: coords(45, 30, 45, 90, 50, 15, 50, 45, 45, 50, 5, 75),
+    coords: coords(45, 30, 45, 90, 50, 15, 50, 45, 45, 50, 5, 75, 35),
     figure: { name: 'Friedrich Nietzsche', years: '1844 to 1900' },
     source: { author: 'Friedrich Nietzsche', work: 'Beyond Good and Evil', year: 1886 },
     tagline: 'Rank and the higher human being, against the morality of the herd.',
@@ -1653,7 +1656,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'carlylean-hero-worship', name: 'Carlylean Hero Worship', family: 'Reactionary',
-    coords: coords(60, 30, 80, 95, 80, 60, 70, 75, 45, 40, 70, 75),
+    coords: coords(60, 30, 80, 95, 80, 60, 70, 75, 45, 40, 70, 75, 55),
     figure: { name: 'Thomas Carlyle', years: '1795 to 1881' },
     source: { author: 'Thomas Carlyle', work: 'On Heroes, Hero-Worship, and the Heroic in History (1841) and Latter-Day Pamphlets', year: 1850 },
     tagline: 'History is the biography of great men, and the ablest should rule.',
@@ -1662,7 +1665,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'catholic-integralism', name: 'Catholic Integralism', family: 'Reactionary',
-    coords: coords(50, 30, 80, 75, 60, 25, 85, 100, 75, 50, 100, 45),
+    coords: coords(50, 30, 80, 75, 60, 25, 85, 100, 75, 50, 100, 45, 40),
     figure: { name: 'Pope Pius IX', years: '1792 to 1878' },
     source: { author: 'Pope Pius IX', work: 'Quanta Cura and the Syllabus of Errors', year: 1864 },
     tagline: 'The state owes public recognition to the Catholic faith.',
@@ -1671,7 +1674,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'civic-nationalism', name: 'Civic Nationalism', family: 'Nationalist',
-    coords: coords(40, 25, 35, 20, 55, 75, 60, 50, 45, 35, 20, 40),
+    coords: coords(40, 25, 35, 20, 55, 75, 60, 50, 45, 35, 20, 40, 55),
     figure: { name: 'Ernest Renan', years: '1823 to 1892' },
     source: { author: 'Ernest Renan', work: 'What Is a Nation?', year: 1882 },
     tagline: 'A nation is a daily plebiscite.',
@@ -1680,7 +1683,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'romantic-nationalism', name: 'Romantic Nationalism', family: 'Nationalist',
-    coords: coords(55, 40, 55, 45, 65, 90, 85, 60, 45, 45, 55, 50),
+    coords: coords(55, 40, 55, 45, 65, 90, 85, 60, 45, 45, 55, 50, 65),
     figure: { name: 'Johann Gottlieb Fichte', years: '1762 to 1814' },
     source: { author: 'Johann Gottlieb Fichte', work: 'Addresses to the German Nation', year: 1808 },
     tagline: 'A people is made by its language, and remade by its schools.',
@@ -1689,7 +1692,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'mazzinianism', name: 'Mazzinian Republicanism', family: 'Nationalist',
-    coords: coords(40, 50, 40, 10, 70, 70, 60, 55, 40, 35, 70, 50),
+    coords: coords(40, 50, 40, 10, 70, 70, 60, 55, 40, 35, 70, 50, 50),
     figure: { name: 'Giuseppe Mazzini', years: '1805 to 1872' },
     source: { author: 'Giuseppe Mazzini', work: 'The Duties of Man', year: 1860 },
     tagline: 'God and the people.',
@@ -1698,7 +1701,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'pan-slavism', name: 'Pan Slavism', family: 'Nationalist',
-    coords: coords(55, 55, 70, 85, 65, 85, 55, 85, 55, 40, 80, 80),
+    coords: coords(55, 55, 70, 85, 65, 85, 55, 85, 55, 40, 80, 80, 65),
     figure: { name: 'Nikolay Danilevsky', years: '1822 to 1885' },
     source: { author: 'Nikolay Danilevsky', work: 'Russia and Europe', year: 1869 },
     tagline: 'The Slavs are a civilisation of their own, not a part of Europe.',
@@ -1707,7 +1710,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'garveyism', name: 'Garveyism', family: 'Nationalist',
-    coords: coords(30, 30, 45, 45, 60, 90, 80, 60, 35, 25, 60, 55),
+    coords: coords(30, 30, 45, 45, 60, 90, 80, 60, 35, 25, 60, 55, 75),
     figure: { name: 'Marcus Garvey', years: '1887 to 1940' },
     source: { author: 'Marcus Garvey and the 1920 convention of the Universal Negro Improvement Association', work: 'Declaration of the Rights of the Negro Peoples of the World', year: 1920 },
     tagline: 'Africa for the Africans, at home and abroad.',
@@ -1716,7 +1719,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'three-principles-of-the-people', name: 'Three Principles of the People', family: 'Nationalist',
-    coords: coords(60, 50, 55, 40, 70, 85, 75, 45, 20, 20, 15, 55),
+    coords: coords(60, 50, 55, 40, 70, 85, 75, 45, 20, 20, 15, 55, 70),
     figure: { name: 'Sun Yat-sen', years: '1866 to 1925' },
     source: { author: 'Sun Yat-sen', work: 'The Three Principles of the People (lectures)', year: 1924 },
     tagline: 'Nationalism, democracy, the people\'s livelihood.',
@@ -1725,7 +1728,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'revisionist-zionism', name: 'Revisionist Zionism', family: 'Nationalist',
-    coords: coords(35, 25, 65, 35, 65, 100, 75, 55, 35, 30, 35, 90),
+    coords: coords(35, 25, 65, 35, 65, 100, 75, 55, 35, 30, 35, 90, 60),
     figure: { name: 'Ze\'ev Jabotinsky', years: '1880 to 1940' },
     source: { author: 'Ze\'ev Jabotinsky', work: 'The Iron Wall', year: 1923 },
     tagline: 'Settlement behind an iron wall of force.',
@@ -1734,7 +1737,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'irish-republicanism', name: 'Irish Republicanism', family: 'Nationalist',
-    coords: coords(45, 45, 35, 10, 55, 90, 60, 55, 50, 40, 50, 75),
+    coords: coords(45, 45, 35, 10, 55, 90, 60, 55, 50, 40, 50, 75, 65),
     figure: { name: 'Patrick Pearse', years: '1879 to 1916' },
     source: { author: 'Provisional Government of the Irish Republic', work: 'Proclamation of the Irish Republic', year: 1916 },
     tagline: 'A sovereign republic, won in arms, for all the people of Ireland.',
@@ -1743,7 +1746,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'nehruvian-nationalism', name: 'Nehruvian Secular Nationalism', family: 'Nationalist',
-    coords: coords(70, 60, 35, 10, 70, 65, 15, 25, 10, 20, 10, 30),
+    coords: coords(70, 60, 35, 10, 70, 65, 15, 25, 10, 20, 10, 30, 80),
     figure: { name: 'Jawaharlal Nehru', years: '1889 to 1964' },
     source: { author: 'Jawaharlal Nehru', work: 'The Discovery of India', year: 1946 },
     tagline: 'One nation out of many faiths and languages.',
@@ -1752,7 +1755,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'pancasila', name: 'Pancasila', family: 'Nationalist',
-    coords: coords(60, 55, 55, 40, 70, 75, 35, 55, 40, 35, 70, 45),
+    coords: coords(60, 55, 55, 40, 70, 75, 35, 55, 40, 35, 70, 45, 60),
     figure: { name: 'Sukarno', years: '1901 to 1970' },
     source: { author: 'Sukarno', work: 'The Birth of Pancasila (speech of 1 June 1945)', year: 1945 },
     tagline: 'Five principles for one nation of many islands and faiths.',
@@ -1761,7 +1764,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'bolivarianism', name: 'Bolivarianism', family: 'Nationalist',
-    coords: coords(35, 25, 55, 50, 85, 60, 65, 45, 35, 30, 45, 70),
+    coords: coords(35, 25, 55, 50, 85, 60, 65, 45, 35, 30, 45, 70, 75),
     figure: { name: 'Simón Bolívar', years: '1783 to 1830' },
     source: { author: 'Simón Bolívar', work: 'The Jamaica Letter (1815) and the Angostura Address', year: 1819 },
     tagline: 'Independence, union and a strong republic for Spanish America.',
@@ -1770,7 +1773,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'pan-turkism', name: 'Pan Turkism', family: 'Nationalist',
-    coords: coords(50, 40, 65, 65, 70, 95, 85, 45, 35, 25, 30, 65),
+    coords: coords(50, 40, 65, 65, 70, 95, 85, 45, 35, 25, 30, 65, 65),
     figure: { name: 'Yusuf Akçura', years: '1876 to 1935' },
     source: { author: 'Yusuf Akçura', work: 'Three Types of Policy', year: 1904 },
     tagline: 'A political union of all the Turks.',
@@ -1779,7 +1782,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'kokutai', name: 'Kokutai Thought', family: 'Nationalist',
-    coords: coords(60, 35, 90, 100, 95, 100, 95, 95, 50, 45, 100, 90),
+    coords: coords(60, 35, 90, 100, 95, 100, 95, 95, 50, 45, 100, 90, 75),
     figure: { name: 'Aizawa Seishisai', years: '1782 to 1863' },
     source: { author: 'Aizawa Seishisai; Japanese Ministry of Education', work: 'New Theses (1825) and Kokutai no Hongi', year: 1937 },
     tagline: 'One nation as one family under a divine and unbroken imperial line.',
@@ -1788,7 +1791,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'economic-nationalism', name: 'Economic Nationalism', family: 'Nationalist',
-    coords: coords(55, 25, 45, 45, 65, 80, 55, 45, 15, 10, 35, 50),
+    coords: coords(55, 25, 45, 45, 65, 80, 55, 45, 15, 10, 35, 50, 95),
     figure: { name: 'Friedrich List', years: '1789 to 1846' },
     source: { author: 'Friedrich List', work: 'The National System of Political Economy', year: 1841 },
     tagline: 'The power to produce wealth matters more than wealth itself.',
@@ -1797,7 +1800,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'apartheid', name: 'Apartheid (Afrikaner Nationalism)', family: 'Nationalist',
-    coords: coords(60, 35, 95, 85, 85, 100, 60, 90, 50, 35, 80, 80),
+    coords: coords(60, 35, 95, 85, 85, 100, 60, 90, 50, 35, 80, 80, 75),
     figure: { name: 'Geoffrey Cronjé', years: '1907 to 1992' },
     source: { author: 'Geoffrey Cronjé', work: '\'n Tuiste vir die Nageslag (A Home for Posterity)', year: 1945 },
     tagline: 'Total separation of the races under white rule.',
@@ -1806,7 +1809,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'white-nationalism', name: 'White Nationalism', family: 'Nationalist',
-    coords: coords(35, 15, 70, 55, 50, 100, 100, 85, 50, 35, 45, 50),
+    coords: coords(35, 15, 70, 55, 50, 100, 100, 85, 50, 35, 45, 50, 60),
     figure: { name: 'Jared Taylor', years: 'born 1951' },
     source: { author: 'Jared Taylor', work: 'White Identity: Racial Consciousness in the 21st Century', year: 2011 },
     tagline: 'The claim that white people are a nation and must keep a country to themselves.',
@@ -1815,7 +1818,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'hutu-power', name: 'Hutu Power', family: 'Nationalist',
-    coords: coords(55, 45, 100, 90, 85, 100, 95, 60, 50, 40, 45, 95),
+    coords: coords(55, 45, 100, 90, 85, 100, 95, 60, 50, 40, 45, 95, 70),
     figure: { name: 'Hassan Ngeze', years: 'born 1957' },
     source: { author: 'Hassan Ngeze (publisher), Kangura', work: 'The Hutu Ten Commandments', year: 1990 },
     tagline: 'Rwanda for the Hutu alone, with the Tutsi cast as the enemy within.',
@@ -1824,7 +1827,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'kahanism', name: 'Kahanism', family: 'Nationalist',
-    coords: coords(45, 30, 90, 75, 75, 100, 100, 90, 45, 35, 95, 90),
+    coords: coords(45, 30, 90, 75, 75, 100, 100, 90, 45, 35, 95, 90, 65),
     figure: { name: 'Meir Kahane', years: '1932 to 1990' },
     source: { author: 'Meir Kahane', work: 'They Must Go', year: 1981 },
     tagline: 'The expulsion of Arabs from Israel and the territories it holds.',
@@ -1833,7 +1836,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'british-fascism', name: 'British Fascism', family: 'Third Position',
-    coords: coords(70, 35, 80, 80, 90, 90, 80, 60, 15, 20, 40, 70),
+    coords: coords(70, 35, 80, 80, 90, 90, 80, 60, 15, 20, 40, 70, 92),
     figure: { name: 'Oswald Mosley', years: '1896 to 1980' },
     source: { author: 'Oswald Mosley', work: 'The Greater Britain', year: 1932 },
     tagline: 'A corporate state and a closed imperial economy.',
@@ -1842,7 +1845,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'rexism', name: 'Rexism', family: 'Third Position',
-    coords: coords(60, 35, 75, 75, 70, 80, 75, 90, 55, 40, 90, 50),
+    coords: coords(60, 35, 75, 75, 70, 80, 75, 90, 55, 40, 90, 50, 65),
     figure: { name: 'Léon Degrelle', years: '1906 to 1994' },
     source: { author: 'Jean Denis', work: 'Principes Rexistes', year: 1936 },
     tagline: 'A Catholic and corporatist revolt against the Belgian party system.',
@@ -1850,7 +1853,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'legionarism', name: 'Legionarism', family: 'Third Position',
-    coords: coords(55, 40, 95, 95, 75, 100, 100, 95, 60, 55, 100, 95),
+    coords: coords(55, 40, 95, 95, 75, 100, 100, 95, 60, 55, 100, 95, 70),
     figure: { name: 'Corneliu Zelea Codreanu', years: '1899 to 1938' },
     source: { author: 'Corneliu Zelea Codreanu', work: 'For My Legionaries', year: 1936 },
     tagline: 'A fascism of Orthodox mysticism, antisemitism and the cult of death.',
@@ -1859,7 +1862,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'ustashism', name: 'Ustaša Doctrine', family: 'Third Position',
-    coords: coords(60, 45, 95, 95, 90, 100, 100, 90, 55, 45, 80, 100),
+    coords: coords(60, 45, 95, 95, 90, 100, 100, 90, 55, 45, 80, 100, 75),
     figure: { name: 'Ante Pavelić', years: '1889 to 1959' },
     source: { author: 'Ante Pavelić', work: 'The Principles of the Ustaša Movement', year: 1933 },
     tagline: 'A Croatian state for those of Croatian blood alone.',
@@ -1868,7 +1871,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'salazarism', name: 'Estado Novo Corporatism (Salazarism)', family: 'Third Position',
-    coords: coords(55, 25, 85, 90, 80, 80, 80, 95, 70, 40, 85, 50),
+    coords: coords(55, 25, 85, 90, 80, 80, 80, 95, 70, 40, 85, 50, 80),
     figure: { name: 'António de Oliveira Salazar', years: '1889 to 1970' },
     source: { author: 'António de Oliveira Salazar', work: 'Doctrine and Action: Internal and Foreign Policy of the New Portugal, 1928 to 1939', year: 1939 },
     tagline: 'A strong state without parties, bounded by Catholic morals.',
@@ -1877,7 +1880,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'showa-statism', name: 'Shōwa Statism', family: 'Third Position',
-    coords: coords(85, 70, 85, 90, 95, 100, 85, 55, 20, 20, 45, 100),
+    coords: coords(85, 70, 85, 90, 95, 100, 85, 55, 20, 20, 45, 100, 85),
     figure: { name: 'Kita Ikki', years: '1883 to 1937' },
     source: { author: 'Kita Ikki', work: 'An Outline Plan for the Reorganization of Japan', year: 1923 },
     tagline: 'A coup in the emperor\'s name, state control of big capital, empire abroad.',
@@ -1886,7 +1889,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'hungarism', name: 'Hungarism', family: 'Third Position',
-    coords: coords(75, 55, 95, 95, 90, 100, 90, 85, 50, 50, 70, 85),
+    coords: coords(75, 55, 95, 95, 90, 100, 90, 85, 50, 50, 70, 85, 80),
     figure: { name: 'Ferenc Szálasi', years: '1897 to 1946' },
     source: { author: 'Ferenc Szálasi', work: 'Cél és követelések (Aim and Demands)', year: 1935 },
     tagline: 'A Hungarian national socialism for the Carpathian basin.',
@@ -1895,7 +1898,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'national-anarchism', name: 'National Anarchism', family: 'Third Position',
-    coords: coords(30, 60, 35, 30, 0, 75, 95, 85, 75, 75, 50, 45),
+    coords: coords(30, 60, 35, 30, 0, 75, 95, 85, 75, 75, 50, 45, 55),
     figure: { name: 'Troy Southgate', years: 'born 1965' },
     source: { author: 'Troy Southgate', work: 'Tradition and Revolution: Collected Writings of Troy Southgate', year: 2010 },
     tagline: 'Stateless villages, each for one people only.',
@@ -1904,7 +1907,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'political-soldier', name: 'Political Soldier Doctrine', family: 'Third Position',
-    coords: coords(55, 45, 70, 75, 35, 95, 95, 90, 65, 60, 80, 80),
+    coords: coords(55, 45, 70, 75, 35, 95, 95, 90, 65, 60, 80, 80, 70),
     figure: { name: 'Derek Holland', years: 'active 1980s' },
     source: { author: 'Derek Holland', work: 'The Political Soldier: A Statement', year: 1984 },
     tagline: 'A new man who gives his whole life to the nationalist cause.',
@@ -1918,7 +1921,7 @@ const IDEOLOGIES = [
      violent extremist ideologies, which get no emblem and no portrait. */
   {
     id: 'liberation-theology', name: 'Liberation Theology', family: 'Religious',
-    coords: coords(75, 75, 30, 15, 35, 15, 20, 45, 50, 50, 85, 35),
+    coords: coords(75, 75, 30, 15, 35, 15, 20, 45, 50, 50, 85, 35, 65),
     figure: { name: 'Gustavo Gutiérrez', years: '1928 to 2024' },
     source: { author: 'Gustavo Gutiérrez', work: 'A Theology of Liberation', year: 1971 },
     tagline: 'Theology done from the side of the poor.',
@@ -1927,7 +1930,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'christian-reconstructionism', name: 'Christian Reconstructionism (Theonomy)', family: 'Religious',
-    coords: coords(10, 5, 75, 75, 10, 45, 90, 100, 55, 25, 100, 50),
+    coords: coords(10, 5, 75, 75, 10, 45, 90, 100, 55, 25, 100, 50, 30),
     figure: { name: 'R. J. Rushdoony', years: '1916 to 2001' },
     source: { author: 'Rousas John Rushdoony', work: 'The Institutes of Biblical Law', year: 1973 },
     tagline: 'The law of Moses as the standard for every society.',
@@ -1936,7 +1939,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'neo-calvinism', name: 'Neo Calvinism (Sphere Sovereignty)', family: 'Religious',
-    coords: coords(35, 25, 35, 25, 15, 45, 25, 80, 50, 50, 90, 40),
+    coords: coords(35, 25, 35, 25, 15, 45, 25, 80, 50, 50, 90, 40, 45),
     figure: { name: 'Abraham Kuyper', years: '1837 to 1920' },
     source: { author: 'Abraham Kuyper', work: 'Sphere Sovereignty', year: 1880 },
     tagline: 'Each sphere of life answers to God, not to the state.',
@@ -1945,7 +1948,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'political-augustinianism', name: 'Political Augustinianism', family: 'Religious',
-    coords: coords(50, 35, 65, 65, 50, 20, 55, 80, 55, 50, 90, 45),
+    coords: coords(50, 35, 65, 65, 50, 20, 55, 80, 55, 50, 90, 45, 40),
     figure: { name: 'Augustine of Hippo', years: '354 to 430' },
     source: { author: 'Augustine of Hippo', work: 'The City of God', year: 'c. 413 to 426' },
     tagline: 'Two cities, formed by two loves.',
@@ -1954,7 +1957,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'thomism', name: 'Thomism', family: 'Religious',
-    coords: coords(45, 30, 60, 75, 60, 35, 65, 90, 55, 50, 90, 45),
+    coords: coords(45, 30, 60, 75, 60, 35, 65, 90, 55, 50, 90, 45, 40),
     figure: { name: 'Thomas Aquinas', years: 'c. 1225 to 1274' },
     source: { author: 'Thomas Aquinas', work: 'On Kingship (De Regno)', year: 'c. 1265 to 1267' },
     tagline: 'Government exists for the common good.',
@@ -1963,7 +1966,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'islamic-modernism', name: 'Islamic Modernism', family: 'Religious',
-    coords: coords(45, 40, 35, 25, 45, 35, 50, 40, 30, 45, 80, 45),
+    coords: coords(45, 40, 35, 25, 45, 35, 50, 40, 30, 45, 80, 45, 40),
     figure: { name: 'Muhammad Iqbal', years: '1877 to 1938' },
     source: { author: 'Muhammad Iqbal', work: 'The Reconstruction of Religious Thought in Islam', year: 1930 },
     tagline: 'Reopen the gates of independent reasoning.',
@@ -1972,7 +1975,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'islamic-democracy', name: 'Islamic Democracy', family: 'Religious',
-    coords: coords(50, 40, 35, 15, 40, 45, 55, 80, 50, 45, 95, 35),
+    coords: coords(50, 40, 35, 15, 40, 45, 55, 80, 50, 45, 95, 35, 45),
     figure: { name: 'Rached Ghannouchi', years: 'born 1941' },
     source: { author: 'Rached Ghannouchi', work: 'Public Freedoms in the Islamic State', year: 1993 },
     tagline: 'Elections, pluralism and rights grounded in Islamic sources.',
@@ -1981,7 +1984,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'salafi-jihadism', name: 'Salafi Jihadism', family: 'Religious',
-    coords: coords(50, 40, 95, 95, 70, 0, 100, 100, 55, 30, 100, 100),
+    coords: coords(50, 40, 95, 95, 70, 0, 100, 100, 55, 30, 100, 100, 25),
     figure: { name: 'Abdullah Azzam', years: '1941 to 1989' },
     source: { author: 'Abdullah Azzam; Osama bin Laden and others', work: 'Join the Caravan (1987) and the World Islamic Front statement Jihad Against Jews and Crusaders', year: 1998 },
     tagline: 'Armed struggle declared a personal duty of every believer.',
@@ -1990,7 +1993,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'religious-zionism', name: 'Religious Zionism', family: 'Religious',
-    coords: coords(45, 40, 50, 40, 55, 95, 85, 85, 45, 45, 100, 60),
+    coords: coords(45, 40, 50, 40, 55, 95, 85, 85, 45, 45, 100, 60, 65),
     figure: { name: 'Abraham Isaac Kook', years: '1865 to 1935' },
     source: { author: 'Abraham Isaac Kook', work: 'Orot', year: 1920 },
     tagline: 'The return to the Land as the beginning of redemption.',
@@ -1999,7 +2002,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'engaged-buddhism', name: 'Engaged Buddhism', family: 'Religious',
-    coords: coords(50, 55, 20, 15, 25, 45, 15, 50, 60, 60, 85, 0),
+    coords: coords(50, 55, 20, 15, 25, 45, 15, 50, 60, 60, 85, 0, 50),
     figure: { name: 'Thích Nhất Hạnh', years: '1926 to 2022' },
     source: { author: 'Thích Nhất Hạnh', work: 'Vietnam: Lotus in a Sea of Fire', year: 1967 },
     tagline: 'Practice that goes out to meet suffering in society.',
@@ -2008,7 +2011,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'dhammic-socialism', name: 'Dhammic Socialism', family: 'Religious',
-    coords: coords(65, 70, 60, 75, 50, 30, 45, 75, 75, 85, 90, 10),
+    coords: coords(65, 70, 60, 75, 50, 30, 45, 75, 75, 85, 90, 10, 50),
     figure: { name: 'Buddhadasa Bhikkhu', years: '1906 to 1993' },
     source: { author: 'Buddhadasa Bhikkhu', work: 'Dhammic Socialism', year: 1986 },
     tagline: 'Take only what you need; the rest belongs to all.',
@@ -2017,7 +2020,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'integral-humanism', name: 'Integral Humanism', family: 'Religious',
-    coords: coords(50, 40, 55, 35, 45, 90, 85, 85, 65, 55, 75, 50),
+    coords: coords(50, 40, 55, 35, 45, 90, 85, 85, 65, 55, 75, 50, 80),
     figure: { name: 'Deendayal Upadhyaya', years: '1916 to 1968' },
     source: { author: 'Deendayal Upadhyaya', work: 'Integral Humanism', year: 1965 },
     tagline: 'Body, mind, intellect and soul, for the person and the nation alike.',
@@ -2026,7 +2029,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'anabaptist-pacifism', name: 'Anabaptist Pacifism', family: 'Religious',
-    coords: coords(50, 50, 15, 25, 0, 0, 30, 90, 70, 55, 100, 0),
+    coords: coords(50, 50, 15, 25, 0, 0, 30, 90, 70, 55, 100, 0, 30),
     figure: { name: 'Michael Sattler', years: 'c. 1490 to 1527' },
     source: { author: 'Michael Sattler and the Swiss Brethren', work: 'The Schleitheim Confession', year: 1527 },
     tagline: 'A church apart, without sword or oath.',
@@ -2035,7 +2038,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'social-gospel', name: 'Social Gospel', family: 'Religious',
-    coords: coords(60, 60, 30, 10, 45, 40, 40, 55, 40, 45, 80, 30),
+    coords: coords(60, 60, 30, 10, 45, 40, 40, 55, 40, 45, 80, 30, 50),
     figure: { name: 'Walter Rauschenbusch', years: '1861 to 1918' },
     source: { author: 'Walter Rauschenbusch', work: 'Christianity and the Social Crisis', year: 1907 },
     tagline: 'The Kingdom of God as a just social order on earth.',
@@ -2044,7 +2047,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'christian-realism', name: 'Christian Realism', family: 'Religious',
-    coords: coords(55, 50, 45, 15, 50, 35, 35, 40, 45, 45, 65, 60),
+    coords: coords(55, 50, 45, 15, 50, 35, 35, 40, 45, 45, 65, 60, 45),
     figure: { name: 'Reinhold Niebuhr', years: '1892 to 1971' },
     source: { author: 'Reinhold Niebuhr', work: 'Moral Man and Immoral Society', year: 1932 },
     tagline: 'Individuals can be unselfish; groups rarely are.',
@@ -2053,7 +2056,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'aristotelian-polity', name: 'Aristotelian Polity', family: 'Classical',
-    coords: coords(40, 30, 50, 40, 35, 60, 75, 75, 55, 50, 45, 50),
+    coords: coords(40, 30, 50, 40, 35, 60, 75, 75, 55, 50, 45, 50, 50),
     figure: { name: 'Aristotle', years: '384 to 322 BC' },
     source: { author: 'Aristotle', work: 'Politics', year: '4th century BC' },
     tagline: 'A mixed constitution resting on a strong middle class.',
@@ -2062,7 +2065,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'stoic-cosmopolitanism', name: 'Stoic Cosmopolitanism', family: 'Classical',
-    coords: coords(50, 40, 50, 60, 50, 0, 30, 65, 55, 65, 55, 40),
+    coords: coords(50, 40, 50, 60, 50, 0, 30, 65, 55, 65, 55, 40, 20),
     figure: { name: 'Marcus Aurelius', years: '121 to 180' },
     source: { author: 'Marcus Aurelius', work: 'Meditations', year: 'c. 170 to 180' },
     tagline: 'All rational beings are citizens of one city.',
@@ -2071,7 +2074,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'machiavellian-republicanism', name: 'Machiavellian Republicanism', family: 'Classical',
-    coords: coords(40, 30, 50, 30, 55, 85, 70, 55, 45, 30, 30, 90),
+    coords: coords(40, 30, 50, 30, 55, 85, 70, 55, 45, 30, 30, 90, 60),
     figure: { name: 'Niccolò Machiavelli', years: '1469 to 1527' },
     source: { author: 'Niccolò Machiavelli', work: 'Discourses on Livy', year: 1531 },
     tagline: 'A free republic kept alive by conflict, law and its own arms.',
@@ -2080,7 +2083,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'legalism', name: 'Legalism', family: 'Classical',
-    coords: coords(70, 45, 100, 100, 100, 70, 90, 25, 40, 20, 5, 90),
+    coords: coords(70, 45, 100, 100, 100, 70, 90, 25, 40, 20, 5, 90, 85),
     figure: { name: 'Han Fei', years: 'c. 280 to 233 BC' },
     source: { author: 'Han Fei', work: 'Han Feizi', year: 'mid 3rd century BC' },
     tagline: 'Rule by law, reward and punishment, not by virtue.',
@@ -2089,7 +2092,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'mohism', name: 'Mohism', family: 'Classical',
-    coords: coords(60, 45, 65, 75, 80, 10, 60, 30, 50, 40, 65, 15),
+    coords: coords(60, 45, 65, 75, 80, 10, 60, 30, 50, 40, 65, 15, 35),
     figure: { name: 'Mozi', years: 'c. 470 to 391 BC' },
     source: { author: 'Mozi and his school', work: 'Mozi', year: '5th to 3rd century BC' },
     tagline: 'Impartial care for all, and an end to wars of aggression.',
@@ -2098,7 +2101,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'daoism', name: 'Daoism', family: 'Classical',
-    coords: coords(25, 45, 10, 55, 0, 15, 35, 60, 95, 90, 50, 5),
+    coords: coords(25, 45, 10, 55, 0, 15, 35, 60, 95, 90, 50, 5, 80),
     figure: { name: 'Laozi', years: 'c. 6th century BC (traditional)' },
     source: { author: 'Attributed to Laozi', work: 'Tao Te Ching', year: 'c. 4th century BC' },
     tagline: 'Govern by not interfering.',
@@ -2107,7 +2110,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'kautilyan-statecraft', name: 'Kautilyan Statecraft', family: 'Classical',
-    coords: coords(65, 50, 90, 95, 90, 65, 55, 70, 45, 35, 40, 85),
+    coords: coords(65, 50, 90, 95, 90, 65, 55, 70, 45, 35, 40, 85, 65),
     figure: { name: 'Kautilya (Chanakya)', years: 'c. 4th century BC (traditional)' },
     source: { author: 'Attributed to Kautilya', work: 'Arthashastra', year: 'c. 2nd century BC to 3rd century AD' },
     tagline: 'The science of acquiring and keeping the earth.',
@@ -2116,7 +2119,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'hobbesian-absolutism', name: 'Hobbesian Absolutism', family: 'Classical',
-    coords: coords(40, 25, 100, 95, 100, 50, 70, 50, 40, 30, 25, 60),
+    coords: coords(40, 25, 100, 95, 100, 50, 70, 50, 40, 30, 25, 60, 45),
     figure: { name: 'Thomas Hobbes', years: '1588 to 1679' },
     source: { author: 'Thomas Hobbes', work: 'Leviathan', year: 1651 },
     tagline: 'Without a common power, a war of all against all.',
@@ -2125,7 +2128,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'rousseauian-republicanism', name: 'Rousseauian Republicanism', family: 'Classical',
-    coords: coords(45, 45, 45, 5, 40, 75, 85, 60, 60, 55, 50, 50),
+    coords: coords(45, 45, 45, 5, 40, 75, 85, 60, 60, 55, 50, 50, 60),
     figure: { name: 'Jean-Jacques Rousseau', years: '1712 to 1778' },
     source: { author: 'Jean-Jacques Rousseau', work: 'The Social Contract', year: 1762 },
     tagline: 'Man is born free, and everywhere he is in chains.',
@@ -2134,7 +2137,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'montesquieuan-constitutionalism', name: 'Montesquieuan Constitutionalism', family: 'Classical',
-    coords: coords(25, 20, 15, 40, 25, 45, 45, 55, 45, 40, 35, 35),
+    coords: coords(25, 20, 15, 40, 25, 45, 45, 55, 45, 40, 35, 35, 40),
     figure: { name: 'Montesquieu', years: '1689 to 1755' },
     source: { author: 'Montesquieu', work: 'The Spirit of the Laws', year: 1748 },
     tagline: 'Power must be arranged so that power checks power.',
@@ -2143,7 +2146,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'morean-utopianism', name: 'Morean Utopianism', family: 'Classical',
-    coords: coords(90, 100, 75, 35, 55, 40, 85, 65, 50, 45, 55, 30),
+    coords: coords(90, 100, 75, 35, 55, 40, 85, 65, 50, 45, 55, 30, 80),
     figure: { name: 'Thomas More', years: '1478 to 1535' },
     source: { author: 'Thomas More', work: 'Utopia', year: 1516 },
     tagline: 'An island with no money and no private property.',
@@ -2152,7 +2155,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'digger-communism', name: 'Digger Communism', family: 'Classical',
-    coords: coords(85, 100, 40, 10, 35, 35, 45, 45, 50, 60, 60, 20),
+    coords: coords(85, 100, 40, 10, 35, 35, 45, 45, 50, 60, 60, 20, 60),
     figure: { name: 'Gerrard Winstanley', years: '1609 to 1676' },
     source: { author: 'Gerrard Winstanley', work: 'The Law of Freedom in a Platform', year: 1652 },
     tagline: 'The earth held in common, with no buying and selling.',
@@ -2165,7 +2168,7 @@ const IDEOLOGIES = [
      no founding text at all, so they carry a note instead of a source. */
   {
     id: 'neo-libertarian-falangism', name: 'Neo Libertarian Falangism', family: 'Meme',
-    coords: coords(10, 10, 60, 75, 70, 95, 90, 90, 45, 30, 90, 80),
+    coords: coords(10, 10, 60, 75, 70, 95, 90, 90, 45, 30, 90, 80, 50),
     figure: { name: 'Internet Meme', years: 'no founder' },
     source: { note: 'No founding text. This is an internet joke ideology, built by bolting free market libertarianism onto Falangism.' },
     tagline: 'Deregulate everything, for the unity of destiny.',
@@ -2173,7 +2176,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'monarcho-brezhnevism', name: 'Monarcho Brezhnevism', family: 'Meme',
-    coords: coords(95, 95, 85, 100, 100, 55, 60, 70, 60, 20, 30, 80),
+    coords: coords(95, 95, 85, 100, 100, 55, 60, 70, 60, 20, 30, 80, 85),
     figure: { name: 'Internet Meme', years: 'no founder' },
     source: { note: 'No founding text. This is an internet joke ideology that crowns the Soviet General Secretary.' },
     tagline: 'A hereditary throne atop a five year plan.',
@@ -2181,7 +2184,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'anarcho-monarchism', name: 'Anarcho Monarchism', family: 'Meme',
-    coords: coords(30, 30, 5, 60, 5, 45, 55, 95, 95, 85, 90, 20),
+    coords: coords(30, 30, 5, 60, 5, 45, 55, 95, 95, 85, 90, 20, 45),
     figure: { name: 'J. R. R. Tolkien', years: '1892 to 1973' },
     source: { author: 'J. R. R. Tolkien', work: 'Letter to Christopher Tolkien, 29 November', year: 1943 },
     tagline: 'A king who leaves everyone alone.',
@@ -2189,7 +2192,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'posadism', name: 'Posadism', family: 'Meme',
-    coords: coords(100, 100, 85, 80, 90, 0, 20, 15, 0, 10, 0, 100),
+    coords: coords(100, 100, 85, 80, 90, 0, 20, 15, 0, 10, 0, 100, 40),
     figure: { name: 'J. Posadas', years: '1912 to 1981' },
     source: { author: 'J. Posadas', work: 'Flying Saucers, the Process of Matter and Energy, Science, the Revolutionary and Working Class Struggle and the Socialist Future of Mankind', year: 1968 },
     tagline: 'Nuclear war, then socialism, then the aliens.',
@@ -2197,7 +2200,7 @@ const IDEOLOGIES = [
   },
   {
     id: 'luxury-space-communism', name: 'Fully Automated Luxury Communism', family: 'Meme',
-    coords: coords(90, 100, 10, 10, 50, 0, 5, 0, 0, 35, 0, 15),
+    coords: coords(90, 100, 10, 10, 50, 0, 5, 0, 0, 35, 0, 15, 40),
     figure: { name: 'Aaron Bastani', years: 'born 1984' },
     source: { author: 'Aaron Bastani', work: 'Fully Automated Luxury Communism', year: 2019 },
     tagline: 'Robots do the work. Everyone gets the good life.',
