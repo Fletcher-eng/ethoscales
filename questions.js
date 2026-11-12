@@ -1,6 +1,6 @@
 /* ==========================================================================
    ETHOSSCALES
-   questions.js : the bank of 60 statements, five led by each of the 12 axes
+   questions.js : the bank of 65 statements, five led by each of the 13 axes
    --------------------------------------------------------------------------
    effects: how much a full "Strongly Agree" (+1.0) moves each axis.
      positive value = pushes toward the 100 pole (planned, collective,
@@ -11,7 +11,7 @@
        progressive, accelerationist, industrial, secular, pacifist)
    The first axis listed in effects is the lead axis. It sets the color
    and shape of the question.
-   quick: true marks the 24 statements used by the Quick test. Every axis
+   quick: true marks the 26 statements used by the Quick test. Every axis
    leads two of them, one pushing each way.
    ========================================================================== */
 
@@ -169,7 +169,19 @@ const QUESTION_BANK = [
   { text: 'Military spending should be cut to the bare minimum needed to defend the country\'s own territory.',
     effects: { force: -1.5 } },
   { text: 'War and struggle bring out the highest qualities in a people.',
-    effects: { force: 2.0, cult: 0.5 } }
+    effects: { force: 2.0, cult: 0.5 } },
+
+  /* -------------------------------- TRADE ------------------------------- */
+  { quick: true, text: 'Tariffs on imported goods are worth it if they protect jobs at home.',
+    effects: { trade: 2.0, nation: 0.5, econ: 0.5 } },
+  { quick: true, text: 'Countries grow richer when goods and money can cross borders freely.',
+    effects: { trade: -2.0, econ: -0.5 } },
+  { text: 'A country should be able to feed, arm and power itself without relying on imports.',
+    effects: { trade: 2.0, nation: 1.0 } },
+  { text: 'Shoppers should be free to buy the cheapest product, wherever in the world it was made.',
+    effects: { trade: -2.0, rights: -0.5 } },
+  { text: 'Foreign companies should not be allowed to buy up key national industries.',
+    effects: { trade: 2.0, nation: 1.0, own: 0.5 } }
 ];
 
 /* Sixty more statements, five led by each axis, used only by the Deep test.
@@ -317,7 +329,19 @@ const DEEP_BANK = [
   { text: 'Selling weapons to other countries should be banned.',
     effects: { force: -2.0 } },
   { text: 'Soldiers deserve more respect than any other profession.',
-    effects: { force: 2.0, cult: 0.5 } }
+    effects: { force: 2.0, cult: 0.5 } },
+
+  /* -------------------------------- TRADE ------------------------------- */
+  { text: 'Free trade deals mostly benefit big corporations at the expense of ordinary workers.',
+    effects: { trade: 2.0, econ: 0.5 } },
+  { text: 'Shielding a failing industry from foreign competition only delays the inevitable.',
+    effects: { trade: -2.0, econ: -0.5 } },
+  { text: 'The government should favour home grown firms when it spends public money.',
+    effects: { trade: 2.0, nation: 0.5 } },
+  { text: 'A single global market with no customs barriers would be good for humanity.',
+    effects: { trade: -2.0, nation: -1.0 } },
+  { text: 'New industries need protection from foreign rivals until they are strong enough to compete.',
+    effects: { trade: 2.0, econ: 0.5 } }
 ];
 
 /* Interleave: first statement of every axis, then the second of every axis,
@@ -336,7 +360,7 @@ function interleaveBank(bank, startId) {
   return out;
 }
 
-/* QUESTIONS is the Full test (60). Its quick: true subset is the Quick test (24).
-   QUESTIONS_DEEP is the Deep test (120): the Full test followed by the sixty extra. */
+/* QUESTIONS is the Full test (65). Its quick: true subset is the Quick test (26).
+   QUESTIONS_DEEP is the Deep test (130): the Full test followed by the sixty five extra. */
 const QUESTIONS = interleaveBank(QUESTION_BANK, 1);
 const QUESTIONS_DEEP = QUESTIONS.concat(interleaveBank(DEEP_BANK, QUESTIONS.length + 1));

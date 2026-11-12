@@ -49,14 +49,15 @@
     deep: { label: 'Deep test', time: 'About 18 minutes', questions: () => QUESTIONS_DEEP.slice() }
   };
 
-  // Six 2D compasses. Between them they show all twelve axes once.
+  // Seven 2D compasses. Between them they show every axis.
   const COMPASSES = [
     { id: 'classic', title: 'Economy and government', x: 'econ', y: 'rule' },
     { id: 'property', title: 'Property and rights', x: 'own', y: 'rights' },
     { id: 'state', title: 'State and nation', x: 'struct', y: 'nation' },
     { id: 'culture', title: 'Immigration and values', x: 'ident', y: 'cult' },
     { id: 'future', title: 'Tech and environment', x: 'tech', y: 'eco' },
-    { id: 'spirit', title: 'Faith and military', x: 'relig', y: 'force' }
+    { id: 'spirit', title: 'Faith and military', x: 'relig', y: 'force' },
+    { id: 'trade', title: 'Trade and economy', x: 'trade', y: 'econ' }
   ];
 
   // Portrait credits, loaded from figures/credits.json. An ideology whose id
@@ -65,7 +66,7 @@
 
   const state = {
     view: 'landing',     // 'landing' | 'quiz' | 'survey' | 'results'
-    mode: 'full',        // 'quick' (24) | 'full' (60) | 'deep' (120)
+    mode: 'full',        // 'quick' (26) | 'full' (65) | 'deep' (130)
     questions: [],       // active question bank for this run
     index: 0,            // current question index
     answers: [],         // response weight per question (null = unanswered)
@@ -236,6 +237,8 @@
     const scores = {};
     for (const axis of AXES) {
       const rawValue = params.get(axis.param);
+      // Links made before the Trade axis existed have no value for it. They still open, with Trade at the midpoint.
+      if (rawValue === null && axis.key === 'trade') { scores.trade = 50; continue; }
       if (rawValue === null || rawValue.trim() === '') return null;
       const n = Number(rawValue);
       if (!Number.isFinite(n)) return null;
@@ -731,7 +734,7 @@
   function renderHighlights(scores) {
     const ranked = AXES.map((a) => ({ a, v: scores[a.key], spread: Math.abs(scores[a.key] - 50) })).sort((p, q) => q.spread - p.spread);
     if (ranked[0].spread < 8) {
-      el.highlights.innerHTML = '<div class="hl-flat"><b>Dead centre</b><span>You sit close to the middle on all twelve axes. No strong positions to report.</span></div>';
+      el.highlights.innerHTML = '<div class="hl-flat"><b>Dead centre</b><span>You sit close to the middle on all thirteen axes. No strong positions to report.</span></div>';
       return;
     }
     el.highlights.innerHTML = ranked.slice(0, 3).map(({ a, v }) => {
@@ -1302,7 +1305,7 @@
     if (state.plotMode === 'flat') { renderFlatMap(scores); return; }
     renderDimensionGuide(mapMode ? 3 : 0);
 
-    // One function turns any set of 12 scores into the 3 numbers this view plots.
+    // One function turns any set of scores into the 3 numbers this view plots.
     const point = mapMode ? (c) => MAP.project(c) : (c) => picked.map((k) => c[k]);
     const axisNames = mapMode ? ['Dimension 1', 'Dimension 2', 'Dimension 3'] : picked.map((k) => AXIS_BY_KEY[k].name);
     const narrow = el.plot.clientWidth < 640;
