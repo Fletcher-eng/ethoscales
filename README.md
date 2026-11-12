@@ -35,16 +35,16 @@ Every axis is scored from 0 to 100.
 | --- | --- | --- |
 | Economy (`econ`) | Market | Planned |
 | Ownership (`own`) | Private | Collective |
-| Rights (`rights`) | Liberty | Security |
-| Rule (`rule`) | Democracy | Autocracy |
-| Structure (`struct`) | Decentralised | Centralised |
-| Nation (`nation`) | Internationalist | Nationalist |
-| Identity (`ident`) | Multiculturalism | Assimilation |
-| Culture (`cult`) | Progressive | Traditional |
-| Technology (`tech`) | Accelerationist | Precautionary |
-| Ecology (`eco`) | Industrial | Deep Ecology |
+| Rights (`rights`) | Freedom | Security |
+| Government (`rule`) | Democracy | Autocracy |
+| Structure (`struct`) | Local | Central |
+| Nation (`nation`) | Globalist | Nationalist |
+| Immigration (`ident`) | Multicultural | One culture |
+| Values (`cult`) | Progressive | Traditional |
+| Technology (`tech`) | Full speed | Cautious |
+| Environment (`eco`) | Growth first | Nature first |
 | Religion (`relig`) | Secular | Religious |
-| Force (`force`) | Pacifist | Militarist |
+| Military (`force`) | Pacifist | Militarist |
 
 ## Where the definitions come from
 
@@ -151,12 +151,12 @@ https://fletcher-eng.github.io/ethoscales/?e=49.3&o=50&r=61.5&d=58.6&s=48.5&n=44
 
 | Param | Axis | Param | Axis |
 | --- | --- | --- | --- |
-| `e` | Economy | `i` | Identity |
-| `o` | Ownership | `c` | Culture |
+| `e` | Economy | `i` | Immigration |
+| `o` | Ownership | `c` | Values |
 | `r` | Rights | `t` | Technology |
-| `d` | Rule | `ec` | Ecology |
+| `d` | Government | `ec` | Environment |
 | `s` | Structure | `rl` | Religion |
-| `n` | Nation | `f` | Force |
+| `n` | Nation | `f` | Military |
 
 If all twelve are present and valid, the app skips the test and shows the results straight away.
 
