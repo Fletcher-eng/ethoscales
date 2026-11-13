@@ -82,6 +82,8 @@
     survey: null,        // { beliefs, about, changes } once the end survey is answered
     startedAt: 0,        // when this run of the test began
     partyGroup: 'all',   // which tab of the party list is open
+    partyCountry: '',    // show only parties from this country ('' = any)
+    partyShowAll: false, // long party lists are cut short until asked for
     // A challenge from a friend's link: their scores to compare with, or an ideology to imitate.
     challenge: { vs: null, target: null, best: null },
     busy: false          // true while a question transition is animating
@@ -678,8 +680,13 @@
       if (kind === 'share') sent = sendSurvey(state.survey);
     }
     state.matches = matchIdeologies(state.scores);
-    state.partyGroup = state.survey && state.survey.about.country === 'GB' ? 'uk'
-      : state.survey && state.survey.about.country === 'US' ? 'us' : 'all';
+    const home = state.survey ? state.survey.about.country : '';
+    state.partyGroup = home === 'GB' ? 'uk' : home === 'US' ? 'us' : 'all';
+    // Anyone else who names their country starts on that country's parties, when the list has some.
+    let homeName = '';
+    try { homeName = home && home !== 'other' ? new Intl.DisplayNames(['en'], { type: 'region' }).of(home) : ''; } catch (err) { /* old browser */ }
+    state.partyCountry = state.partyGroup === 'all' && PARTY_COUNTRIES.includes(homeName) ? homeName : '';
+    state.partyShowAll = false;
     clearProgress();
     writeScoresToUrl(state.scores);
     showView('results');
@@ -1198,21 +1205,30 @@
     return name.replace(/\b(of|the|and|for)\b/gi, '').split(/\s+/).filter(Boolean).map((w) => w[0]).slice(0, 3).join('').toUpperCase();
   }
 
+  const PARTY_COUNTRIES = Array.from(new Set(PARTIES.map((p) => p.where))).sort((a, b) => a.localeCompare(b));
+  const PARTY_SHORT_LIST = 10;
+
   function renderParties() {
     const scores = state.scores;
     el.partyTabs.innerHTML = PARTY_GROUPS.map((g) =>
-      `<button type="button" data-group="${g.id}" aria-pressed="${g.id === state.partyGroup}">${g.label}</button>`).join('');
+      `<button type="button" data-group="${g.id}" aria-pressed="${g.id === state.partyGroup}">${g.label}</button>`).join('') +
+      `<label class="party-country">Country
+        <select id="party-country" aria-label="Show parties from one country">
+          <option value="">Any</option>
+          ${PARTY_COUNTRIES.map((c) => `<option${c === state.partyCountry ? ' selected' : ''}>${c}</option>`).join('')}
+        </select>
+      </label>`;
 
-    const ranked = PARTIES
-      .filter((p) => state.partyGroup === 'all' || p.group === state.partyGroup)
+    const all = PARTIES
+      .filter((p) => (state.partyGroup === 'all' || p.group === state.partyGroup) && (!state.partyCountry || p.where === state.partyCountry))
       .map((p) => {
         const distance = Math.sqrt(AXIS_KEYS.reduce((acc, k) => acc + Math.pow(scores[k] - p.coords[k], 2), 0));
         return { party: p, match: Math.max(0, 100 - distance / (2 * Math.sqrt(AXIS_KEYS.length / 6))) };
       })
-      .sort((a, b) => b.match - a.match)
-      .slice(0, state.partyGroup === 'all' ? 8 : 99);
+      .sort((a, b) => b.match - a.match);
+    const ranked = state.partyShowAll ? all : all.slice(0, PARTY_SHORT_LIST);
 
-    el.partyList.innerHTML = ranked.map((r, i) => {
+    const rows = ranked.map((r, i) => {
       const p = r.party;
       const emblem = p.restricted
         ? '<span class="em is-plain" aria-hidden="true"></span>'
@@ -1221,6 +1237,10 @@
         <span class="nm">${p.name}<small>${p.where}. Placed from ${p.doc}${p.year ? ` (${p.year})` : ''}</small></span>
         <span class="pc num">${fmt(r.match)}%</span></div>`;
     }).join('');
+    const more = all.length > ranked.length
+      ? `<button type="button" class="party-more" data-more>Show all ${all.length}</button>`
+      : '';
+    el.partyList.innerHTML = (rows || '<p class="party-none">No parties match that yet. Try another tab or country.</p>') + more;
   }
 
   /* ----------------------------- 2D compasses ----------------------------- */
@@ -2105,6 +2125,9 @@
     state.survey = null;
     state.baseScores = null;
     state.challenge = { vs: null, target: null, best: null };
+    state.partyGroup = 'all';
+    state.partyCountry = '';
+    state.partyShowAll = false;
     stopSpin(false);
     spin.stopped = false;
     clearProgress();
@@ -2242,6 +2265,21 @@
       const btn = e.target.closest('button[data-group]');
       if (!btn) return;
       state.partyGroup = btn.dataset.group;
+      state.partyShowAll = false;
+      // The UK and US tabs are countries already, so a country picked earlier would only hide them.
+      if (btn.dataset.group === 'uk' || btn.dataset.group === 'us') state.partyCountry = '';
+      renderParties();
+    });
+    el.partyTabs.addEventListener('change', (e) => {
+      if (e.target.id !== 'party-country') return;
+      state.partyCountry = e.target.value;
+      state.partyShowAll = false;
+      if (state.partyCountry) state.partyGroup = 'all';
+      renderParties();
+    });
+    el.partyList.addEventListener('click', (e) => {
+      if (!e.target.closest('[data-more]')) return;
+      state.partyShowAll = true;
       renderParties();
     });
     $('#btn-download').addEventListener('click', downloadResultCard);
