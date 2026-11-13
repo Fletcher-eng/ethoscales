@@ -1216,7 +1216,7 @@
       const p = r.party;
       const emblem = p.restricted
         ? '<span class="em is-plain" aria-hidden="true"></span>'
-        : `<span class="em" style="background:${p.color}" aria-hidden="true">${partyInitials(p.name)}</span>`;
+        : `<span class="em" style="background:${p.color}${p.ink ? ';color:' + p.ink : ''}" aria-hidden="true">${partyInitials(p.name)}</span>`;
       return `<div class="party"><span class="rk">${i + 1}</span>${emblem}
         <span class="nm">${p.name}<small>${p.where}. Placed from ${p.doc}${p.year ? ` (${p.year})` : ''}</small></span>
         <span class="pc num">${fmt(r.match)}%</span></div>`;

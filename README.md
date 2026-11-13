@@ -19,7 +19,7 @@ No accounts and no tracking. Nothing about you is saved unless you choose to sha
 * **Your Dodecahedron**: a twelve faced map with one end of an axis on each face and every ideology as a dot inside, pulled toward the faces it scores high on. Filter by family, tap a dot to pin its name, add a friend's dot, save it as an image, or share a link that opens straight on it by adding `#dodecahedron`
 * **Seven 2D compasses** that between them show every axis
 * **A classic compass** with the familiar four coloured quadrants, worked out from your scores
-* **Closest parties**: 45 current and historical parties, each placed from a named manifesto or programme
+* **Closest parties**: 65 current and historical parties from Europe, the Americas, Africa and Asia, each placed from a named manifesto or programme
 * **Read and watch**: the founding text of your match, an overview, videos, and the texts of your nearest and furthest ideologies
 * **A short optional survey** before the result. Five belief questions nudge your scores slightly, and the page tells you whether the label you give yourself fits how you answered
 * **A catalogue of all 242 ideologies** on the start page, grouped by family, each with its definition and source
