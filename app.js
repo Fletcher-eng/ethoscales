@@ -1208,6 +1208,12 @@
   const PARTY_COUNTRIES = Array.from(new Set(PARTIES.map((p) => p.where))).sort((a, b) => a.localeCompare(b));
   const PARTY_SHORT_LIST = 10;
 
+  /** A small tag for a party or movement that was the first to carry one of the ideologies. */
+  function pioneerTag(party) {
+    const ideology = party.pioneer && IDEOLOGIES.find((i) => i.id === party.pioneer);
+    return ideology ? `<em class="pioneer">Pioneered ${ideology.name}</em>` : '';
+  }
+
   function renderParties() {
     const scores = state.scores;
     el.partyTabs.innerHTML = PARTY_GROUPS.map((g) =>
@@ -1220,7 +1226,7 @@
       </label>`;
 
     const all = PARTIES
-      .filter((p) => (state.partyGroup === 'all' || p.group === state.partyGroup) && (!state.partyCountry || p.where === state.partyCountry))
+      .filter((p) => (state.partyGroup === 'all' || p.group === state.partyGroup || (state.partyGroup === 'pioneer' && p.pioneer)) && (!state.partyCountry || p.where === state.partyCountry))
       .map((p) => {
         const distance = Math.sqrt(AXIS_KEYS.reduce((acc, k) => acc + Math.pow(scores[k] - p.coords[k], 2), 0));
         return { party: p, match: Math.max(0, 100 - distance / (2 * Math.sqrt(AXIS_KEYS.length / 6))) };
@@ -1234,7 +1240,7 @@
         ? '<span class="em is-plain" aria-hidden="true"></span>'
         : `<span class="em" style="background:${p.color}${p.ink ? ';color:' + p.ink : ''}" aria-hidden="true">${partyInitials(p.name)}</span>`;
       return `<div class="party"><span class="rk">${i + 1}</span>${emblem}
-        <span class="nm">${p.name}<small>${p.where}. Placed from ${p.doc}${p.year ? ` (${p.year})` : ''}</small></span>
+        <span class="nm">${p.name}${pioneerTag(p)}<small>${p.where}. Placed from ${p.doc}${p.year ? ` (${p.year})` : ''}</small></span>
         <span class="pc num">${fmt(r.match)}%</span></div>`;
     }).join('');
     const more = all.length > ranked.length
