@@ -105,6 +105,23 @@ const PARTIES = [
   { name: 'Labour Party of 1945', group: 'past', where: 'United Kingdom', doc: 'Let Us Face the Future', year: 1945, color: '#C42318', coords: partyCoords(75, 65, 45, 15, 70, 50, 45, 45, 25, 25, 35, 50, 60) },
   { name: 'Communist Party of the Soviet Union', group: 'past', where: 'Soviet Union', doc: 'Programme of the CPSU', year: 1961, color: '#8E1A12', coords: partyCoords(95, 95, 80, 88, 95, 45, 60, 45, 5, 8, 3, 75, 85) },
 
+  { name: 'Mexican Liberal Party', group: 'past', where: 'Mexico', doc: 'Programme of the Mexican Liberal Party', year: 1906, color: '#C42318', coords: partyCoords(55, 45, 30, 12, 45, 60, 45, 25, 35, 30, 10, 45, 55) },
+  { name: "Republican People's Party of 1931", group: 'past', where: 'Turkey', doc: 'The Six Arrows', year: 1931, color: '#C42318', coords: partyCoords(65, 45, 65, 70, 90, 90, 90, 20, 20, 20, 5, 70, 75) },
+  { name: 'American Popular Revolutionary Alliance', group: 'past', where: 'Peru', doc: 'El antiimperialismo y el APRA', year: 1936, color: '#C42318', coords: partyCoords(60, 50, 45, 25, 60, 70, 35, 40, 30, 30, 30, 50, 75) },
+  { name: 'All India Muslim League', group: 'past', where: 'British India', doc: 'The Lahore Resolution', year: 1940, color: '#10743F', coords: partyCoords(45, 35, 45, 30, 35, 85, 70, 65, 45, 40, 80, 50, 55) },
+  { name: 'Communist Party of China of 1940', group: 'past', where: 'China', doc: 'On New Democracy', year: 1940, color: '#8E1A12', coords: partyCoords(70, 65, 65, 65, 75, 75, 45, 25, 25, 25, 5, 85, 65) },
+  { name: 'Viet Minh', group: 'past', where: 'Vietnam', doc: 'Declaration of Independence of the Democratic Republic of Vietnam', year: 1945, color: '#C42318', coords: partyCoords(60, 55, 45, 40, 60, 90, 45, 35, 35, 30, 15, 80, 60) },
+  { name: 'Indonesian National Party', group: 'past', where: 'Indonesia', doc: 'The Birth of Pancasila', year: 1945, color: '#C42318', coords: partyCoords(60, 50, 50, 45, 65, 85, 35, 50, 35, 30, 60, 55, 65) },
+  { name: "Arab Ba'ath Party", group: 'past', where: 'Syria', doc: "Constitution of the Arab Ba'ath Party", year: 1947, color: '#111111', coords: partyCoords(70, 60, 65, 60, 80, 90, 75, 50, 30, 25, 30, 75, 75) },
+  { name: 'Justicialist Party', group: 'past', where: 'Argentina', doc: 'The Twenty Truths of Peronism', year: 1950, color: '#6FB7E8', ink: '#111111', coords: partyCoords(65, 45, 65, 60, 75, 85, 60, 60, 30, 25, 55, 60, 85) },
+  { name: '26th of July Movement', group: 'past', where: 'Cuba', doc: 'History Will Absolve Me', year: 1953, color: '#C42318', coords: partyCoords(65, 55, 40, 25, 60, 75, 35, 35, 30, 30, 20, 70, 65) },
+  { name: 'National Liberation Front', group: 'past', where: 'Algeria', doc: 'Proclamation of 1 November 1954', year: 1954, color: '#10743F', coords: partyCoords(60, 50, 50, 45, 65, 90, 60, 60, 40, 35, 60, 85, 65) },
+  { name: "People's Action Party of 1959", group: 'past', where: 'Singapore', doc: 'The Tasks Ahead', year: 1959, color: '#16264D', coords: partyCoords(50, 35, 65, 45, 80, 55, 35, 50, 15, 15, 20, 50, 20) },
+  { name: "Convention People's Party", group: 'past', where: 'Ghana', doc: 'Programme for Work and Happiness', year: 1962, color: '#C42318', coords: partyCoords(75, 65, 60, 65, 80, 75, 35, 40, 20, 20, 30, 50, 75) },
+  { name: 'Tanganyika African National Union', group: 'past', where: 'Tanzania', doc: 'The Arusha Declaration', year: 1967, color: '#10743F', coords: partyCoords(80, 80, 55, 60, 65, 65, 40, 50, 60, 45, 30, 35, 85) },
+  { name: 'Popular Unity', group: 'past', where: 'Chile', doc: 'Programa básico de gobierno de la Unidad Popular', year: 1969, color: '#C42318', coords: partyCoords(80, 75, 35, 15, 65, 60, 30, 30, 30, 25, 20, 30, 70) },
+  { name: 'Sandinista National Liberation Front', group: 'past', where: 'Nicaragua', doc: 'The Historic Program of the FSLN', year: 1969, color: '#111111', coords: partyCoords(75, 65, 50, 40, 65, 70, 30, 30, 30, 30, 30, 75, 70) },
+
   // Major parties worldwide
   { name: 'Christian Democratic Union', group: 'world', where: 'Germany', doc: 'In Freiheit leben', year: 2024, color: '#111111', coords: partyCoords(35, 25, 52, 22, 40, 48, 60, 60, 38, 45, 55, 60, 25) },
   { name: 'Social Democratic Party of Germany', group: 'world', where: 'Germany', doc: 'Hamburg Programme', year: 2007, color: '#C42318', coords: partyCoords(55, 42, 40, 15, 45, 28, 30, 28, 42, 62, 22, 38, 30) },
@@ -114,6 +131,10 @@ const PARTIES = [
   { name: "Workers' Party", group: 'world', where: 'Brazil', doc: 'Programa de Reconstrução e Transformação do Brasil', year: 2022, color: '#C42318', coords: partyCoords(65, 52, 42, 22, 55, 50, 25, 30, 42, 60, 35, 35, 55) },
   { name: 'Liberal Democratic Party', group: 'world', where: 'Japan', doc: 'Party Platform', year: 2010, color: '#10743F', coords: partyCoords(38, 25, 58, 30, 62, 72, 72, 68, 30, 32, 45, 62, 35) },
   { name: 'African National Congress', group: 'world', where: 'South Africa', doc: 'The Freedom Charter', year: 1955, color: '#10743F', coords: partyCoords(65, 58, 40, 18, 55, 50, 15, 35, 35, 35, 35, 40, 60) },
+  { name: 'Justice and Development Party', group: 'world', where: 'Turkey', doc: 'Development and Democratisation Programme', year: 2001, color: '#C2570B', coords: partyCoords(35, 25, 60, 45, 70, 75, 70, 75, 35, 25, 75, 60, 40) },
+  { name: 'Economic Freedom Fighters', group: 'world', where: 'South Africa', doc: 'Founding Manifesto', year: 2013, color: '#C42318', coords: partyCoords(85, 85, 55, 45, 70, 65, 35, 35, 35, 30, 25, 55, 80) },
+  { name: 'Morena', group: 'world', where: 'Mexico', doc: 'Proyecto de Nación 2018 to 2024', year: 2017, color: '#8E1A12', coords: partyCoords(60, 45, 45, 25, 65, 65, 35, 45, 40, 40, 35, 40, 60) },
+  { name: 'Law and Justice', group: 'world', where: 'Poland', doc: 'Polski model państwa dobrobytu', year: 2019, color: '#16264D', coords: partyCoords(55, 35, 65, 40, 70, 85, 85, 85, 45, 30, 85, 65, 55) },
   { name: 'Communist Party of China', group: 'world', where: 'China', doc: 'Constitution of the Communist Party of China', year: 2022, color: '#8E1A12', coords: partyCoords(62, 60, 90, 92, 95, 82, 78, 62, 10, 35, 5, 78, 45) }
 ];
 
