@@ -72,6 +72,20 @@ const PARTIES = [
   { name: 'Democratic Unionist Party', group: 'uk', where: 'United Kingdom', doc: 'Speaking Up for Northern Ireland', year: 2024, color: '#16264D', coords: partyCoords(42, 35, 62, 25, 50, 75, 65, 75, 45, 40, 62, 70, 40) },
   { name: 'Plaid Cymru', group: 'uk', where: 'United Kingdom', doc: 'For Fairness, For Ambition, For Wales', year: 2024, color: '#C42318', coords: partyCoords(58, 50, 32, 15, 20, 48, 25, 25, 50, 68, 22, 22, 22) },
   { name: 'Sinn Féin in Northern Ireland', group: 'uk', where: 'United Kingdom', doc: 'Strong Leadership, Positive Change', year: 2024, color: '#C42318', coords: partyCoords(58, 50, 35, 20, 35, 65, 35, 30, 50, 58, 25, 22, 25) },
+  { name: 'Communist Party of Britain', group: 'uk', where: 'United Kingdom', doc: "Britain's Road to Socialism", year: 2020, color: '#8E1A12', coords: partyCoords(92, 92, 35, 35, 40, 30, 20, 25, 40, 65, 15, 15, 70) },
+  { name: 'Alliance Party of Northern Ireland', group: 'uk', where: 'United Kingdom', doc: 'Leading Change', year: 2024, color: '#10743F', coords: partyCoords(45, 40, 30, 10, 40, 20, 15, 20, 45, 70, 20, 40, 20) },
+  { name: 'Heritage Party', group: 'uk', where: 'United Kingdom', doc: 'A Manifesto for Social Conservatism', year: 2024, color: '#16264D', coords: partyCoords(15, 15, 25, 20, 45, 90, 88, 95, 80, 25, 75, 55, 45) },
+  { name: 'People Before Profit', group: 'uk', where: 'United Kingdom', doc: 'Manifesto for Radical Change', year: 2024, color: '#10743F', coords: partyCoords(85, 85, 15, 15, 40, 25, 8, 8, 50, 85, 10, 5, 60) },
+  { name: 'Social Democratic Party', group: 'uk', where: 'United Kingdom', doc: 'Homecoming', year: 2024, color: '#C42318', coords: partyCoords(60, 60, 60, 20, 55, 75, 75, 72, 45, 45, 55, 65, 65) },
+  { name: 'Social Democratic and Labour Party', group: 'uk', where: 'United Kingdom', doc: 'SDLP Manifesto 2024', year: 2024, color: '#C42318', coords: partyCoords(60, 55, 30, 12, 35, 45, 20, 35, 50, 68, 40, 25, 25) },
+  { name: 'Traditional Unionist Voice', group: 'uk', where: 'United Kingdom', doc: 'Restore the Union', year: 2024, color: '#16264D', coords: partyCoords(30, 30, 65, 25, 75, 85, 80, 85, 50, 25, 75, 70, 40) },
+  { name: 'Ulster Unionist Party', group: 'uk', where: 'United Kingdom', doc: 'Making Northern Ireland Work', year: 2024, color: '#1D3FBB', coords: partyCoords(40, 35, 55, 20, 50, 65, 55, 60, 45, 50, 55, 70, 35) },
+  { name: 'Workers Party of Britain', group: 'uk', where: 'United Kingdom', doc: 'Britain Deserves Better', year: 2024, color: '#8E1A12', coords: partyCoords(80, 80, 50, 30, 55, 60, 60, 70, 45, 30, 55, 30, 70) },
+  { name: 'Your Party', group: 'uk', where: 'United Kingdom', doc: 'Political Statement', year: 2025, color: '#10743F', coords: partyCoords(75, 80, 25, 15, 35, 10, 10, 15, 50, 70, 45, 10, 55) },
+  { name: 'Restore Britain', group: 'uk', where: 'United Kingdom', doc: 'The Wealth of Our Nation', year: 2026, color: '#16264D', coords: partyCoords(15, 15, 70, 42, 60, 90, 95, 85, 40, 12, 75, 65, 55) },
+  { name: 'Scottish Conservatives', group: 'uk', where: 'United Kingdom', doc: 'Get Scotland Working', year: 2026, color: '#7A6000', coords: partyCoords(25, 25, 68, 20, 65, 65, 60, 62, 35, 30, 50, 70, 35) },
+  { name: 'Scottish Greens', group: 'uk', where: 'United Kingdom', doc: "Let's Demand Better", year: 2026, color: '#10743F', coords: partyCoords(68, 68, 20, 10, 20, 30, 8, 8, 60, 92, 20, 12, 50) },
+  { name: 'Welsh Labour', group: 'uk', where: 'United Kingdom', doc: 'A New Chapter for Wales', year: 2026, color: '#C42318', coords: partyCoords(60, 60, 40, 15, 35, 40, 25, 25, 45, 65, 30, 45, 40) },
 
   // United States
   { name: 'Democratic Party', group: 'us', where: 'United States', doc: '2024 Democratic Party Platform', year: 2024, color: '#1D3FBB', coords: partyCoords(45, 32, 42, 20, 55, 45, 28, 30, 35, 55, 35, 58, 50) },
@@ -139,6 +153,12 @@ const PARTIES = [
   { name: 'Awami League of 1966', group: 'past', where: 'Bangladesh', doc: 'The Six Point Programme', year: 1966, color: '#0B6C75', coords: partyCoords(50, 50, 35, 15, 5, 60, 40, 50, 50, 50, 40, 50, 45) },
   { name: "Uganda People's Congress of 1969", group: 'past', where: 'Uganda', doc: "The Common Man's Charter", year: 1969, color: '#8E1A12', coords: partyCoords(70, 65, 55, 55, 80, 65, 60, 35, 35, 30, 35, 45, 65) },
   { name: 'Solidarity', group: 'past', where: 'Poland', doc: 'The Self Governing Republic', year: 1981, color: '#1D3FBB', coords: partyCoords(50, 60, 20, 12, 20, 60, 50, 60, 50, 60, 60, 25, 45) },
+  { name: 'Independent Labour Party', group: 'past', where: 'United Kingdom', doc: 'Object and Programme', year: 1893, color: '#8E1A12', coords: partyCoords(75, 88, 25, 12, 40, 25, 35, 35, 45, 40, 45, 20, 40) },
+  { name: 'British Union of Fascists', group: 'past', where: 'United Kingdom', doc: 'The Greater Britain', year: 1932, restricted: true, coords: partyCoords(80, 30, 92, 92, 95, 97, 85, 75, 15, 20, 55, 80, 95) },
+  { name: 'Communist Party of Great Britain', group: 'past', where: 'United Kingdom', doc: 'The British Road to Socialism', year: 1951, color: '#8E1A12', coords: partyCoords(95, 95, 55, 50, 70, 45, 30, 40, 20, 15, 15, 30, 65) },
+  { name: 'Conservative Party of 1979', group: 'past', where: 'United Kingdom', doc: 'The Conservative Manifesto 1979', year: 1979, color: '#7A6000', coords: partyCoords(20, 18, 70, 15, 55, 65, 70, 68, 35, 25, 55, 75, 30) },
+  { name: 'Social Democratic Party of 1981', group: 'past', where: 'United Kingdom', doc: 'The Limehouse Declaration', year: 1981, color: '#B0307A', coords: partyCoords(40, 45, 30, 8, 25, 15, 25, 30, 45, 55, 35, 55, 20) },
+  { name: 'Labour Party of 1983', group: 'past', where: 'United Kingdom', doc: 'The New Hope for Britain', year: 1983, color: '#8E1A12', coords: partyCoords(85, 82, 30, 12, 50, 60, 25, 25, 45, 50, 30, 12, 80) },
 
   // Major parties worldwide
   { name: 'Christian Democratic Union', group: 'world', where: 'Germany', doc: 'In Freiheit leben', year: 2024, color: '#111111', coords: partyCoords(35, 25, 52, 22, 40, 48, 60, 60, 38, 45, 55, 60, 25) },
