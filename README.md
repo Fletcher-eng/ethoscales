@@ -2,7 +2,7 @@
 
 A 13 axis political values test that runs entirely in your browser. Answer up to 130 statements, get your coordinates in thirteen dimensional ideology space, and see which of 242 ideologies you sit closest to. Every ideology is defined from its own founding text, not from how the word gets used online.
 
-No accounts and no tracking. Nothing about you is saved unless you choose to share it at the end.
+No accounts and nothing that follows you around. Nothing about you is saved unless you choose to share it at the end.
 
 **Live site:** https://ethoscales.github.io/ethoscales/
 
@@ -115,6 +115,24 @@ Sharing is off by default. While `collectUrl` in `app.js` is empty, nothing is e
 To keep bots and junk out of the numbers, a row is only sent from the Share button, only for a test that was fully answered in that browser, only once per result, never for someone who says they are under 13, and never when a hidden field that only bots fill in has a value. The collector script repeats those checks and limits how many rows it accepts per minute.
 
 If you switch sharing on you are collecting political and religious views, which the law treats as sensitive. Keep `legal.html` accurate, keep the sheet private, and only publish totals.
+
+## Counting visits
+
+The site keeps an anonymous tally with a free counting service that needs no account. Each event adds one to a named number and stores nothing else. It only counts on the live address and ignores automated browsers.
+
+| Number | Goes up when |
+| --- | --- |
+| `people` | a browser opens the site for the first time |
+| `visits` | someone opens the site in a new sitting |
+| `tests-started`, `tests-finished` | a test is begun, and when its result is shown |
+| `finished-quick`, `finished-full`, `finished-deep` | a test of that length is finished |
+| `results-shared`, `cards-saved` | a result link is copied or shared, or a card is downloaded |
+| `result-links-opened` | someone opens a result link another person sent |
+| `challenges-sent`, `challenges-started`, `challenges-finished` | a compare link is sent, taken up, and completed |
+| `dares-sent`, `dares-started`, `dares-finished` | the same for dares |
+| `page-reads` | an ideology or party page is read |
+
+To read one, open `https://abacus.jasoncameron.dev/get/ethoscales/people` in a browser, swapping the last word for any name above. To switch counting off, empty `counterUrl` in `app.js`.
 
 ## Parties
 
