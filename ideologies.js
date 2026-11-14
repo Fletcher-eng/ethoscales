@@ -189,7 +189,7 @@ const IDEOLOGIES = [
     figure: { name: 'Max Stirner', years: '1806 to 1856' },
     source: { author: 'Max Stirner', work: 'The Ego and Its Own', year: 1844 },
     tagline: 'No god, no state, no cause above the individual.',
-    desc: 'Treats the state, the nation, morality, religion and even humanity as fixed ideas that people serve against their own interest. The individual owes nothing to any of them. Stirner proposed a union of egoists: free association that lasts only as long as it serves each member. This is the root of later post left anarchism.'
+    desc: 'Treats the state, the nation, morality, religion and even humanity as spooks: fixed ideas that haunt people\'s heads and that they end up serving against their own interest. Stirner\'s word for them was Spuk, meaning ghost. The individual owes nothing to any of them. Stirner proposed a union of egoists: free association that lasts only as long as it serves each member. This is the root of later post left anarchism.'
   },
   {
     id: 'tolstoyanism', name: 'Tolstoyan Anarcho Pacifism', family: 'Anarchist',
