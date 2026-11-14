@@ -1153,6 +1153,10 @@
       cards.push(`<a href="https://www.youtube.com/results?search_query=${q(top.name + ' explained')}" target="_blank" rel="noopener">
         <span class="label">Watch</span><b>${top.name} explained</b><small>Pick from the best videos people have made on this</small><span class="go">See the videos</span></a>`);
     }
+    if (top.listen) {
+      cards.push(`<a href="${top.listen.url}" target="_blank" rel="noopener">
+        <span class="label">Listen</span><b>${top.listen.title}</b><small>${top.listen.by}. ${top.listen.note}</small><span class="go">Play it</span></a>`);
+    }
     state.matches.slice(1).filter((m) => !m.ideology.restricted && !m.ideology.source.note).slice(0, 2)
       .forEach((m) => cards.push(textCard('Close to you: ' + m.ideology.name, m.ideology, false)));
     const far = state.matches.slice().reverse().find((m) => !m.ideology.restricted && !m.ideology.source.note);

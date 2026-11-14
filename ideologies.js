@@ -188,6 +188,8 @@ const IDEOLOGIES = [
     coords: coords(30, 40, 0, 0, 0, 0, 30, 5, 50, 50, 0, 30, 25),
     figure: { name: 'Max Stirner', years: '1806 to 1856' },
     source: { author: 'Max Stirner', work: 'The Ego and Its Own', year: 1844 },
+    // A song the internet has attached to this ideology. Shown as a Listen card on the result.
+    listen: { title: "Sorry Jack (The Living Tombstone's Remix)", by: 'Scratch21', url: 'https://open.spotify.com/track/02Ywjaxfvdcry6uxIL9vNw', note: 'Nothing to do with Stirner, but the internet made it his theme song.' },
     tagline: 'No god, no state, no cause above the individual.',
     desc: 'Treats the state, the nation, morality, religion and even humanity as spooks: fixed ideas that haunt people\'s heads and that they end up serving against their own interest. Stirner\'s word for them was Spuk, meaning ghost. The individual owes nothing to any of them. Stirner proposed a union of egoists: free association that lasts only as long as it serves each member. This is the root of later post left anarchism.'
   },

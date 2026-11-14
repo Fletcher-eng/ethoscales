@@ -163,6 +163,7 @@ function ideologyPage(i) {
         <p class="answer"><b>${esc(i.name)}</b> is a political ideology in the ${esc(i.family)} family. ${esc(flow(i.desc))}</p>
         <p class="tagline">${esc(i.tagline)}</p>
         <p class="src"><b>Defined from:</b> ${esc(sourceLine(i))}</p>
+        ${i.listen ? `<p class="src"><b>Listen:</b> <a href="${esc(i.listen.url)}" rel="noopener">${esc(i.listen.title)}</a> by ${esc(i.listen.by)}. ${esc(i.listen.note)}</p>` : ''}
         <p class="cta"><a class="btn" href="../">See how close you are to ${esc(i.name)}</a> <a class="btn alt" href="../?target=${i.id}">Dare a friend to answer as one</a></p>
       </div>
       ${portrait}

@@ -201,7 +201,7 @@ If they are all present and valid, the app skips the test and shows the results 
 ## Customizing
 
 * **Change or add statements:** edit `QUESTION_BANK` in `questions.js`. Keep five per axis, with the lead axis listed first in `effects`. The scoring bounds recalculate on their own.
-* **Change or add ideologies:** edit `ideologies.js`. Give each one a name, thirteen coordinates, a source text, a thinker, a tagline and a description.
+* **Change or add ideologies:** edit `ideologies.js`. An optional `listen` field (title, artist, link and a short note) adds a Listen card to that ideology's result. Give each one a name, thirteen coordinates, a source text, a thinker, a tagline and a description.
 * **Change the survey or the parties:** edit `extras.js`.
 * **Change the address printed on the card:** edit `brandUrl` at the top of `app.js`.
 
