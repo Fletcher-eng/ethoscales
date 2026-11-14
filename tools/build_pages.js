@@ -134,7 +134,7 @@ function ideologyPage(i) {
     [`What does ${i.name} believe?`, `In one line: ${sentence(i.tagline)} Its strongest positions are ${strongest.join(', ')}. ${flow(i.desc)}`],
     [`Who founded ${i.name}?`, who],
     [`Is ${i.name} left wing or right wing?`, `On a classic two axis compass ${i.name} falls in the ${quad.name} quadrant, which means ${quad.text}. Left and right hide a lot, though, which is why EthosScales scores it on thirteen separate axes.`],
-    [`How is ${i.name} different from ${twin.name}?`, `They are close, at a ${match(i.coords, twin.coords).toFixed(0)}% match. The biggest gaps are on ${differs}. On each axis, 0 is one end and 100 is the other.`]
+    [`How is ${i.name} different from ${twin.name}?`, `They are close: ${match(i.coords, twin.coords).toFixed(0)}% alike. The biggest gaps are on ${differs}. On each axis, 0 is one end and 100 is the other.`]
   ];
 
   const portrait = credits[i.id]
