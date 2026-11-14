@@ -393,6 +393,7 @@
                   <div class="tag">${esc(i.tagline)}</div>
                   <p>${esc(i.desc)}</p>
                   <p class="src">${esc(i.source.note || `Defined from: ${i.source.author}, ${i.source.work} (${i.source.year})`)}</p>
+                  ${canDare(i) ? `<a class="page-link" href="ideology/${i.id}.html">Full page on ${esc(i.name)}</a>` : ''}
                 </div>
               </details>`).join('')}
           </div>
@@ -795,6 +796,9 @@
     el.matchDistance.textContent = 'Distance ' + top.distance.toFixed(2);
     el.matchTagline.textContent = top.ideology.tagline;
     el.matchDesc.textContent = top.ideology.desc;
+    el.matchPage.hidden = !canDare(top.ideology);
+    el.matchPage.href = `ideology/${top.ideology.id}.html`;
+    el.matchPage.textContent = `Read the full page on ${top.ideology.name}`;
 
     el.matchList.innerHTML = state.matches.slice(0, 5).map((m, i) => `
       <li style="--i:${i}">
@@ -2215,6 +2219,7 @@
     el.highlights = $('#highlights');
     el.matchSymbol = $('#match-symbol');
     el.matchSource = $('#match-source');
+    el.matchPage = $('#match-page');
     el.figure = $('#figure');
     el.figureCredit = $('#figure-credit');
     el.plotPickers = $('#plot-pickers');

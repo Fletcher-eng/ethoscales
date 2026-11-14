@@ -1,0 +1,254 @@
+# EthosScales
+
+> A free political values test. People answer up to 130 statements and are placed on 13 axes, then matched to the closest of 242 ideologies and 268 parties. Every ideology is defined from its own founding text. No account is needed.
+
+## Key facts
+
+- Address: https://ethoscales.github.io/ethoscales/
+- Cost: free, with no sign up
+- Lengths: Quick (26 statements), Full (65), Deep (130)
+- The 13 axes: Economy (Market to Planned); Ownership (Private to Collective); Rights (Liberty to Security); Government (Democracy to Autocracy); Structure (Decentralised to Centralised); Nation (Internationalist to Nationalist); Immigration (Multiculturalist to Assimilationist); Values (Progressive to Traditional); Technology (Accelerationist to Precautionary); Environment (Industrialist to Environmentalist); Religion (Secular to Religious); Military (Pacifist to Militarist); Trade (Free Trade to Protectionist)
+- Results show the closest ideology, a classic four quadrant compass, a twelve faced 3D map called the dodecahedron, the closest parties, and reading suggestions
+- People can compare results with a friend or dare a friend to answer as another ideology
+- Answers are scored in the browser. Nothing is saved unless the person chooses to share it
+- Positions of ideologies and parties are editorial estimates, and corrections are welcome
+- Code licence: MIT
+
+## Pages
+
+- [Take the test](https://ethoscales.github.io/ethoscales/)
+- [All ideologies](https://ethoscales.github.io/ethoscales/ideologies.html): 229 pages, one per ideology, each with a definition, founder, founding text and 13 scores
+- [All parties](https://ethoscales.github.io/ethoscales/parties.html): 268 parties by country with the document each is placed from
+- [Terms, privacy and cookies](https://ethoscales.github.io/ethoscales/legal.html)
+
+## Ideologies
+
+- [Italian Fascism](https://ethoscales.github.io/ethoscales/ideology/italian-fascism.html): Everything within the state, nothing outside the state, nothing against the state.
+- [Falangism](https://ethoscales.github.io/ethoscales/ideology/falangism.html): National syndicalism on a Catholic foundation.
+- [Peronism (Justicialism)](https://ethoscales.github.io/ethoscales/ideology/peronism.html): Social justice, economic independence, political sovereignty.
+- [Strasserism](https://ethoscales.github.io/ethoscales/ideology/strasserism.html): A national socialism turned against big capital.
+- [National Bolshevism](https://ethoscales.github.io/ethoscales/ideology/national-bolshevism.html): Soviet style planning in the service of the nation.
+- [Neo Eurasianism (Fourth Political Theory)](https://ethoscales.github.io/ethoscales/ideology/eurasianism.html): Against liberalism, communism and fascism alike.
+- [Ba'athism](https://ethoscales.github.io/ethoscales/ideology/baathism.html): Unity, freedom, socialism.
+- [Marxism Leninism](https://ethoscales.github.io/ethoscales/ideology/marxism-leninism.html): A vanguard party leads the workers to state power.
+- [Maoism](https://ethoscales.github.io/ethoscales/ideology/maoism.html): Peasant revolution, the mass line, protracted people's war.
+- [Juche](https://ethoscales.github.io/ethoscales/ideology/juche.html): Self reliance in ideology, politics, economy and defence.
+- [Council Communism](https://ethoscales.github.io/ethoscales/ideology/council-communism.html): All power to the workers' councils, none to the party.
+- [Anarcho Communism](https://ethoscales.github.io/ethoscales/ideology/anarcho-communism.html): All is for all.
+- [Anarcho Syndicalism](https://ethoscales.github.io/ethoscales/ideology/anarcho-syndicalism.html): The union is both the weapon and the future society.
+- [Mutualism](https://ethoscales.github.io/ethoscales/ideology/mutualism.html): Markets without landlords, bosses or bankers.
+- [Egoist Anarchism](https://ethoscales.github.io/ethoscales/ideology/egoist-anarchism.html): No god, no state, no cause above the individual.
+- [Tolstoyan Anarcho Pacifism](https://ethoscales.github.io/ethoscales/ideology/tolstoyanism.html): Resist not evil by force.
+- [Social Ecology (Communalism)](https://ethoscales.github.io/ethoscales/ideology/social-ecology.html): The domination of nature begins with the domination of people.
+- [Anarcho Primitivism](https://ethoscales.github.io/ethoscales/ideology/anarcho-primitivism.html): Civilisation itself is the problem.
+- [Agorism](https://ethoscales.github.io/ethoscales/ideology/agorism.html): Starve the state through the counter economy.
+- [Crypto Anarchism](https://ethoscales.github.io/ethoscales/ideology/crypto-anarchism.html): Strong cryptography makes the state unable to see or tax.
+- [Social Democracy](https://ethoscales.github.io/ethoscales/ideology/social-democracy.html): The movement is everything, the final goal is nothing.
+- [Market Socialism](https://ethoscales.github.io/ethoscales/ideology/market-socialism.html): Public ownership, with prices doing the work.
+- [Georgism](https://ethoscales.github.io/ethoscales/ideology/georgism.html): Tax land, not labour.
+- [Left Accelerationism](https://ethoscales.github.io/ethoscales/ideology/left-accelerationism.html): Demand full automation.
+- [Democratic Transhumanism](https://ethoscales.github.io/ethoscales/ideology/democratic-transhumanism.html): The right to enhance, with fair access for all.
+- [Classical Liberalism](https://ethoscales.github.io/ethoscales/ideology/classical-liberalism.html): Power may only be used over someone to prevent harm to others.
+- [Social Liberalism](https://ethoscales.github.io/ethoscales/ideology/social-liberalism.html): Justice as fairness.
+- [Ordoliberalism](https://ethoscales.github.io/ethoscales/ideology/ordoliberalism.html): A strong state to keep markets competitive.
+- [Minarchist Libertarianism](https://ethoscales.github.io/ethoscales/ideology/minarchism.html): The night watchman state, and nothing more.
+- [Anarcho Capitalism](https://ethoscales.github.io/ethoscales/ideology/anarcho-capitalism.html): Even law and defence should be supplied by the market.
+- [Burkean Conservatism](https://ethoscales.github.io/ethoscales/ideology/burkean-conservatism.html): Society is a partnership of the dead, the living and the unborn.
+- [Reactionary Monarchism](https://ethoscales.github.io/ethoscales/ideology/reactionary-monarchism.html): Throne and altar.
+- [Christian Democracy](https://ethoscales.github.io/ethoscales/ideology/christian-democracy.html): The dignity of the person, in a pluralist democracy.
+- [Distributism](https://ethoscales.github.io/ethoscales/ideology/distributism.html): Three acres and a cow.
+- [National Conservatism](https://ethoscales.github.io/ethoscales/ideology/national-conservatism.html): A world of independent nations, not a universal order.
+- [Neo Cameralism](https://ethoscales.github.io/ethoscales/ideology/neo-cameralism.html): The state as a company, the ruler as its chief executive.
+- [Right Accelerationism](https://ethoscales.github.io/ethoscales/ideology/right-accelerationism.html): Capital and technology are an intelligence to be unleashed.
+- [Network State](https://ethoscales.github.io/ethoscales/ideology/network-state.html): Cloud first, land last.
+- [Deep Ecology](https://ethoscales.github.io/ethoscales/ideology/deep-ecology.html): All life has value in itself.
+- [Eco Authoritarianism](https://ethoscales.github.io/ethoscales/ideology/eco-authoritarianism.html): Only a firm hand can stop the ecological collapse.
+- [Technocracy](https://ethoscales.github.io/ethoscales/ideology/technocracy.html): Government by engineers, accounting in energy.
+- [National Syndicalism](https://ethoscales.github.io/ethoscales/ideology/national-syndicalism.html): The syndicates of the left, the nation of the right.
+- [Brazilian Integralism](https://ethoscales.github.io/ethoscales/ideology/brazilian-integralism.html): God, fatherland, family.
+- [Austrofascism](https://ethoscales.github.io/ethoscales/ideology/austrofascism.html): A Christian, German state of estates under authoritarian leadership.
+- [Third International Theory](https://ethoscales.github.io/ethoscales/ideology/third-international-theory.html): Neither capitalism nor communism, but the state of the masses.
+- [Nasserism](https://ethoscales.github.io/ethoscales/ideology/nasserism.html): Arab unity, socialism, and no alignment with either bloc.
+- [Futurism](https://ethoscales.github.io/ethoscales/ideology/futurism.html): A racing car is more beautiful than the Victory of Samothrace.
+- [Radical Traditionalism](https://ethoscales.github.io/ethoscales/ideology/radical-traditionalism.html): Against the modern world, for hierarchy and the sacred.
+- [Archeofuturism](https://ethoscales.github.io/ethoscales/ideology/archeofuturism.html): Archaic values, futuristic technology.
+- [Trotskyism](https://ethoscales.github.io/ethoscales/ideology/trotskyism.html): The revolution cannot stop at one country.
+- [Stalinism](https://ethoscales.github.io/ethoscales/ideology/stalinism.html): Socialism in one country.
+- [Luxemburgism](https://ethoscales.github.io/ethoscales/ideology/luxemburgism.html): Freedom is always the freedom of the one who thinks differently.
+- [Titoism (Self Management)](https://ethoscales.github.io/ethoscales/ideology/titoism.html): Factories to the workers, and no orders from Moscow.
+- [Dengism](https://ethoscales.github.io/ethoscales/ideology/dengism.html): Yellow cat or black cat, the one that catches mice is a good cat.
+- [Guevarism](https://ethoscales.github.io/ethoscales/ideology/guevarism.html): Create two, three, many Vietnams.
+- [Utopian Socialism](https://ethoscales.github.io/ethoscales/ideology/utopian-socialism.html): Change the surroundings and you change the person.
+- [Revolutionary Syndicalism](https://ethoscales.github.io/ethoscales/ideology/revolutionary-syndicalism.html): The myth of the general strike.
+- [Ujamaa (African Socialism)](https://ethoscales.github.io/ethoscales/ideology/ujamaa.html): Socialism as the extended family.
+- [Eco Socialism](https://ethoscales.github.io/ethoscales/ideology/eco-socialism.html): Capitalism cannot be made green.
+- [Democratic Confederalism](https://ethoscales.github.io/ethoscales/ideology/democratic-confederalism.html): Democracy without the state.
+- [Zapatismo](https://ethoscales.github.io/ethoscales/ideology/zapatismo.html): To lead by obeying.
+- [Keynesian Liberalism](https://ethoscales.github.io/ethoscales/ideology/keynesian-liberalism.html): Markets can get stuck, and the state can unstick them.
+- [Neoliberalism](https://ethoscales.github.io/ethoscales/ideology/neoliberalism.html): Economic freedom is a condition of political freedom.
+- [Third Way](https://ethoscales.github.io/ethoscales/ideology/third-way.html): No rights without responsibilities.
+- [Objectivism](https://ethoscales.github.io/ethoscales/ideology/objectivism.html): Rational self interest is the moral ideal.
+- [Hoppean Libertarianism](https://ethoscales.github.io/ethoscales/ideology/hoppeanism.html): A private law society of covenant communities.
+- [Effective Accelerationism](https://ethoscales.github.io/ethoscales/ideology/effective-accelerationism.html): Accelerate, and climb the Kardashev scale.
+- [Bioconservatism](https://ethoscales.github.io/ethoscales/ideology/bioconservatism.html): Human nature is not ours to redesign.
+- [Neoconservatism](https://ethoscales.github.io/ethoscales/ideology/neoconservatism.html): A liberal who has been mugged by reality.
+- [Paleoconservatism](https://ethoscales.github.io/ethoscales/ideology/paleoconservatism.html): A republic, not an empire.
+- [Communitarianism](https://ethoscales.github.io/ethoscales/ideology/communitarianism.html): Strong rights presume strong responsibilities.
+- [Kemalism](https://ethoscales.github.io/ethoscales/ideology/kemalism.html): Republicanism, nationalism, populism, statism, secularism, reformism.
+- [Bonapartism](https://ethoscales.github.io/ethoscales/ideology/bonapartism.html): One leader, chosen directly by the people.
+- [Political Zionism](https://ethoscales.github.io/ethoscales/ideology/zionism.html): We are a people, one people.
+- [Hindutva](https://ethoscales.github.io/ethoscales/ideology/hindutva.html): A common nation, a common race, a common civilisation.
+- [Islamism (Qutbism)](https://ethoscales.github.io/ethoscales/ideology/islamism.html): Sovereignty belongs to God alone.
+- [Khomeinism](https://ethoscales.github.io/ethoscales/ideology/khomeinism.html): Guardianship of the jurist.
+- [Gandhism](https://ethoscales.github.io/ethoscales/ideology/gandhism.html): Self rule through truth and non violence.
+- [Platonic Guardianship](https://ethoscales.github.io/ethoscales/ideology/platonism.html): Until philosophers are kings, cities will have no rest from evils.
+- [Confucianism](https://ethoscales.github.io/ethoscales/ideology/confucianism.html): Govern by virtue, and the people will have a sense of shame.
+- [Classical Marxism](https://ethoscales.github.io/ethoscales/ideology/classical-marxism.html): Workers of all countries, unite!
+- [Hoxhaism](https://ethoscales.github.io/ethoscales/ideology/hoxhaism.html): Marxism Leninism defended against every revision, Soviet, Yugoslav and Chinese alike.
+- [De Leonism](https://ethoscales.github.io/ethoscales/ideology/de-leonism.html): Socialist industrial unionism: the union as the government of the future.
+- [Bordigism (Italian Left Communism)](https://ethoscales.github.io/ethoscales/ideology/bordigism.html): The programme decides, not the count of votes.
+- [Operaismo (Autonomist Marxism)](https://ethoscales.github.io/ethoscales/ideology/operaismo.html): Workers' struggle comes first, and capital reorganises itself in response.
+- [Situationism](https://ethoscales.github.io/ethoscales/ideology/situationism.html): Life itself has been replaced by its image, and must be taken back.
+- [Blanquism](https://ethoscales.github.io/ethoscales/ideology/blanquism.html): Revolution as the work of a small, disciplined and prepared organisation.
+- [Castroism](https://ethoscales.github.io/ethoscales/ideology/castroism.html): National liberation that becomes socialist revolution.
+- [Orthodox Marxism (Kautskyism)](https://ethoscales.github.io/ethoscales/ideology/kautskyism.html): A revolutionary party, but not a party that makes revolutions.
+- [Austromarxism](https://ethoscales.github.io/ethoscales/ideology/austromarxism.html): Socialism joined to cultural autonomy for every nation.
+- [Eurocommunism](https://ethoscales.github.io/ethoscales/ideology/eurocommunism.html): A democratic road to socialism, independent of Moscow.
+- [Sankarism](https://ethoscales.github.io/ethoscales/ideology/sankarism.html): Homeland or death, we shall overcome!
+- [Bukharinism (Right Opposition)](https://ethoscales.github.io/ethoscales/ideology/bukharinism.html): Socialism built gradually, in alliance with the peasantry.
+- [Collectivist Anarchism](https://ethoscales.github.io/ethoscales/ideology/collectivist-anarchism.html): No state can free the people, not even a workers' state.
+- [Individualist Anarchism](https://ethoscales.github.io/ethoscales/ideology/individualist-anarchism.html): Liberty and free competition as the cure for monopoly.
+- [Insurrectionary Anarchism](https://ethoscales.github.io/ethoscales/ideology/insurrectionary-anarchism.html): Attack now, in small informal groups, without waiting for the right moment.
+- [Platformism](https://ethoscales.github.io/ethoscales/ideology/platformism.html): Anarchist communism with a disciplined organisation of its own.
+- [Anarcha Feminism](https://ethoscales.github.io/ethoscales/ideology/anarcha-feminism.html): No emancipation of women without the end of state, church and marriage as institutions.
+- [Philosophical Anarchism](https://ethoscales.github.io/ethoscales/ideology/philosophical-anarchism.html): Government will wither as reason grows.
+- [Post Left Anarchism](https://ethoscales.github.io/ethoscales/ideology/post-left-anarchism.html): Anarchy without the Left, without ideology and without work.
+- [Black Anarchism](https://ethoscales.github.io/ethoscales/ideology/black-anarchism.html): Black self determination without a state or a vanguard party.
+- [Magonism](https://ethoscales.github.io/ethoscales/ideology/magonism.html): Land and Liberty!
+- [Communization Theory](https://ethoscales.github.io/ethoscales/ideology/communization.html): Communism as the immediate act of revolution, not a stage that follows it.
+- [Indigenous Resurgence](https://ethoscales.github.io/ethoscales/ideology/indigenous-resurgence.html): Self government on indigenous terms, drawn from tradition and not from the state.
+- [Inclusive Democracy](https://ethoscales.github.io/ethoscales/ideology/inclusive-democracy.html): Direct democracy extended to politics, the economy, society and nature.
+- [Democratic Socialism](https://ethoscales.github.io/ethoscales/ideology/democratic-socialism.html): Public ownership of the main levers of the economy, won and kept through parliament.
+- [Fabianism](https://ethoscales.github.io/ethoscales/ideology/fabianism.html): Socialism by gradual, constitutional steps, guided by research and administration.
+- [Guild Socialism](https://ethoscales.github.io/ethoscales/ideology/guild-socialism.html): Industry owned in common and run by self governing guilds of its workers.
+- [Christian Socialism](https://ethoscales.github.io/ethoscales/ideology/christian-socialism.html): Cooperation, not competition, as the Christian law of social life.
+- [Ethical Socialism](https://ethoscales.github.io/ethoscales/ideology/ethical-socialism.html): Socialism as a moral case for equality and fellowship.
+- [Liberal Socialism](https://ethoscales.github.io/ethoscales/ideology/liberal-socialism.html): Socialism as liberty carried through to the lives of the poor.
+- [Lassalleanism](https://ethoscales.github.io/ethoscales/ideology/lassalleanism.html): Universal suffrage and state aid for workers' own cooperatives.
+- [Participatory Economics](https://ethoscales.github.io/ethoscales/ideology/participatory-economics.html): An economy planned from below by councils of workers and consumers.
+- [Marxist Feminism](https://ethoscales.github.io/ethoscales/ideology/marxist-feminism.html): Women's liberation through the liberation of labour.
+- [Black Feminism](https://ethoscales.github.io/ethoscales/ideology/black-feminism.html): Race, sex, sexuality and class oppression interlock and must be fought together.
+- [Nkrumaism](https://ethoscales.github.io/ethoscales/ideology/nkrumaism.html): A united socialist Africa under one continental government.
+- [Labour Zionism](https://ethoscales.github.io/ethoscales/ideology/labour-zionism.html): A Jewish homeland built by Jewish workers as the ground for socialism.
+- [Cooperativism](https://ethoscales.github.io/ethoscales/ideology/cooperativism.html): Working people pooling small savings to become their own employers.
+- [Fanonism](https://ethoscales.github.io/ethoscales/ideology/fanonism.html): Decolonisation as the remaking of a people through their own struggle.
+- [New Left](https://ethoscales.github.io/ethoscales/ideology/new-left.html): A refusal of the comfortable unfreedom of affluent industrial society.
+- [Radical Democracy](https://ethoscales.github.io/ethoscales/ideology/radical-democracy.html): Deepen liberal democracy by linking many struggles for equality.
+- [Degrowth](https://ethoscales.github.io/ethoscales/ideology/degrowth.html): Leave the growth society and live better with less.
+- [Ecomodernism](https://ethoscales.github.io/ethoscales/ideology/ecomodernism.html): Use technology to decouple human wellbeing from damage to nature.
+- [Ecofeminism](https://ethoscales.github.io/ethoscales/ideology/ecofeminism.html): The domination of women and the destruction of nature share one root.
+- [Bioregionalism](https://ethoscales.github.io/ethoscales/ideology/bioregionalism.html): Political and economic life rescaled to fit natural regions.
+- [Animal Liberation](https://ethoscales.github.io/ethoscales/ideology/animal-liberation.html): Equal consideration for the interests of every being that can suffer.
+- [Conservationism (Land Ethic)](https://ethoscales.github.io/ethoscales/ideology/land-ethic-conservationism.html): Humans as plain members of the land community, not its conquerors.
+- [Steady State Economics](https://ethoscales.github.io/ethoscales/ideology/steady-state-economics.html): A constant population and stock of goods, kept within the limits of the biosphere.
+- [Green Conservatism](https://ethoscales.github.io/ethoscales/ideology/green-conservatism.html): Care for the environment grows from love of home.
+- [Lockean Liberalism](https://ethoscales.github.io/ethoscales/ideology/lockean-liberalism.html): Government rests on the consent of the governed and exists to protect life, liberty and property.
+- [Benthamite Utilitarianism](https://ethoscales.github.io/ethoscales/ideology/benthamite-utilitarianism.html): Laws are to be judged only by the happiness and suffering they produce.
+- [Kantian Republicanism](https://ethoscales.github.io/ethoscales/ideology/kantian-republicanism.html): Republics joined in a federation of free states can end war.
+- [Civic Republicanism](https://ethoscales.github.io/ethoscales/ideology/civic-republicanism.html): Freedom is not being left alone but having no master.
+- [Radicalism](https://ethoscales.github.io/ethoscales/ideology/painite-radicalism.html): Every generation has the right to govern itself.
+- [New Liberalism](https://ethoscales.github.io/ethoscales/ideology/new-liberalism.html): Liberty without equality is a name of noble sound and squalid result.
+- [Liberal Internationalism](https://ethoscales.github.io/ethoscales/ideology/liberal-internationalism.html): Peace through open diplomacy, free trade and a league of nations.
+- [Capabilities Approach](https://ethoscales.github.io/ethoscales/ideology/capabilities-approach.html): A society succeeds by what its people are actually able to do and to be.
+- [Liberal Feminism](https://ethoscales.github.io/ethoscales/ideology/liberal-feminism.html): Reason has no sex, so rights and education should have none either.
+- [Open Society Liberalism](https://ethoscales.github.io/ethoscales/ideology/open-society.html): Reform piece by piece, and keep the power to dismiss your rulers.
+- [Hayekian Liberalism](https://ethoscales.github.io/ethoscales/ideology/hayekian-liberalism.html): No mind can plan a society, so freedom under general rules must be left to do the work.
+- [Public Choice Constitutionalism](https://ethoscales.github.io/ethoscales/ideology/public-choice.html): Voters and officials pursue their own interests, so the rules matter more than the rulers.
+- [European Federalism](https://ethoscales.github.io/ethoscales/ideology/european-federalism.html): End the sovereign nation state in Europe and build a federation in its place.
+- [Left Libertarianism](https://ethoscales.github.io/ethoscales/ideology/left-libertarianism.html): You own yourself, but the earth belongs equally to everyone.
+- [Paleolibertarianism](https://ethoscales.github.io/ethoscales/ideology/paleolibertarianism.html): Against the state, and for the family, the church and inherited culture.
+- [Voluntaryism](https://ethoscales.github.io/ethoscales/ideology/voluntaryism.html): A state may defend people against force, but must itself be paid for by choice.
+- [Natural Law Anarchism](https://ethoscales.github.io/ethoscales/ideology/natural-law-anarchism.html): A constitution that nobody signed binds nobody.
+- [Panarchism](https://ethoscales.github.io/ethoscales/ideology/panarchism.html): Choose your government as you choose your church, without moving house.
+- [Seasteading](https://ethoscales.github.io/ethoscales/ideology/seasteading.html): Build new societies on the ocean and let governments compete for citizens.
+- [Extropianism](https://ethoscales.github.io/ethoscales/ideology/extropianism.html): No limits on life, intelligence or self transformation.
+- [Singularitarianism](https://ethoscales.github.io/ethoscales/ideology/singularitarianism.html): Exponential technology will merge human and machine intelligence within decades.
+- [Longtermism](https://ethoscales.github.io/ethoscales/ideology/longtermism.html): Future people count, and there could be a great many of them.
+- [Neo Luddism](https://ethoscales.github.io/ethoscales/ideology/neo-luddism.html): No technology is neutral, and some should be taken apart.
+- [Cybernetic Socialism](https://ethoscales.github.io/ethoscales/ideology/cybernetic-socialism.html): Run the economy as a living nervous system, in real time.
+- [Free Software Movement](https://ethoscales.github.io/ethoscales/ideology/free-software-movement.html): Software should be free to use, study, share and change.
+- [Pirate Politics](https://ethoscales.github.io/ethoscales/ideology/pirate-politics.html): Free the sharing of culture and protect private communication.
+- [Futarchy](https://ethoscales.github.io/ethoscales/ideology/futarchy.html): Vote on values, but bet on beliefs.
+- [One Nation Conservatism](https://ethoscales.github.io/ethoscales/ideology/one-nation-conservatism.html): The rich and the poor must not become two nations.
+- [Traditionalist Conservatism](https://ethoscales.github.io/ethoscales/ideology/traditionalist-conservatism.html): A transcendent moral order, and the permanent things that rest on it.
+- [Fusionism](https://ethoscales.github.io/ethoscales/ideology/fusionism.html): Freedom is the end of politics, virtue the end of man.
+- [Conservative Liberalism](https://ethoscales.github.io/ethoscales/ideology/conservative-liberalism.html): Liberty in a democratic age depends on local self government, associations and mores.
+- [Gaullism](https://ethoscales.github.io/ethoscales/ideology/gaullism.html): A strong head of state above the parties, and an independent France.
+- [Compassionate Conservatism](https://ethoscales.github.io/ethoscales/ideology/compassionate-conservatism.html): Help for the poor should be personal, challenging and spiritual.
+- [Catholic Social Teaching](https://ethoscales.github.io/ethoscales/ideology/catholic-social-teaching.html): Capital cannot do without labour, nor labour without capital.
+- [Postliberalism](https://ethoscales.github.io/ethoscales/ideology/postliberalism.html): Liberalism has failed because it has succeeded.
+- [Red Toryism](https://ethoscales.github.io/ethoscales/ideology/red-toryism.html): Against the monopoly of the state and the monopoly of the market.
+- [Crunchy Conservatism](https://ethoscales.github.io/ethoscales/ideology/crunchy-conservatism.html): Small, local, old and particular over big, global, new and abstract.
+- [Agrarianism](https://ethoscales.github.io/ethoscales/ideology/agrarianism.html): Good farming, settled households and local economies are the basis of culture.
+- [Oakeshottian Conservatism](https://ethoscales.github.io/ethoscales/ideology/oakeshottian-conservatism.html): Conservatism as a disposition, not a doctrine.
+- [Hamiltonianism](https://ethoscales.github.io/ethoscales/ideology/hamiltonianism.html): A strong national government that builds national industry.
+- [Straussianism](https://ethoscales.github.io/ethoscales/ideology/straussianism.html): A return to classical natural right against relativism.
+- [Hegelian Constitutional Monarchism](https://ethoscales.github.io/ethoscales/ideology/hegelian-constitutional-monarchism.html): Freedom made actual in the family, civil society and the state.
+- [Carlism](https://ethoscales.github.io/ethoscales/ideology/carlism.html): God, Fatherland, Fueros, King.
+- [Prussian Socialism](https://ethoscales.github.io/ethoscales/ideology/prussian-socialism.html): Socialism as duty and service to the state, not as class struggle.
+- [Conservative Revolution](https://ethoscales.github.io/ethoscales/ideology/conservative-revolution.html): Against liberalism and party rule, a new Reich above the parties.
+- [Nouvelle Droite (European New Right)](https://ethoscales.github.io/ethoscales/ideology/nouvelle-droite.html): The right to difference, against a single world culture.
+- [Perennialist Traditionalism](https://ethoscales.github.io/ethoscales/ideology/perennialist-traditionalism.html): Spiritual authority above temporal power.
+- [Divine Right Absolutism](https://ethoscales.github.io/ethoscales/ideology/divine-right-absolutism.html): Kings rule as fathers, by the authority God gave Adam.
+- [Aristocratic Radicalism](https://ethoscales.github.io/ethoscales/ideology/aristocratic-radicalism.html): Rank and the higher human being, against the morality of the herd.
+- [Carlylean Hero Worship](https://ethoscales.github.io/ethoscales/ideology/carlylean-hero-worship.html): History is the biography of great men, and the ablest should rule.
+- [Catholic Integralism](https://ethoscales.github.io/ethoscales/ideology/catholic-integralism.html): The state owes public recognition to the Catholic faith.
+- [Civic Nationalism](https://ethoscales.github.io/ethoscales/ideology/civic-nationalism.html): A nation is a daily plebiscite.
+- [Romantic Nationalism](https://ethoscales.github.io/ethoscales/ideology/romantic-nationalism.html): A people is made by its language, and remade by its schools.
+- [Mazzinian Republicanism](https://ethoscales.github.io/ethoscales/ideology/mazzinianism.html): God and the people.
+- [Pan Slavism](https://ethoscales.github.io/ethoscales/ideology/pan-slavism.html): The Slavs are a civilisation of their own, not a part of Europe.
+- [Garveyism](https://ethoscales.github.io/ethoscales/ideology/garveyism.html): Africa for the Africans, at home and abroad.
+- [Three Principles of the People](https://ethoscales.github.io/ethoscales/ideology/three-principles-of-the-people.html): Nationalism, democracy, the people's livelihood.
+- [Revisionist Zionism](https://ethoscales.github.io/ethoscales/ideology/revisionist-zionism.html): Settlement behind an iron wall of force.
+- [Irish Republicanism](https://ethoscales.github.io/ethoscales/ideology/irish-republicanism.html): A sovereign republic, won in arms, for all the people of Ireland.
+- [Nehruvian Secular Nationalism](https://ethoscales.github.io/ethoscales/ideology/nehruvian-nationalism.html): One nation out of many faiths and languages.
+- [Pancasila](https://ethoscales.github.io/ethoscales/ideology/pancasila.html): Five principles for one nation of many islands and faiths.
+- [Bolivarianism](https://ethoscales.github.io/ethoscales/ideology/bolivarianism.html): Independence, union and a strong republic for Spanish America.
+- [Pan Turkism](https://ethoscales.github.io/ethoscales/ideology/pan-turkism.html): A political union of all the Turks.
+- [Kokutai Thought](https://ethoscales.github.io/ethoscales/ideology/kokutai.html): One nation as one family under a divine and unbroken imperial line.
+- [Economic Nationalism](https://ethoscales.github.io/ethoscales/ideology/economic-nationalism.html): The power to produce wealth matters more than wealth itself.
+- [British Fascism](https://ethoscales.github.io/ethoscales/ideology/british-fascism.html): A corporate state and a closed imperial economy.
+- [Rexism](https://ethoscales.github.io/ethoscales/ideology/rexism.html): A Catholic and corporatist revolt against the Belgian party system.
+- [Estado Novo Corporatism (Salazarism)](https://ethoscales.github.io/ethoscales/ideology/salazarism.html): A strong state without parties, bounded by Catholic morals.
+- [Shōwa Statism](https://ethoscales.github.io/ethoscales/ideology/showa-statism.html): A coup in the emperor's name, state control of big capital, empire abroad.
+- [Liberation Theology](https://ethoscales.github.io/ethoscales/ideology/liberation-theology.html): Theology done from the side of the poor.
+- [Christian Reconstructionism (Theonomy)](https://ethoscales.github.io/ethoscales/ideology/christian-reconstructionism.html): The law of Moses as the standard for every society.
+- [Neo Calvinism (Sphere Sovereignty)](https://ethoscales.github.io/ethoscales/ideology/neo-calvinism.html): Each sphere of life answers to God, not to the state.
+- [Political Augustinianism](https://ethoscales.github.io/ethoscales/ideology/political-augustinianism.html): Two cities, formed by two loves.
+- [Thomism](https://ethoscales.github.io/ethoscales/ideology/thomism.html): Government exists for the common good.
+- [Islamic Modernism](https://ethoscales.github.io/ethoscales/ideology/islamic-modernism.html): Reopen the gates of independent reasoning.
+- [Islamic Democracy](https://ethoscales.github.io/ethoscales/ideology/islamic-democracy.html): Elections, pluralism and rights grounded in Islamic sources.
+- [Religious Zionism](https://ethoscales.github.io/ethoscales/ideology/religious-zionism.html): The return to the Land as the beginning of redemption.
+- [Engaged Buddhism](https://ethoscales.github.io/ethoscales/ideology/engaged-buddhism.html): Practice that goes out to meet suffering in society.
+- [Dhammic Socialism](https://ethoscales.github.io/ethoscales/ideology/dhammic-socialism.html): Take only what you need; the rest belongs to all.
+- [Integral Humanism](https://ethoscales.github.io/ethoscales/ideology/integral-humanism.html): Body, mind, intellect and soul, for the person and the nation alike.
+- [Anabaptist Pacifism](https://ethoscales.github.io/ethoscales/ideology/anabaptist-pacifism.html): A church apart, without sword or oath.
+- [Social Gospel](https://ethoscales.github.io/ethoscales/ideology/social-gospel.html): The Kingdom of God as a just social order on earth.
+- [Christian Realism](https://ethoscales.github.io/ethoscales/ideology/christian-realism.html): Individuals can be unselfish; groups rarely are.
+- [Aristotelian Polity](https://ethoscales.github.io/ethoscales/ideology/aristotelian-polity.html): A mixed constitution resting on a strong middle class.
+- [Stoic Cosmopolitanism](https://ethoscales.github.io/ethoscales/ideology/stoic-cosmopolitanism.html): All rational beings are citizens of one city.
+- [Machiavellian Republicanism](https://ethoscales.github.io/ethoscales/ideology/machiavellian-republicanism.html): A free republic kept alive by conflict, law and its own arms.
+- [Legalism](https://ethoscales.github.io/ethoscales/ideology/legalism.html): Rule by law, reward and punishment, not by virtue.
+- [Mohism](https://ethoscales.github.io/ethoscales/ideology/mohism.html): Impartial care for all, and an end to wars of aggression.
+- [Daoism](https://ethoscales.github.io/ethoscales/ideology/daoism.html): Govern by not interfering.
+- [Kautilyan Statecraft](https://ethoscales.github.io/ethoscales/ideology/kautilyan-statecraft.html): The science of acquiring and keeping the earth.
+- [Hobbesian Absolutism](https://ethoscales.github.io/ethoscales/ideology/hobbesian-absolutism.html): Without a common power, a war of all against all.
+- [Rousseauian Republicanism](https://ethoscales.github.io/ethoscales/ideology/rousseauian-republicanism.html): Man is born free, and everywhere he is in chains.
+- [Montesquieuan Constitutionalism](https://ethoscales.github.io/ethoscales/ideology/montesquieuan-constitutionalism.html): Power must be arranged so that power checks power.
+- [Morean Utopianism](https://ethoscales.github.io/ethoscales/ideology/morean-utopianism.html): An island with no money and no private property.
+- [Digger Communism](https://ethoscales.github.io/ethoscales/ideology/digger-communism.html): The earth held in common, with no buying and selling.
+- [Neo Libertarian Falangism](https://ethoscales.github.io/ethoscales/ideology/neo-libertarian-falangism.html): Deregulate everything, for the unity of destiny.
+- [Monarcho Brezhnevism](https://ethoscales.github.io/ethoscales/ideology/monarcho-brezhnevism.html): A hereditary throne atop a five year plan.
+- [Anarcho Monarchism](https://ethoscales.github.io/ethoscales/ideology/anarcho-monarchism.html): A king who leaves everyone alone.
+- [Posadism](https://ethoscales.github.io/ethoscales/ideology/posadism.html): Nuclear war, then socialism, then the aliens.
+- [Fully Automated Luxury Communism](https://ethoscales.github.io/ethoscales/ideology/luxury-space-communism.html): Robots do the work. Everyone gets the good life.

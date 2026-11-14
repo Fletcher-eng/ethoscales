@@ -70,10 +70,17 @@ ethoscales/
 ├── dodecahedron.js   The twelve faced map
 ├── app.js            The engine: quiz flow, math, charts, sharing, card export
 ├── legal.html        Terms, privacy and cookies
+├── ideology/         One plain page per ideology, built by tools/build_pages.js
+├── ideologies.html   Index of those pages (built)
+├── parties.html      Every party by country (built)
+├── pages.css         Styles for the built pages
+├── llms.txt          A plain summary of the site for AI assistants (built)
+├── sitemap.xml       Every page, for search engines (built)
 ├── og.png            The preview image shown when the link is pasted into a chat
 ├── figures/          Portraits, plus credits.json and CREDITS.md
 └── tools/
     ├── fetch_figures.py   Downloads freely licensed portraits from Wikimedia Commons
+    ├── build_pages.js     Builds the ideology pages, indexes, llms.txt and the sitemap
     └── collector.gs       Google Apps Script that saves shared survey rows to a sheet
 ```
 
@@ -142,6 +149,18 @@ The script looks everyone up in a few batched requests and pauses between downlo
 **Portraits.** The images in `figures/` are not covered by the MIT License. Each one comes from Wikimedia Commons and is either public domain or under a Creative Commons BY, BY-SA or CC0 licence. Authors, licences and the changes made are listed in [`figures/CREDITS.md`](figures/CREDITS.md), the credit is shown under every portrait on the site, and it is printed on every result card.
 
 **Libraries and fonts**, loaded from public CDNs and not copied into this repo: Plotly.js (MIT), qrcode-generator (MIT), and the Anton and Archivo typefaces (SIL Open Font License).
+
+## Pages for search engines and AI assistants
+
+The test itself is one page, which gives a search engine very little to read. So `tools/build_pages.js` writes a plain page for every ideology, answering the questions people actually type: what it is, what it believes, who founded it, whether it is left or right, and how it differs from its nearest neighbour. Each page carries structured data marking those up as questions and answers.
+
+It also writes an index of ideologies, a page of every party by country, `llms.txt` and the sitemap. Run it again whenever `ideologies.js` or `extras.js` changes:
+
+```bash
+node tools/build_pages.js
+```
+
+Hateful and violent extremist ideologies are described inside the test but get no page of their own.
 
 ## Run it locally
 
