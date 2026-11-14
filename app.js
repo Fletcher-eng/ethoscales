@@ -20,6 +20,9 @@
     // Where shared survey rows are sent. Paste the web app URL from tools/collector.gs
     // here to switch collection on. While it is empty nothing is ever sent.
     collectUrl: '',
+    // An anonymous tally of how the site is used. Each event adds one to a named number and
+    // nothing else: no cookie, no id, nothing about the person. Set to '' to switch it off.
+    counterUrl: 'https://abacus.jasoncameron.dev/hit/ethoscales/',
     fadeMs: 180,
     card: { width: 1080, height: 1350 }
   };
@@ -88,6 +91,24 @@
     challenge: { vs: null, target: null, best: null },
     busy: false          // true while a question transition is animating
   };
+
+  /**
+   * Add one to a named tally. Only on the real site, and never for automated browsers,
+   * so local work and test runs do not inflate the numbers.
+   */
+  function count(key) {
+    if (!CONFIG.counterUrl || window.location.hostname !== 'ethoscales.github.io' || navigator.webdriver) return;
+    try { fetch(CONFIG.counterUrl + key, { mode: 'no-cors', keepalive: true }).catch(() => {}); } catch (err) { /* never matters */ }
+  }
+
+  /** Tallies that should only move once per person or once per sitting. */
+  function countOnce(key, storage, flag) {
+    try {
+      if (storage.getItem(flag)) return;
+      storage.setItem(flag, '1');
+    } catch (err) { return; }
+    count(key);
+  }
 
   const $ = (sel) => document.querySelector(sel);
   const el = {};
@@ -451,6 +472,7 @@
     state.survey = null;
     state.startedAt = Date.now();
     acceptTerms();
+    count(state.challenge.target ? 'dares-started' : state.challenge.vs ? 'challenges-started' : 'tests-started');
     el.quizModeLabel.textContent = state.challenge.target ? 'Dare: answer as ' + state.challenge.target.name : MODES[state.mode].label;
     showView('quiz');
     renderQuestion();
@@ -544,6 +566,7 @@
       writeScoresToUrl(state.scores);
       showView('results');
       renderResults('You answered this one in character');
+      count('dares-finished');
       return;
     }
     showView('survey');
@@ -693,6 +716,9 @@
     showView('results');
     renderResults(state.survey && Object.keys(state.survey.changes).length ? 'From your answers and beliefs' : 'From your answers');
     if (sent) toast('Thanks. Your anonymous result was added.');
+    count('tests-finished');
+    count('finished-' + state.mode);
+    if (state.challenge.vs) count('challenges-finished');
   }
 
   /* ------------------------------------------------------------------ */
@@ -953,6 +979,7 @@
   }
 
   function sendCompareChallenge() {
+    count('challenges-sent');
     const url = pageBase() + '?vs=' + AXES.map((a) => state.scores[a.key]).join(',');
     sendLink(url, `I got ${state.matches[0].ideology.name} on EthosScales. Take it and let us see how alike we actually are.`);
   }
@@ -960,6 +987,7 @@
   function sendDare(id) {
     const target = IDEOLOGIES.find((i) => i.id === id && canDare(i));
     if (!target) return;
+    count('dares-sent');
     // The score to beat is how close the sender is. In a dare they answered, that is their attempt.
     const best = fmt(Math.max(similarity(state.scores, target.coords), state.challenge.target && state.challenge.target.id === id && state.challenge.best !== null ? state.challenge.best : 0));
     const url = `${pageBase()}?target=${target.id}&best=${best}`;
@@ -1722,6 +1750,7 @@
 
   async function copyShareLink() {
     const url = window.location.href;
+    count('results-shared');
     try {
       if (navigator.clipboard && window.isSecureContext) {
         await navigator.clipboard.writeText(url);
@@ -1787,6 +1816,7 @@
   /** Phones: open the system share sheet with the story image attached. */
   async function shareResult() {
     const url = window.location.href;
+    count('results-shared');
     const name = state.matches[0].ideology.name;
     const text = `I got ${name} on EthosScales. Where do you stand?`;
     try {
@@ -2109,6 +2139,7 @@
   }
 
   async function downloadResultCard() {
+    count('cards-saved');
     try {
       const canvas = await buildResultCard();
       const dataUrl = canvas.toDataURL('image/png');
@@ -2312,6 +2343,9 @@
     cacheElements();
     bindEvents();
     renderLanding();
+    countOnce('people', window.localStorage, 'ethoscales.seen.v1');
+    countOnce('visits', window.sessionStorage, 'ethoscales.visit');
+    if (readScoresFromUrl()) countOnce('result-links-opened', window.sessionStorage, 'ethoscales.opened');
     el.termsBar.hidden = store(TERMS_KEY) === '1';
     route();
     // The portrait list loads in the background. Nothing waits on it, so a fast

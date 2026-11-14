@@ -312,5 +312,11 @@
     <p><a href="./">Take the test</a> <a href="ideologies.html">All ideologies</a> <a href="parties.html">All parties</a> <a href="legal.html">Terms, privacy and cookies</a></p>
     <p>Positions are editorial estimates, not science. Describing an ideology does not endorse it.</p>
   </footer>
+  <script>
+    // An anonymous tally of page reads: adds one to a number, with no cookie and nothing about the reader.
+    if (location.hostname === 'ethoscales.github.io' && !navigator.webdriver) {
+      try { fetch('https://abacus.jasoncameron.dev/hit/ethoscales/page-reads', { mode: 'no-cors', keepalive: true }).catch(function () {}); } catch (e) {}
+    }
+  </script>
 </body>
 </html>
